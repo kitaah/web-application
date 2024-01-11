@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Paris',
 
     /*
     |--------------------------------------------------------------------------
@@ -83,7 +83,11 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'fr',
+
+    'available_locales' => [
+        'French' => 'fr',
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -167,6 +171,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\Filament\AdminPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
     ])->toArray(),
 
