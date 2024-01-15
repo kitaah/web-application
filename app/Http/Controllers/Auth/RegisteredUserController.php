@@ -18,6 +18,7 @@ class RegisteredUserController extends Controller
 {
     /**
      * Display the registration view.
+     * @return Response
      */
     public function create(): Response
     {
@@ -27,26 +28,32 @@ class RegisteredUserController extends Controller
     /**
      * Handle an incoming registration request.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
+        /** @var $request */
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:50|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        /** @var $user */
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
+        /** @var $user */
         $user->assignRole('Citoyen');
 
+        /** @var $user */
         event(new Registered($user));
 
+        /** @var $user */
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);

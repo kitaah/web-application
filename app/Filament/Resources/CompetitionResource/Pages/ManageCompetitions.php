@@ -3,19 +3,26 @@
 namespace App\Filament\Resources\CompetitionResource\Pages;
 
 use App\Filament\Resources\CompetitionResource;
-use Filament\Actions\Action;
-use Filament\Actions\ActionGroup;
-use Filament\Actions\CreateAction;
-use Filament\Actions\StaticAction;
-use Filament\Resources\Pages\ManageRecords;
-use Filament\Support\Enums\Alignment;
-use Filament\Support\Enums\MaxWidth;
+use Filament\{Actions\Action,
+    Actions\ActionGroup,
+    Actions\CreateAction,
+    Actions\StaticAction,
+    Resources\Pages\ManageRecords,
+    Support\Enums\Alignment,
+    Support\Enums\MaxWidth};
 
 class ManageCompetitions extends ManageRecords
 {
+    /**
+     * The associated resource class for managing categories.
+     *
+     * @var string
+     */
     protected static string $resource = CompetitionResource::class;
 
     /**
+     * Get the header actions for the page.
+     *
      * @return array|Action[]|ActionGroup[]
      */
     protected function getHeaderActions(): array
@@ -26,7 +33,10 @@ class ManageCompetitions extends ManageRecords
                 ->label('Ajouter')
                 ->modalHeading('Ajouter une compétition')
                 ->modalSubmitActionLabel('Ajouter')
-                ->modalCancelAction(fn (StaticAction $action) => $action->color('danger'))
+                ->modalCancelAction(/**
+                 * @param StaticAction $action
+                 * @return StaticAction
+                 */ fn (StaticAction $action) => $action->color('danger'))
                 ->modalSubmitActionLabel('Ajouter')
                 ->icon('heroicon-m-plus-circle')
                 ->modalAlignment(Alignment::Center)

@@ -6,9 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     * @return void
+     */
     public function up(): void
     {
-        Schema::create('media', function (Blueprint $table) {
+        Schema::create('media', static function (Blueprint $table) {
             $table->id();
 
             $table->morphs('model');

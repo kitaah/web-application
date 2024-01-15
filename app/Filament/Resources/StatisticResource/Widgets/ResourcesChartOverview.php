@@ -4,16 +4,27 @@ namespace App\Filament\Resources\StatisticResource\Widgets;
 
 use App\Models\Resource;
 use Filament\Widgets\ChartWidget;
-use Flowframe\Trend\Trend;
-use Flowframe\Trend\TrendValue;
+use Flowframe\{Trend\Trend, Trend\TrendValue};
 
 class ResourcesChartOverview extends ChartWidget
 {
+    /**
+     * The heading for the chart widget.
+     *
+     * @var string|null
+     */
     protected static ?string $heading = 'Chart ressources';
 
+    /**
+     * The color theme for the chart widget.
+     *
+     * @var string
+     */
     protected static string $color = 'success';
 
     /**
+     * Get the description for the chart widget.
+     *
      * @return string|null
      */
     public function getDescription(): ?string
@@ -22,10 +33,13 @@ class ResourcesChartOverview extends ChartWidget
     }
 
     /**
-     * @return array|mixed[]
+     * Get the data for rendering the chart.
+     *
+     * @return array
      */
     protected function getData(): array
     {
+        /** @var $data */
         $data = Trend::model(Resource::class)
             ->between(
                 start: now()->startOfYear(),
@@ -38,7 +52,10 @@ class ResourcesChartOverview extends ChartWidget
             'datasets' => [
                 [
                     'label' => 'Ressources créées',
-                    'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
+                    'data' => $data->map(/**
+                     * @param TrendValue $value
+                     * @return mixed
+                     */ callback: fn (TrendValue $value) => $value->aggregate),
                     'backgroundColor' => '#16658a',
                     'borderColor' => '#9BD0F5',
                 ],
@@ -48,6 +65,8 @@ class ResourcesChartOverview extends ChartWidget
     }
 
     /**
+     * Get the type of the chart (line chart in this case).
+     *
      * @return string
      */
     protected function getType(): string

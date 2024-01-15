@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+Broadcast::channel(/**
+ * @param $user
+ * @param $id
+ * @return bool
+ */ 'App.Models.User.{id}', static function ($user, $id) {
     return (int) $user->id === (int) $id;
 });

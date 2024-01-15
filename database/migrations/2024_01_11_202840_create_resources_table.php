@@ -8,10 +8,11 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * @return void
      */
     public function up(): void
     {
-        Schema::create('resources', function (Blueprint $table) {
+        Schema::create('resources', static function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
@@ -27,6 +28,7 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     * @return void
      */
     public function down(): void
     {

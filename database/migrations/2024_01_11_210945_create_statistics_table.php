@@ -8,10 +8,11 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * @return void
      */
     public function up(): void
     {
-        Schema::create('statistics', function (Blueprint $table) {
+        Schema::create('statistics', static function (Blueprint $table) {
             $table->id();
             $table->integer('total_associations')->nullable(false);
             $table->integer('total_competitions')->nullable(false);
@@ -24,6 +25,7 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     * @return void
      */
     public function down(): void
     {

@@ -5,49 +5,80 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AssociationResource\Pages\ManageAssociations;
 use App\Models\Association;
 use Exception;
-use Filament\Actions\StaticAction;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Tabs\Tab;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
-use Filament\Resources\Pages\PageRegistration;
-use Filament\Resources\Resource;
-use Filament\Support\Enums\Alignment;
-use Filament\Support\Enums\IconPosition;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TernaryFilter;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
+use Filament\{Actions\StaticAction,
+    Forms\Components\Grid,
+    Forms\Components\Hidden,
+    Forms\Components\Select,
+    Forms\Components\SpatieMediaLibraryFileUpload,
+    Forms\Components\Tabs,
+    Forms\Components\Tabs\Tab,
+    Forms\Components\Textarea,
+    Forms\Components\TextInput,
+    Forms\Components\Toggle,
+    Forms\Form,
+    Forms\Set,
+    Resources\Resource,
+    Support\Enums\Alignment,
+    Support\Enums\IconPosition,
+    Tables\Actions\Action,
+    Tables\Actions\DeleteAction,
+    Tables\Actions\EditAction,
+    Tables\Columns\IconColumn,
+    Tables\Columns\TextColumn,
+    Tables\Filters\TernaryFilter,
+    Tables\Table};
+use Illuminate\{Database\Eloquent\Builder, Support\Collection, Support\Str};
 use JsonException;
 
 class AssociationResource extends Resource
 {
+    /**
+     * The model associated with the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $model = Association::class;
 
+    /**
+     * Navigation group for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationGroup = 'Gestion des compétitions';
 
+    /**
+     * Navigation label for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationLabel = 'Associations';
 
+    /**
+     * Navigation sort order for the resource.
+     *
+     * @var int|null
+     */
     protected static ?int $navigationSort = 3;
 
+    /**
+     * Navigation icon for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationIcon = 'heroicon-o-building-storefront';
 
+    /**
+     * Active navigation icon for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $activeNavigationIcon = 'heroicon-s-building-storefront';
 
     /**
+     * Define the form structure for creating and updating associations.
+     *
+     * @param Form $form
+     * @return Form
      * @throws JsonException
      */
     public static function form(Form $form): Form
@@ -56,6 +87,7 @@ class AssociationResource extends Resource
         $cities = $association->fetchCitiesFromAPI();
         $cityOptions = $cities->pluck('label', 'id')->toArray();
 
+        /** @var $form */
         return $form
             ->schema(components: [
                 Hidden::make('points')
@@ -81,8 +113,15 @@ class AssociationResource extends Resource
                                             ->unique(ignoreRecord: true)
                                             ->live(debounce: 250)
                                             ->debounce(250)
-                                            ->afterStateUpdated(callback: fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
-                                            ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars($state, ENT_COMPAT)),
+                                            ->afterStateUpdated(/**
+                                             * @param Set $set
+                                             * @param string|null $state
+                                             * @return mixed
+                                             */ callback: fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                                            ->dehydrateStateUsing(/**
+                                             * @param string $state
+                                             * @return string
+                                             */ callback: fn (string $state) => htmlspecialchars($state, ENT_COMPAT)),
                                         TextInput::make('slug')
                                             ->placeholder('Slug')
                                             ->required()
@@ -91,7 +130,10 @@ class AssociationResource extends Resource
                                             ->suffixIcon('heroicon-m-bookmark')
                                             ->suffixIconColor('danger')
                                             ->unique(ignoreRecord: true)
-                                            ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                                            ->dehydrateStateUsing(/**
+                                             * @param string $state
+                                             * @return string
+                                             */ callback: fn (string $state) => htmlspecialchars($state)),
                                     ])->columns(2),
                                 Grid::make('SIRET and city')
                                     ->schema(components: [
@@ -104,7 +146,10 @@ class AssociationResource extends Resource
                                             ->suffixIcon('heroicon-m-identification')
                                             ->suffixIconColor('danger')
                                             ->unique(ignoreRecord: true)
-                                            ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                                            ->dehydrateStateUsing(/**
+                                             * @param string $state
+                                             * @return string
+                                             */ callback: fn (string $state) => htmlspecialchars($state)),
                                         Select::make('city')
                                             ->label('Ville')
                                             ->placeholder('Sélectionnez une ville')
@@ -113,7 +158,10 @@ class AssociationResource extends Resource
                                             ->options($cityOptions)
                                             ->suffixIcon('heroicon-m-map-pin')
                                             ->suffixIconColor('danger')
-                                            ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars($state, ENT_COMPAT)),
+                                            ->dehydrateStateUsing(/**
+                                             * @param string $state
+                                             * @return string
+                                             */ callback: fn (string $state) => htmlspecialchars($state, ENT_COMPAT)),
                                     ])->columns(2),
                                 Grid::make('Victory')
                                     ->schema(components: [
@@ -140,7 +188,10 @@ class AssociationResource extends Resource
                                     ->rows(10)
                                     ->cols(20)
                                     ->autosize()
-                                    ->dehydrateStateUsing(callback: fn (string $state) => ucfirst(htmlspecialchars($state, ENT_COMPAT))),
+                                    ->dehydrateStateUsing(/**
+                                     * @param string $state
+                                     * @return string
+                                     */ callback: fn (string $state) => ucfirst(htmlspecialchars($state, ENT_COMPAT))),
                             ]),
                         Tab::make('Description du projet')
                             ->icon('heroicon-m-clipboard-document-check')
@@ -156,7 +207,10 @@ class AssociationResource extends Resource
                                     ->rows(10)
                                     ->cols(20)
                                     ->autosize()
-                                    ->dehydrateStateUsing(callback: fn (string $state) => ucfirst(htmlspecialchars($state, ENT_COMPAT))),
+                                    ->dehydrateStateUsing(/**
+                                     * @param string $state
+                                     * @return string
+                                     */ callback: fn (string $state) => ucfirst(htmlspecialchars($state, ENT_COMPAT))),
                             ]),
                         Tab::make('Logo')
                             ->icon('heroicon-m-photo')
@@ -176,10 +230,15 @@ class AssociationResource extends Resource
     }
 
     /**
+     * Define the table structure for listing associations
+     *
+     * @param Table $table
+     * @return Table
      * @throws Exception
      */
     public static function table(Table $table): Table
     {
+        /** @var $table */
         return $table
             ->heading('Gestion des associations')
             ->description('Listing, ajout, modification et suppression d\'associations.')
@@ -191,25 +250,37 @@ class AssociationResource extends Resource
                     ->iconColor('danger')
                     ->sortable()
                     ->searchable()
-                    ->formatStateUsing(callback: fn (string $state) => htmlspecialchars($state, ENT_COMPAT)),
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars($state, ENT_COMPAT)),
                 TextColumn::make('slug')
                     ->icon('heroicon-m-bookmark')
                     ->iconColor('danger')
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->formatStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars($state)),
                 TextColumn::make('siret')
                     ->label('SIRET')
                     ->icon('heroicon-m-information-circle')
                     ->iconColor('danger')
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->formatStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars($state)),
                 TextColumn::make('city')
                     ->label('Code postal')
                     ->icon('heroicon-m-map-pin')
                     ->iconColor('danger')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->formatStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars($state)),
                 IconColumn::make('is_winner')
                     ->label('Gagnant')
                     ->alignCenter()
@@ -236,7 +307,10 @@ class AssociationResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->toggleColumnsTriggerAction(
-                callback: fn (Action $action) => $action
+            /**
+             * @param Action $action
+             * @return Action
+             */ callback: fn (Action $action) => $action
                     ->color('info')
                     ->label('Ajouter des colonnes'),
             )
@@ -247,12 +321,18 @@ class AssociationResource extends Resource
                     ->trueLabel('Gagnant')
                     ->falseLabel('Perdant')
                     ->queries(
-                        true: fn (Builder $query) => $query->where('is_winner', true),
+                    /**
+                     * @param Builder $query
+                     * @return Builder
+                     */ true: fn (Builder $query) => $query->where('is_winner', true),
                         false: fn (Builder $query) => $query->where('is_winner', false),
                     ),
             ])
             ->filtersTriggerAction(
-                callback: fn (Action $action) => $action
+            /**
+             * @param Action $action
+             * @return Action
+             */ callback: fn (Action $action) => $action
                     ->color('danger')
                     ->label('Filtrer')
                     ->badgeColor('warning'),
@@ -261,7 +341,10 @@ class AssociationResource extends Resource
                 EditAction::make()
                     ->color('warning')
                     ->button()
-                    ->modalCancelAction(fn (StaticAction $action) => $action->color('danger'))
+                    ->modalCancelAction(/**
+                     * @param StaticAction $action
+                     * @return StaticAction
+                     */ fn (StaticAction $action) => $action->color('danger'))
                     ->modalAlignment(Alignment::Center)
                     ->modalFooterActionsAlignment(Alignment::Center)
                     ->successNotificationTitle('Association modifiée'),
@@ -269,7 +352,10 @@ class AssociationResource extends Resource
                     ->button()
                     ->modalHeading('Suppression')
                     ->modalDescription('Êtes-vous sur de vouloir supprimer cette association ?')
-                    ->modalCancelAction(fn (StaticAction $action) => $action->color('info'))
+                    ->modalCancelAction(/**
+                     * @param StaticAction $action
+                     * @return StaticAction
+                     */ fn (StaticAction $action) => $action->color('info'))
                     ->modalSubmitActionLabel('Supprimer')
                     ->successNotificationTitle('Association supprimée'),
             ])
@@ -280,7 +366,9 @@ class AssociationResource extends Resource
     }
 
     /**
-     * @return array|PageRegistration[]
+     * Get the pages associated with the resource.
+     *
+     * @return array
      */
     public static function getPages(): array
     {
@@ -289,13 +377,23 @@ class AssociationResource extends Resource
         ];
     }
 
+    /**
+     * Get the plural label for the resource.
+     *
+     * @return string
+     */
     public static function getPluralLabel(): string
     {
-        return __(key: 'Associations');
+        return __(key: /** @lang text */ 'Associations');
     }
 
+    /**
+     * Get the singular label for the resource.
+     *
+     * @return string
+     */
     public static function getLabel(): string
     {
-        return __(key: 'une association');
+        return __(key: /** @lang text */ 'une association');
     }
 }

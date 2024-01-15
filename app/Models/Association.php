@@ -2,17 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
+use Illuminate\{Database\Eloquent\Factories\HasFactory, Database\Eloquent\Model, Support\Collection};
 use JsonException;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\{HasMedia, InteractsWithMedia};
 
+/**
+ * @method static count()
+ */
 class Association extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
     protected $fillable = [
         'name',
         'slug',
@@ -24,6 +29,11 @@ class Association extends Model implements HasMedia
         'is_winner',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
         'is_winner' => 'boolean',
     ];

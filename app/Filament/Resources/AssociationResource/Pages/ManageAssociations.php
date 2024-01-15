@@ -3,18 +3,25 @@
 namespace App\Filament\Resources\AssociationResource\Pages;
 
 use App\Filament\Resources\AssociationResource;
-use Filament\Actions\Action;
-use Filament\Actions\ActionGroup;
-use Filament\Actions\CreateAction;
-use Filament\Actions\StaticAction;
-use Filament\Resources\Pages\ManageRecords;
-use Filament\Support\Enums\Alignment;
+use Filament\{Actions\Action,
+    Actions\ActionGroup,
+    Actions\CreateAction,
+    Actions\StaticAction,
+    Resources\Pages\ManageRecords,
+    Support\Enums\Alignment};
 
 class ManageAssociations extends ManageRecords
 {
+    /**
+     * The associated resource class for managing associations.
+     *
+     * @var string
+     */
     protected static string $resource = AssociationResource::class;
 
     /**
+     * Get the header actions for the page.
+     *
      * @return array|Action[]|ActionGroup[]
      */
     protected function getHeaderActions(): array
@@ -24,7 +31,10 @@ class ManageAssociations extends ManageRecords
                 ->color('success')
                 ->label('Ajouter')
                 ->modalHeading('Ajouter une association')
-                ->modalCancelAction(fn (StaticAction $action) => $action
+                ->modalCancelAction(/**
+                 * @param StaticAction $action
+                 * @return StaticAction
+                 */ fn (StaticAction $action) => $action
                     ->color('danger'))
                 ->modalSubmitActionLabel('Ajouter')
                 ->icon('heroicon-m-plus-circle')

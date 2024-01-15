@@ -5,46 +5,84 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages\ManageUsers;
 use App\Models\User;
 use Exception;
-use Filament\Actions\StaticAction;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Resources\Pages\PageRegistration;
-use Filament\Resources\Resource;
-use Filament\Support\Enums\Alignment;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Table;
+use Filament\{Actions\StaticAction,
+    Forms\Components\DateTimePicker,
+    Forms\Components\Hidden,
+    Forms\Components\Select,
+    Forms\Components\TextInput,
+    Forms\Form,
+    Resources\Resource,
+    Support\Enums\Alignment,
+    Support\Enums\MaxWidth,
+    Tables\Actions\Action,
+    Tables\Actions\DeleteAction,
+    Tables\Actions\EditAction,
+    Tables\Columns\IconColumn,
+    Tables\Columns\TextColumn,
+    Tables\Filters\SelectFilter,
+    Tables\Table};
 use Illuminate\Support\Facades\Hash;
-use Rawilk\FilamentPasswordInput\Password;
 
 class UserResource extends Resource
 {
+    /**
+     * The model associated with the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $model = User::class;
 
+    /**
+     * The slug used for this resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $slug = 'utilisateurs';
+
+    /**
+     * Navigation group for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationGroup = 'Gestion des comptes';
 
+    /**
+     * Navigation label for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationLabel = 'Utilisateurs';
 
+    /**
+     * Navigation sort order for the resource.
+     *
+     * @var int|null
+     */
     protected static ?int $navigationSort = 3;
 
+    /**
+     * Navigation icon for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
+    /**
+     * Active navigation icon for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $activeNavigationIcon = 'heroicon-s-user-group';
 
     /**
+     * Define the form structure for creating and updating users.
+     *
      * @param Form $form
      * @return Form
      */
     public static function form(Form $form): Form
     {
+        /** @var $form */
         return $form
             ->schema(components: [
                 TextInput::make('name')
@@ -56,7 +94,10 @@ class UserResource extends Resource
                     ->maxLength(50)
                     ->suffixIcon('heroicon-m-tag')
                     ->suffixIconColor('danger')
-                    ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                    ->dehydrateStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars($state)),
                 TextInput::make('email')
                     ->placeholder('Email')
                     ->email()
@@ -64,7 +105,10 @@ class UserResource extends Resource
                     ->maxLength(255)
                     ->suffixIcon('heroicon-m-at-symbol')
                     ->suffixIconColor('danger')
-                    ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                    ->dehydrateStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars($state)),
                 TextInput::make('password')
                     ->label('Mot de passe')
                     ->helperText('Au moins 8 caractères, une lettre majuscule, minuscule, un nombre et un caractère spécial.')
@@ -73,18 +117,36 @@ class UserResource extends Resource
                     ->confirmed()
                     ->suffixIcon('heroicon-m-key')
                     ->suffixIconColor('danger')
-                    ->dehydrateStateUsing(callback: fn (string $state) => Hash::make(htmlspecialchars($state)))
-                    ->dehydrated(condition: fn (?string $state): bool => filled($state))
-                    ->required(condition: fn (string $operation): bool => $operation === 'create'),
+                    ->dehydrateStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => Hash::make(htmlspecialchars($state)))
+                    ->dehydrated(/**
+                     * @param string|null $state
+                     * @return bool
+                     */ condition: fn (?string $state): bool => filled($state))
+                    ->required(/**
+                     * @param string $operation
+                     * @return bool
+                     */ condition: fn (string $operation): bool => $operation === 'create'),
                 TextInput::make('password_confirmation')
                     ->label('Confirmation du mot de passe')
                     ->password()
                     ->same('password')
                     ->suffixIcon('heroicon-m-key')
                     ->suffixIconColor('danger')
-                    ->dehydrateStateUsing(callback: fn (string $state) => Hash::make(htmlspecialchars($state)))
-                    ->dehydrated(condition: fn (?string $state): bool => filled($state))
-                    ->required(condition: fn (string $operation): bool => $operation === 'create')
+                    ->dehydrateStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => Hash::make(htmlspecialchars($state)))
+                    ->dehydrated(/**
+                     * @param string|null $state
+                     * @return bool
+                     */ condition: fn (?string $state): bool => filled($state))
+                    ->required(/**
+                     * @param string $operation
+                     * @return bool
+                     */ condition: fn (string $operation): bool => $operation === 'create')
                     ->maxLength(255),
                 Hidden::make('terms_accepted')
                     ->default(true),
@@ -102,12 +164,15 @@ class UserResource extends Resource
     }
 
     /**
+     * Define the table structure for listing users.
+     *
      * @param Table $table
      * @return Table
      * @throws Exception
      */
     public static function table(Table $table): Table
     {
+        /** @var $table */
         return $table
             ->heading('Gestion des utilisateurs')
             ->description('Listing, ajout, modification et suppression d\'utilisateurs.')
@@ -118,23 +183,35 @@ class UserResource extends Resource
                     ->searchable()
                     ->icon('heroicon-m-user-circle')
                     ->iconColor('danger')
-                    ->formatStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars($state)),
                 TextColumn::make('email')
                     ->icon('heroicon-m-at-symbol')
                     ->iconColor('danger')
-                    ->formatStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars($state)),
                 TextColumn::make('city')
                     ->label('Ville')
                     ->icon('heroicon-m-map-pin')
                     ->iconColor('danger')
                     ->searchable()
-                    ->formatStateUsing(callback: fn (string $state) => htmlspecialchars($state))
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars($state))
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('roles.name')
                     ->label('Rôle')
                     ->icon('heroicon-m-finger-print')
                     ->iconColor('danger')
-                    ->formatStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars($state)),
                 TextColumn::make('mood')
                     ->label('Humeur')
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -163,7 +240,10 @@ class UserResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->toggleColumnsTriggerAction(
-                callback: fn (Action $action) => $action
+            /**
+             * @param Action $action
+             * @return Action
+             */ callback: fn (Action $action) => $action
                     ->color('info')
                     ->label('Ajouter des colonnes'),
             )
@@ -173,7 +253,10 @@ class UserResource extends Resource
                     ->relationship('roles', 'name'),
             ])
             ->filtersTriggerAction(
-                callback: fn (Action $action) => $action
+            /**
+             * @param Action $action
+             * @return Action
+             */ callback: fn (Action $action) => $action
                     ->color('danger')
                     ->label('Filtrer')
                     ->badgeColor('warning'),
@@ -182,7 +265,10 @@ class UserResource extends Resource
                 EditAction::make()
                     ->color('warning')
                     ->button()
-                    ->modalCancelAction(fn (StaticAction $action) => $action->color('danger'))
+                    ->modalCancelAction(/**
+                     * @param StaticAction $action
+                     * @return StaticAction
+                     */ fn (StaticAction $action) => $action->color('danger'))
                     ->modalWidth(MaxWidth::ThreeExtraLarge)
                     ->modalAlignment(Alignment::Center)
                     ->modalFooterActionsAlignment(Alignment::Center)
@@ -191,7 +277,10 @@ class UserResource extends Resource
                     ->button()
                     ->modalHeading('Suppression')
                     ->modalDescription('Êtes-vous sur de vouloir supprimer cet utilisateur ?')
-                    ->modalCancelAction(fn (StaticAction $action) => $action->color('info'))
+                    ->modalCancelAction(/**
+                     * @param StaticAction $action
+                     * @return StaticAction
+                     */ fn (StaticAction $action) => $action->color('info'))
                     ->modalSubmitActionLabel('Supprimer')
                     ->successNotificationTitle('Utilisateur supprimé'),
             ])
@@ -202,7 +291,9 @@ class UserResource extends Resource
     }
 
     /**
-     * @return array|PageRegistration[]
+     * Get the pages associated with the resource.
+     *
+     * @return array
      */
     public static function getPages(): array
     {
@@ -212,18 +303,22 @@ class UserResource extends Resource
     }
 
     /**
+     * Get the plural label for the resource.
+     *
      * @return string
      */
     public static function getPluralLabel(): string
     {
-        return __(key: 'Utilisateurs');
+        return __(key: /** @lang text */ 'Utilisateurs');
     }
 
     /**
+     * Get the singular label for the resource.
+     *
      * @return string
      */
     public static function getLabel(): string
     {
-        return __(key: 'un utilisateur');
+        return __(key: /** @lang text */ 'un utilisateur');
     }
 }

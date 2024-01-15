@@ -5,37 +5,75 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\StatisticResource\Pages\ManageStatistics;
 use App\Models\Statistic;
 use App\Policies\StatisticPolicy;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Resources\Pages\PageRegistration;
-use Filament\Resources\Resource;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
+use Filament\{Forms\Components\TextInput,
+    Forms\Form,
+    Resources\Resource,
+    Tables\Actions\Action,
+    Tables\Actions\EditAction,
+    Tables\Columns\TextColumn,
+    Tables\Table};
+use pxlrbt\FilamentExcel\{Actions\Tables\ExportAction, Exports\ExcelExport};
 
 class StatisticResource extends Resource
 {
+    /**
+     * The model associated with the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $model = Statistic::class;
 
+    /**
+     * The slug used for this resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $slug = 'statistiques';
+
+    /**
+     * Navigation group for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationGroup = 'Gestion des statistiques';
 
+    /**
+     * Navigation label for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationLabel = 'Statistiques';
 
+    /**
+     * Navigation sort order for the resource.
+     *
+     * @var int|null
+     */
     protected static ?int $navigationSort = 4;
 
+    /**
+     * Navigation icon for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationIcon = 'heroicon-o-chart-bar-square';
 
+    /**
+     * Active navigation icon for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $activeNavigationIcon = 'heroicon-s-chart-bar-square';
 
     /**
+     * Define the form structure for updating statistics.
+     *
      * @param Form $form
      * @return Form
      */
     public static function form(Form $form): Form
     {
+        /** @var $form */
         return $form
             ->schema(components: [
                 TextInput::make('total_associations')
@@ -72,11 +110,14 @@ class StatisticResource extends Resource
     }
 
     /**
+     * Define the table structure for listing statistics.
+     *
      * @param Table $table
      * @return Table
      */
     public static function table(Table $table): Table
     {
+        /** @var $table */
         return $table
             ->heading('Gestion des statistiques')
             ->description('Consultation et exportation des statistiques.')
@@ -124,7 +165,10 @@ class StatisticResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->toggleColumnsTriggerAction(
-                callback: fn (Action $action) => $action
+            /**
+             * @param Action $action
+             * @return Action
+             */ callback: fn (Action $action) => $action
                     ->color('info')
                     ->label('Ajouter des colonnes'),
             )
@@ -133,11 +177,16 @@ class StatisticResource extends Resource
                     ->button()
                     ->label('Exporter')
                     ->color('success')
-                    ->authorize(abilities: fn () => app(abstract: StatisticPolicy::class)->export(auth()->user(), new Statistic()))
+                    ->authorize(/**
+                     * @return bool
+                     */ abilities: fn () => app(abstract: StatisticPolicy::class)->export(auth()->user(), new Statistic()))
                     ->exports([
                         ExcelExport::make()->fromTable()->except([
                             'updated_at',
-                        ])->withFilename(fn ($resource) => $resource::getPluralLabel().date(' - d-m-Y')),
+                        ])->withFilename(/**
+                         * @param $resource
+                         * @return string
+                         */ fn ($resource) => $resource::getPluralLabel().date(' - d-m-Y')),
                     ]),
                 EditAction::make()
                     ->color('warning')
@@ -148,7 +197,9 @@ class StatisticResource extends Resource
     }
 
     /**
-     * @return array|PageRegistration[]
+     * Get the pages associated with the resource.
+     *
+     * @return array
      */
     public static function getPages(): array
     {
@@ -158,18 +209,22 @@ class StatisticResource extends Resource
     }
 
     /**
+     * Get the plural label for the resource.
+     *
      * @return string
      */
     public static function getPluralLabel(): string
     {
-        return __(key: 'Statistiques');
+        return __(key: /** @lang text */ 'Statistiques');
     }
 
     /**
+     * Get the singular label for the resource.
+     *
      * @return string
      */
     public static function getLabel(): string
     {
-        return __(key: 'les statistiques');
+        return __(key: /** @lang text */ 'les statistiques');
     }
 }

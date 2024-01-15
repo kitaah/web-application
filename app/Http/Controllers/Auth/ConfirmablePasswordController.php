@@ -15,6 +15,7 @@ class ConfirmablePasswordController extends Controller
 {
     /**
      * Show the confirm password view.
+     * @return Response
      */
     public function show(): Response
     {
@@ -23,6 +24,8 @@ class ConfirmablePasswordController extends Controller
 
     /**
      * Confirm the user's password.
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {

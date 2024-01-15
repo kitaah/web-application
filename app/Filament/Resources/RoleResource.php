@@ -3,37 +3,73 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\RoleResource\Pages\ManageRoles;
-use Filament\Actions\StaticAction;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Resources\Pages\PageRegistration;
-use Filament\Resources\Resource;
-use Filament\Support\Enums\Alignment;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Filament\{Actions\StaticAction,
+    Forms\Components\Select,
+    Forms\Components\TextInput,
+    Forms\Form,
+    Resources\Resource,
+    Support\Enums\Alignment,
+    Support\Enums\MaxWidth,
+    Tables\Actions\Action,
+    Tables\Actions\DeleteAction,
+    Tables\Actions\EditAction,
+    Tables\Columns\TextColumn,
+    Tables\Table};
 use Spatie\Permission\Models\Role;
 
 class RoleResource extends Resource
 {
+    /**
+     * The model associated with the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $model = Role::class;
 
+    /**
+     * Navigation group for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationGroup = 'Gestion des comptes';
 
+    /**
+     * Navigation label for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationLabel = 'Rôles';
 
+    /**
+     * Navigation sort order for the resource.
+     *
+     * @var int|null
+     */
     protected static ?int $navigationSort = 3;
 
+    /**
+     * Navigation icon for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationIcon = 'heroicon-o-finger-print';
 
+    /**
+     * Active navigation icon for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $activeNavigationIcon = 'heroicon-s-finger-print';
 
+    /**
+     * Define the form structure for creating and updating roles.
+     *
+     * @param Form $form
+     * @return Form
+     */
     public static function form(Form $form): Form
     {
+        /** @var $form */
         return $form
             ->schema(components: [
                 TextInput::make('name')
@@ -45,7 +81,10 @@ class RoleResource extends Resource
                     ->suffixIcon('heroicon-m-finger-print')
                     ->suffixIconColor('danger')
                     ->unique(ignoreRecord: true)
-                    ->dehydrateStateUsing(callback: fn (string $state) => ucfirst(htmlspecialchars($state))),
+                    ->dehydrateStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => ucfirst(htmlspecialchars($state))),
                 Select::make('permissions')
                     ->required()
                     ->placeholder('Sélectionnez une/des permission(s)')
@@ -58,12 +97,22 @@ class RoleResource extends Resource
                     ->optionsLimit(20)
                     ->suffixIcon('heroicon-m-key')
                     ->suffixIconColor('danger')
-                    ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                    ->dehydrateStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars($state)),
             ]);
     }
 
+    /**
+     * Define the table structure for listing roles.
+     *
+     * @param Table $table
+     * @return Table
+     */
     public static function table(Table $table): Table
     {
+        /** @var $table */
         return $table
             ->heading('Gestion des rôles')
             ->description('Listing, ajout, modification et suppression de rôles.')
@@ -76,7 +125,10 @@ class RoleResource extends Resource
                     ->label('Permissions')
                     ->icon('heroicon-m-key')
                     ->iconColor('danger')
-                    ->formatStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars($state)),
                 TextColumn::make('created_at')
                     ->label('Création')
                     ->icon('heroicon-m-clock')
@@ -91,7 +143,10 @@ class RoleResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->toggleColumnsTriggerAction(
-                callback: fn (Action $action) => $action
+            /**
+             * @param Action $action
+             * @return Action
+             */ callback: fn (Action $action) => $action
                     ->color('info')
                     ->label('Ajouter des colonnes'),
             )
@@ -99,7 +154,10 @@ class RoleResource extends Resource
                 EditAction::make()
                     ->color('warning')
                     ->button()
-                    ->modalCancelAction(fn (StaticAction $action) => $action->color('danger'))
+                    ->modalCancelAction(/**
+                     * @param StaticAction $action
+                     * @return StaticAction
+                     */ fn (StaticAction $action) => $action->color('danger'))
                     ->modalWidth(MaxWidth::FourExtraLarge)
                     ->modalAlignment(Alignment::Center)
                     ->modalFooterActionsAlignment(Alignment::Center)
@@ -108,7 +166,10 @@ class RoleResource extends Resource
                     ->button()
                     ->modalHeading('Suppression')
                     ->modalDescription('Êtes-vous sur de vouloir supprimer ce rôle ?')
-                    ->modalCancelAction(fn (StaticAction $action) => $action->color('info'))
+                    ->modalCancelAction(/**
+                     * @param StaticAction $action
+                     * @return StaticAction
+                     */ fn (StaticAction $action) => $action->color('info'))
                     ->modalSubmitActionLabel('Supprimer')
                     ->successNotificationTitle('Rôle supprimé'),
             ])
@@ -117,7 +178,9 @@ class RoleResource extends Resource
     }
 
     /**
-     * @return array|PageRegistration[]
+     * Get the pages associated with the resource.
+     *
+     * @return array
      */
     public static function getPages(): array
     {
@@ -126,13 +189,23 @@ class RoleResource extends Resource
         ];
     }
 
+    /**
+     * Get the plural label for the resource.
+     *
+     * @return string
+     */
     public static function getPluralLabel(): string
     {
-        return __(key: 'Rôles');
+        return __(key: /** @lang text */ 'Rôles');
     }
 
+    /**
+     * Get the singular label for the resource.
+     *
+     * @return string
+     */
     public static function getLabel(): string
     {
-        return __(key: 'un rôle');
+        return __(key: /** @lang text */ 'un rôle');
     }
 }

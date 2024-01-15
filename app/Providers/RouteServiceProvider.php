@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Facades\Route;
+use Illuminate\{Cache\RateLimiting\Limit,
+    Foundation\Support\Providers\RouteServiceProvider as ServiceProvider,
+    Http\Request,
+    Support\Facades\RateLimiter,
+    Support\Facades\Route};
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -17,14 +17,16 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard';
+    public const string HOME = '/dashboard';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
+     *
+     * @return void
      */
     public function boot(): void
     {
-        RateLimiter::for('api', function (Request $request) {
+        RateLimiter::for('api', static function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 

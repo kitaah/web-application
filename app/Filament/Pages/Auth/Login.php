@@ -2,10 +2,7 @@
 
 namespace App\Filament\Pages\Auth;
 
-use Filament\Forms\Components\Component;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Pages\Auth\Login as BaseLogin;
+use Filament\{Forms\Components\Component, Forms\Components\TextInput, Forms\Form, Pages\Auth\Login as BaseLogin};
 use Illuminate\Contracts\Support\Htmlable;
 
 /**
@@ -14,13 +11,16 @@ use Illuminate\Contracts\Support\Htmlable;
 class Login extends BaseLogin
 {
     /**
+     * Define the form structure for the login page.
+     *
      * @param Form $form
      * @return Form
      */
     public function form(Form $form): Form
     {
+        /** @var $form */
         return $form
-            ->schema([
+            ->schema(components: [
                 $this->getEmailFormComponent(),
                 $this->getPasswordFormComponent(),
                 $this->getRememberFormComponent(),
@@ -29,6 +29,8 @@ class Login extends BaseLogin
     }
 
     /**
+     * Get the heading for the login page.
+     *
      * @return string|Htmlable
      */
     public function getHeading(): string|Htmlable
@@ -37,6 +39,8 @@ class Login extends BaseLogin
     }
 
     /**
+     * Get the email form component.
+     *
      * @return Component
      */
     protected function getEmailFormComponent(): Component
@@ -52,10 +56,15 @@ class Login extends BaseLogin
             ->suffixIcon('heroicon-m-at-symbol')
             ->suffixIconColor('danger')
             ->extraInputAttributes(['tabindex' => 1])
-            ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars($state));
+            ->dehydrateStateUsing(/**
+             * @param string $state
+             * @return string
+             */ callback: fn (string $state) => htmlspecialchars($state));
     }
 
     /**
+     * Get the password form component.
+     *
      * @return Component
      */
     protected function getPasswordFormComponent(): Component
@@ -70,6 +79,9 @@ class Login extends BaseLogin
             ->suffixIcon('heroicon-m-key')
             ->suffixIconColor('danger')
             ->extraInputAttributes(['tabindex' => 2])
-            ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars($state));
+            ->dehydrateStateUsing(/**
+             * @param string $state
+             * @return string
+             */ callback: fn (string $state) => htmlspecialchars($state));
     }
 }

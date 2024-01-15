@@ -4,37 +4,73 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages\ManageCategories;
 use App\Models\Category;
-use Filament\Actions\StaticAction;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
-use Filament\Resources\Pages\PageRegistration;
-use Filament\Resources\Resource;
-use Filament\Support\Enums\Alignment;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Filament\{Actions\StaticAction,
+    Forms\Components\TextInput,
+    Forms\Form,
+    Forms\Set,
+    Resources\Resource,
+    Support\Enums\Alignment,
+    Support\Enums\MaxWidth,
+    Tables\Actions\Action,
+    Tables\Actions\DeleteAction,
+    Tables\Actions\EditAction,
+    Tables\Columns\TextColumn,
+    Tables\Table};
 use Illuminate\Support\Str;
 
 class CategoryResource extends Resource
 {
+    /**
+     * The model associated with the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $model = Category::class;
 
+    /**
+     * Navigation group for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationGroup = 'Gestion des ressources';
 
+    /**
+     * Navigation label for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationLabel = 'Catégories';
 
+    /**
+     * Navigation sort order for the resource.
+     *
+     * @var int|null
+     */
     protected static ?int $navigationSort = 1;
 
+    /**
+     * Navigation icon for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationIcon = 'heroicon-o-bars-3';
 
+    /**
+     * Active navigation icon for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $activeNavigationIcon = 'heroicon-s-bars-3';
 
+    /**
+     * Define the form structure for creating and updating categories.
+     *
+     * @param Form $form
+     * @return Form
+     */
     public static function form(Form $form): Form
     {
+        /** @var $form */
         return $form
             ->schema(
                 components: [
@@ -67,8 +103,15 @@ class CategoryResource extends Resource
             );
     }
 
+    /**
+     * Define the table structure for listing categories
+     *
+     * @param Table $table
+     * @return Table
+     */
     public static function table(Table $table): Table
     {
+        /** @var $table */
         return $table
             ->heading('Gestion des catégories')
             ->description('Listing, ajout, modification et suppression de catégories.')
@@ -77,11 +120,17 @@ class CategoryResource extends Resource
                     ->label('Nom')
                     ->icon('heroicon-m-bars-3')
                     ->iconColor('danger')
-                    ->formatStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars($state)),
                 TextColumn::make('slug')
                     ->icon('heroicon-m-bookmark')
                     ->iconColor('danger')
-                    ->formatStateUsing(fn (string $state) => htmlspecialchars($state))
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ fn (string $state) => htmlspecialchars($state))
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->label('Création')
@@ -106,7 +155,10 @@ class CategoryResource extends Resource
                     EditAction::make()
                         ->color('warning')
                         ->button()
-                        ->modalCancelAction(fn (StaticAction $action) => $action->color('danger'))
+                        ->modalCancelAction(/**
+                         * @param StaticAction $action
+                         * @return StaticAction
+                         */ fn (StaticAction $action) => $action->color('danger'))
                         ->modalAlignment(Alignment::Center)
                         ->modalFooterActionsAlignment(Alignment::Center)
                         ->modalWidth(MaxWidth::TwoExtraLarge)
@@ -115,7 +167,10 @@ class CategoryResource extends Resource
                         ->button()
                         ->modalHeading('Suppression')
                         ->modalDescription('Êtes-vous sur de vouloir supprimer cette catégorie ?')
-                        ->modalCancelAction(fn (StaticAction $action) => $action->color('info'))
+                        ->modalCancelAction(/**
+                         * @param StaticAction $action
+                         * @return StaticAction
+                         */ fn (StaticAction $action) => $action->color('info'))
                         ->modalSubmitActionLabel('Supprimer')
                         ->successNotificationTitle('Catégorie supprimée'),
                 ]
@@ -124,7 +179,9 @@ class CategoryResource extends Resource
     }
 
     /**
-     * @return array|PageRegistration[]
+     * Get the pages associated with the resource.
+     *
+     * @return array
      */
     public static function getPages(): array
     {
@@ -133,13 +190,23 @@ class CategoryResource extends Resource
         ];
     }
 
+    /**
+     * Get the plural label for the resource.
+     *
+     * @return string
+     */
     public static function getPluralLabel(): string
     {
-        return __(key: 'Catégories');
+        return __(key: /** @lang text */ 'Catégories');
     }
 
+    /**
+     * Get the singular label for the resource.
+     *
+     * @return string
+     */
     public static function getLabel(): string
     {
-        return __(key: 'une catégorie');
+        return __(key: /** @lang text */ 'une catégorie');
     }
 }

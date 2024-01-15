@@ -3,27 +3,19 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
-use App\Models\Association;
-use App\Models\Category;
-use App\Models\Competition;
-use App\Models\CreateCompetition;
-use App\Models\Game;
-use App\Models\Resource;
-use App\Models\Statistic;
-use App\Models\User;
-use App\Policies\AssociationPolicy;
-use App\Policies\CategoryPolicy;
-use App\Policies\CompetitionPolicy;
-use App\Policies\CreateCompetitionPolicy;
-use App\Policies\GamePolicy;
-use App\Policies\PermissionPolicy;
-use App\Policies\ResourcePolicy;
-use App\Policies\RolePolicy;
-use App\Policies\StatisticPolicy;
-use App\Policies\UserPolicy;
+use App\Models\{Association, Category, Competition, CreateCompetition, Game, Resource, Statistic, User};
+use App\Policies\{AssociationPolicy,
+    CategoryPolicy,
+    CompetitionPolicy,
+    CreateCompetitionPolicy,
+    GamePolicy,
+    PermissionPolicy,
+    ResourcePolicy,
+    RolePolicy,
+    StatisticPolicy,
+    UserPolicy};
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use Spatie\{Permission\Models\Permission, Permission\Models\Role};
 
 class AuthServiceProvider extends ServiceProvider
 {

@@ -5,43 +5,86 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CreateCompetitionResource\Pages\ManageCreateCompetitions;
 use App\Models\CreateCompetition;
 use Exception;
-use Filament\Actions\StaticAction;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Tabs\Tab;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
-use Filament\Resources\Pages\PageRegistration;
-use Filament\Resources\Resource;
-use Filament\Support\Enums\Alignment;
-use Filament\Support\Enums\IconPosition;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Table;
+use Filament\{Actions\StaticAction,
+    Forms\Components\Grid,
+    Forms\Components\Select,
+    Forms\Components\Tabs,
+    Forms\Components\Tabs\Tab,
+    Forms\Components\TextInput,
+    Forms\Form,
+    Forms\Set,
+    Resources\Resource,
+    Support\Enums\Alignment,
+    Support\Enums\IconPosition,
+    Support\Enums\MaxWidth,
+    Tables\Actions\Action,
+    Tables\Actions\DeleteAction,
+    Tables\Actions\EditAction,
+    Tables\Columns\TextColumn,
+    Tables\Filters\SelectFilter,
+    Tables\Table};
 use Illuminate\Support\Str;
 
 class CreateCompetitionResource extends Resource
 {
+    /**
+     * The model associated with the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $model = CreateCompetition::class;
 
+    /**
+     * The slug used for this resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $slug = 'planifications';
+
+    /**
+     * Navigation group for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationGroup = 'Gestion des compétitions';
 
+    /**
+     * Navigation label for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationLabel = 'Planifications';
 
+    /**
+     * Navigation sort order for the resource.
+     *
+     * @var int|null
+     */
     protected static ?int $navigationSort = 3;
 
+    /**
+     * Navigation icon for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationIcon = 'heroicon-o-arrow-path-rounded-square';
 
+    /**
+     * Active navigation icon for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $activeNavigationIcon = 'heroicon-s-arrow-path-rounded-square';
 
+    /**
+     * Define the form structure for creating and updating planned competitions.
+     *
+     * @param Form $form
+     * @return Form
+     */
     public static function form(Form $form): Form
     {
+        /** @var $form */
         return $form
             ->schema(components: [
                 Tabs::make('Tabs')
@@ -64,8 +107,15 @@ class CreateCompetitionResource extends Resource
                                             ->unique(ignoreRecord: true)
                                             ->live(debounce: 250)
                                             ->debounce(250)
-                                            ->afterStateUpdated(callback: fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
-                                            ->dehydrateStateUsing(callback: fn (string $state) => ucfirst(htmlspecialchars($state))),
+                                            ->afterStateUpdated(/**
+                                             * @param Set $set
+                                             * @param string|null $state
+                                             * @return mixed
+                                             */ callback: fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                                            ->dehydrateStateUsing(/**
+                                             * @param string $state
+                                             * @return string
+                                             */ callback: fn (string $state) => ucfirst(htmlspecialchars($state))),
                                         TextInput::make('slug')
                                             ->placeholder('Slug')
                                             ->required()
@@ -75,8 +125,11 @@ class CreateCompetitionResource extends Resource
                                             ->suffixIcon('heroicon-m-bookmark')
                                             ->suffixIconColor('danger')
                                             ->unique(ignoreRecord: true)
-                                            ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
-                                    ])->columns(2),
+                                            ->dehydrateStateUsing(/**
+                                             * @param string $state
+                                             * @return string
+                                             */ callback: fn (string $state) => htmlspecialchars($state)),
+                                    ])->columns(),
                             ]),
                         Tab::make('Organisation')
                             ->icon('heroicon-m-arrow-path-rounded-square')
@@ -100,7 +153,10 @@ class CreateCompetitionResource extends Resource
                                             ->selectablePlaceholder(false)
                                             ->optionsLimit(20)
                                             ->unique(ignoreRecord: true)
-                                            ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                                            ->dehydrateStateUsing(/**
+                                             * @param string $state
+                                             * @return string
+                                             */ callback: fn (string $state) => htmlspecialchars($state)),
                                         Select::make('association_id')
                                             ->label('Association 1')
                                             ->placeholder('Sélectionnez une association')
@@ -117,7 +173,10 @@ class CreateCompetitionResource extends Resource
                                             ->selectablePlaceholder(false)
                                             ->optionsLimit(20)
                                             ->unique(ignoreRecord: true)
-                                            ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                                            ->dehydrateStateUsing(/**
+                                             * @param string $state
+                                             * @return string
+                                             */ callback: fn (string $state) => htmlspecialchars($state)),
                                         Select::make('association_id_second')
                                             ->label('Association 2')
                                             ->placeholder('Sélectionnez une association')
@@ -134,7 +193,10 @@ class CreateCompetitionResource extends Resource
                                             ->selectablePlaceholder(false)
                                             ->optionsLimit(20)
                                             ->unique(ignoreRecord: true)
-                                            ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                                            ->dehydrateStateUsing(/**
+                                             * @param string $state
+                                             * @return string
+                                             */ callback: fn (string $state) => htmlspecialchars($state)),
                                         Select::make('association_id_third')
                                             ->label('Association 3')
                                             ->placeholder('Sélectionnez une association')
@@ -151,18 +213,26 @@ class CreateCompetitionResource extends Resource
                                             ->selectablePlaceholder(false)
                                             ->optionsLimit(20)
                                             ->unique(ignoreRecord: true)
-                                            ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
-                                    ])->columns(2),
+                                            ->dehydrateStateUsing(/**
+                                             * @param string $state
+                                             * @return string
+                                             */ callback: fn (string $state) => htmlspecialchars($state)),
+                                    ])->columns(),
                             ]),
                     ])->columnSpanFull(),
             ]);
     }
 
     /**
+     * Define the table structure for listing organized competitions
+     *
+     * @param Table $table
+     * @return Table
      * @throws Exception
      */
     public static function table(Table $table): Table
     {
+        /** @var $table */
         return $table
             ->heading('Planification des compétitions')
             ->description('Listing, ajout, modification et suppression de planification de compétitions.')
@@ -181,17 +251,38 @@ class CreateCompetitionResource extends Resource
                     ->badge()
                     ->alignCenter()
                     ->colors([
-                        'primary' => static fn ($state): bool => $state === 'Non lancée',
-                        'success' => static fn ($state): bool => $state === 'En cours',
-                        'danger' => static fn ($state): bool => $state === 'Terminée',
+                        'primary' => /**
+                         * @param $state
+                         * @return bool
+                         */ static fn ($state): bool => $state === 'Non lancée',
+                        'success' => /**
+                         * @param $state
+                         * @return bool
+                         */ static fn ($state): bool => $state === 'En cours',
+                        'danger' => /**
+                         * @param $state
+                         * @return bool
+                         */ static fn ($state): bool => $state === 'Terminée',
                     ])
                     ->icons([
-                        'heroicon-s-x-mark' => static fn ($state): bool => $state === 'Non lancée',
-                        'heroicon-s-check' => static fn ($state): bool => $state === 'En cours',
-                        'heroicon-s-bookmark' => static fn ($state): bool => $state === 'Terminée',
+                        'heroicon-s-x-mark' => /**
+                         * @param $state
+                         * @return bool
+                         */ static fn ($state): bool => $state === 'Non lancée',
+                        'heroicon-s-check' => /**
+                         * @param $state
+                         * @return bool
+                         */ static fn ($state): bool => $state === 'En cours',
+                        'heroicon-s-bookmark' => /**
+                         * @param $state
+                         * @return bool
+                         */ static fn ($state): bool => $state === 'Terminée',
                     ])
                     ->iconPosition('before')
-                    ->formatStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars($state)),
                 TextColumn::make('slug')
                     ->searchable()
                     ->icon('heroicon-m-bookmark')
@@ -211,7 +302,10 @@ class CreateCompetitionResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->toggleColumnsTriggerAction(
-                callback: fn (Action $action) => $action
+            /**
+             * @param Action $action
+             * @return Action
+             */ callback: fn (Action $action) => $action
                     ->color('info')
                     ->label('Ajouter des colonnes'),
             )
@@ -225,7 +319,10 @@ class CreateCompetitionResource extends Resource
                     ]),
             ])
             ->filtersTriggerAction(
-                callback: fn (Action $action) => $action
+            /**
+             * @param Action $action
+             * @return Action
+             */ callback: fn (Action $action) => $action
                     ->color('danger')
                     ->label('Filtrer')
                     ->badgeColor('warning'),
@@ -234,7 +331,10 @@ class CreateCompetitionResource extends Resource
                 EditAction::make()
                     ->color('warning')
                     ->button()
-                    ->modalCancelAction(fn (StaticAction $action) => $action->color('danger'))
+                    ->modalCancelAction(/**
+                     * @param StaticAction $action
+                     * @return StaticAction
+                     */ fn (StaticAction $action) => $action->color('danger'))
                     ->modalAlignment(Alignment::Center)
                     ->modalFooterActionsAlignment(Alignment::Center)
                     ->modalWidth(MaxWidth::ThreeExtraLarge)
@@ -243,7 +343,10 @@ class CreateCompetitionResource extends Resource
                     ->button()
                     ->modalHeading('Suppression')
                     ->modalDescription('Êtes-vous sur de vouloir supprimer cette planification ?')
-                    ->modalCancelAction(fn (StaticAction $action) => $action->color('info'))
+                    ->modalCancelAction(/**
+                     * @param StaticAction $action
+                     * @return StaticAction
+                     */ fn (StaticAction $action) => $action->color('info'))
                     ->modalSubmitActionLabel('Supprimer')
                     ->successNotificationTitle('Planification supprimée'),
             ])
@@ -253,7 +356,9 @@ class CreateCompetitionResource extends Resource
     }
 
     /**
-     * @return array|PageRegistration[]
+     * Get the pages associated with the resource.
+     *
+     * @return array
      */
     public static function getPages(): array
     {
@@ -262,13 +367,23 @@ class CreateCompetitionResource extends Resource
         ];
     }
 
+    /**
+     * Get the plural label for the resource.
+     *
+     * @return string
+     */
     public static function getPluralLabel(): string
     {
-        return __(key: 'Planifications');
+        return __(key: /** @lang text */ 'Planifications');
     }
 
+    /**
+     * Get the singular label for the resource.
+     *
+     * @return string
+     */
     public static function getLabel(): string
     {
-        return __(key: 'une planification');
+        return __(key: /** @lang text */ 'une planification');
     }
 }

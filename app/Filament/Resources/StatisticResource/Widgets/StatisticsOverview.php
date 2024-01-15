@@ -7,12 +7,13 @@ use App\Models\Competition;
 use App\Models\Game;
 use App\Models\Resource;
 use App\Models\User;
-use Filament\Widgets\StatsOverviewWidget as BaseWidget;
-use Filament\Widgets\StatsOverviewWidget\Stat;
+use Filament\{Widgets\StatsOverviewWidget as BaseWidget, Widgets\StatsOverviewWidget\Stat};
 
 class StatisticsOverview extends BaseWidget
 {
     /**
+     * Get an array of statistics to be displayed.
+     *
      * @return array|Stat[]
      */
     protected function getStats(): array

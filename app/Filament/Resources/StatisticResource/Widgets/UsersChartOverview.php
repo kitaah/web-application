@@ -4,18 +4,27 @@ namespace App\Filament\Resources\StatisticResource\Widgets;
 
 use App\Models\User;
 use Filament\Widgets\ChartWidget;
-use Flowframe\Trend\Trend;
-use Flowframe\Trend\TrendValue;
+use Flowframe\{Trend\Trend, Trend\TrendValue};
 
 class UsersChartOverview extends ChartWidget
 {
-    protected static string $chartId = 'Chart utilisateurs';
-
+    /**
+     * The heading for the chart widget.
+     *
+     * @var string|null
+     */
     protected static ?string $heading = 'Chart utilisateurs';
 
+    /**
+     * The color theme for the chart widget.
+     *
+     * @var string
+     */
     protected static string $color = 'danger';
 
     /**
+     * Get the description for the chart widget.
+     *
      * @return string|null
      */
     public function getDescription(): ?string
@@ -24,10 +33,13 @@ class UsersChartOverview extends ChartWidget
     }
 
     /**
+     * Get the data for rendering the chart.
+     *
      * @return array
      */
     protected function getData(): array
     {
+        /** @var $data */
         $data = Trend::model(User::class)
             ->between(
                 start: now()->startOfYear(),
@@ -40,7 +52,10 @@ class UsersChartOverview extends ChartWidget
             'datasets' => [
                 [
                     'label' => 'Utilisateurs inscrits',
-                    'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
+                    'data' => $data->map(/**
+                     * @param TrendValue $value
+                     * @return mixed
+                     */ callback: fn (TrendValue $value) => $value->aggregate),
                     'backgroundColor' => '#990000',
                     'borderColor' => '#8f0e0e',
                 ],

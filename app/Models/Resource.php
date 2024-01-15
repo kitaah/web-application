@@ -2,16 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\{Eloquent\Factories\HasFactory, Eloquent\Model, Eloquent\Relations\BelongsTo};
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+/**
+ * @method static count()
+ */
 class Resource extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'category_id',
         'user_id',
@@ -23,11 +29,18 @@ class Resource extends Model implements HasMedia
         'status',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
         'is_validated' => 'boolean',
     ];
 
     /**
+     * Get the category that this model belongs to.
+     *
      * @return BelongsTo
      */
     public function category(): BelongsTo
@@ -36,6 +49,8 @@ class Resource extends Model implements HasMedia
     }
 
     /**
+     * Get the user associated with this model.
+     *
      * @return BelongsTo
      */
     public function user(): BelongsTo

@@ -8,10 +8,11 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * @return void
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('users', static function (Blueprint $table) {
             $table->id();
             $table->string('name', 50);
             $table->string('city', 50)->nullable();
@@ -27,6 +28,7 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     * @return void
      */
     public function down(): void
     {

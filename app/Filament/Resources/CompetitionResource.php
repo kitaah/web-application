@@ -4,41 +4,78 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CompetitionResource\Pages\ManageCompetitions;
 use App\Models\Competition;
-use Filament\Actions\StaticAction;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
-use Filament\Resources\Pages\PageRegistration;
-use Filament\Resources\Resource;
-use Filament\Support\Enums\Alignment;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Table;
+use Filament\{Actions\StaticAction,
+    Forms\Components\DatePicker,
+    Forms\Components\Grid,
+    Forms\Components\Select,
+    Forms\Components\TextInput,
+    Forms\Form,
+    Forms\Set,
+    Resources\Resource,
+    Support\Enums\Alignment,
+    Support\Enums\MaxWidth,
+    Tables\Actions\Action,
+    Tables\Actions\DeleteAction,
+    Tables\Actions\EditAction,
+    Tables\Columns\TextColumn,
+    Tables\Filters\SelectFilter,
+    Tables\Table};
+use Exception;
 use Illuminate\Support\Str;
 
 class CompetitionResource extends Resource
 {
+    /**
+     * The model associated with the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $model = Competition::class;
 
+    /**
+     * Navigation group for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationGroup = 'Gestion des compétitions';
 
+    /**
+     * Navigation label for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationLabel = 'Compétitions';
 
+    /**
+     * Navigation sort order for the resource.
+     *
+     * @var int|null
+     */
     protected static ?int $navigationSort = 3;
 
+    /**
+     * Navigation icon for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $navigationIcon = 'heroicon-o-trophy';
 
+    /**
+     * Active navigation icon for the resource.
+     *
+     * @var string|null
+     */
     protected static ?string $activeNavigationIcon = 'heroicon-s-trophy';
 
+    /**
+     * Define the form structure for creating and updating competitions.
+     *
+     * @param Form $form
+     * @return Form
+     */
     public static function form(Form $form): Form
     {
+        /** @var $form */
         return $form
             ->schema(components: [
                 Grid::make('Identification')
@@ -56,8 +93,15 @@ class CompetitionResource extends Resource
                             ->unique(ignoreRecord: true)
                             ->live(debounce: 250)
                             ->debounce(250)
-                            ->afterStateUpdated(callback: fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
-                            ->dehydrateStateUsing(callback: fn (string $state) => strtoupper($state)),
+                            ->afterStateUpdated(/**
+                             * @param Set $set
+                             * @param string|null $state
+                             * @return mixed
+                             */ callback: fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
+                            ->dehydrateStateUsing(/**
+                             * @param string $state
+                             * @return string
+                             */ callback: fn (string $state) => strtoupper($state)),
                         TextInput::make('slug')
                             ->required()
                             ->placeholder('Slug')
@@ -86,8 +130,11 @@ class CompetitionResource extends Resource
                             ])
                             ->suffixIcon('heroicon-m-information-circle')
                             ->suffixIconColor('danger')
-                            ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
-                    ])->columns(2),
+                            ->dehydrateStateUsing(/**
+                             * @param string $state
+                             * @return string
+                             */ callback: fn (string $state) => htmlspecialchars($state)),
+                    ])->columns(),
                 Grid::make('Start and end date')
                     ->schema(components: [
                         DatePicker::make('start_date')
@@ -98,15 +145,20 @@ class CompetitionResource extends Resource
                             ->label('Date de fin')
                             ->date()
                             ->required(),
-                    ])->columns(2),
+                    ])->columns(),
             ]);
     }
 
     /**
-     * @throws \Exception
+     * Define the table structure for listing competitions
+     *
+     * @param Table $table
+     * @return Table
+     * @throws Exception
      */
     public static function table(Table $table): Table
     {
+        /** @var $table */
         return $table
             ->heading('Gestion des compétitions')
             ->description('Listing, ajout, modification et suppression de compétitions.')
@@ -126,17 +178,38 @@ class CompetitionResource extends Resource
                     ->badge()
                     ->alignCenter()
                     ->colors([
-                        'primary' => static fn ($state): bool => $state === 'Non lancée',
-                        'success' => static fn ($state): bool => $state === 'En cours',
-                        'danger' => static fn ($state): bool => $state === 'Terminée',
+                        'primary' => /**
+                         * @param $state
+                         * @return bool
+                         */ static fn ($state): bool => $state === 'Non lancée',
+                        'success' => /**
+                         * @param $state
+                         * @return bool
+                         */ static fn ($state): bool => $state === 'En cours',
+                        'danger' => /**
+                         * @param $state
+                         * @return bool
+                         */ static fn ($state): bool => $state === 'Terminée',
                     ])
                     ->icons([
-                        'heroicon-s-x-mark' => static fn ($state): bool => $state === 'Non lancée',
-                        'heroicon-s-check' => static fn ($state): bool => $state === 'En cours',
-                        'heroicon-s-bookmark' => static fn ($state): bool => $state === 'Terminée',
+                        'heroicon-s-x-mark' => /**
+                         * @param $state
+                         * @return bool
+                         */ static fn ($state): bool => $state === 'Non lancée',
+                        'heroicon-s-check' => /**
+                         * @param $state
+                         * @return bool
+                         */ static fn ($state): bool => $state === 'En cours',
+                        'heroicon-s-bookmark' => /**
+                         * @param $state
+                         * @return bool
+                         */ static fn ($state): bool => $state === 'Terminée',
                     ])
                     ->iconPosition('before')
-                    ->formatStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars($state)),
                 TextColumn::make('slug')
                     ->searchable()
                     ->icon('heroicon-m-bookmark')
@@ -168,7 +241,10 @@ class CompetitionResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->toggleColumnsTriggerAction(
-                callback: fn (Action $action) => $action
+            /**
+             * @param Action $action
+             * @return Action
+             */ callback: fn (Action $action) => $action
                     ->color('info')
                     ->label('Ajouter des colonnes'),
             )
@@ -182,7 +258,10 @@ class CompetitionResource extends Resource
                     ]),
             ])
             ->filtersTriggerAction(
-                callback: fn (Action $action) => $action
+            /**
+             * @param Action $action
+             * @return Action
+             */ callback: fn (Action $action) => $action
                     ->color('danger')
                     ->label('Filtrer')
                     ->badgeColor('warning'),
@@ -191,7 +270,10 @@ class CompetitionResource extends Resource
                 EditAction::make()
                     ->color('warning')
                     ->button()
-                    ->modalCancelAction(fn (StaticAction $action) => $action->color('danger'))
+                    ->modalCancelAction(/**
+                     * @param StaticAction $action
+                     * @return StaticAction
+                     */ fn (StaticAction $action) => $action->color('danger'))
                     ->modalAlignment(Alignment::Center)
                     ->modalFooterActionsAlignment(Alignment::Center)
                     ->modalWidth(MaxWidth::TwoExtraLarge)
@@ -200,7 +282,10 @@ class CompetitionResource extends Resource
                     ->button()
                     ->modalHeading('Suppression')
                     ->modalDescription('Êtes-vous sur de vouloir supprimer cette compétition ?')
-                    ->modalCancelAction(fn (StaticAction $action) => $action->color('info'))
+                    ->modalCancelAction(/**
+                     * @param StaticAction $action
+                     * @return StaticAction
+                     */ fn (StaticAction $action) => $action->color('info'))
                     ->modalSubmitActionLabel('Supprimer')
                     ->successNotificationTitle('Compétition supprimée'),
             ])
@@ -210,7 +295,9 @@ class CompetitionResource extends Resource
     }
 
     /**
-     * @return array|PageRegistration[]
+     * Get the pages associated with the resource.
+     *
+     * @return array
      */
     public static function getPages(): array
     {
@@ -219,13 +306,23 @@ class CompetitionResource extends Resource
         ];
     }
 
+    /**
+     * Get the plural label for the resource.
+     *
+     * @return string
+     */
     public static function getPluralLabel(): string
     {
-        return __('Compétitions');
+        return __(/** @lang text */ 'Compétitions');
     }
 
+    /**
+     * Get the singular label for the resource.
+     *
+     * @return string
+     */
     public static function getLabel(): string
     {
-        return __('une compétition');
+        return __(/** @lang text */ 'une compétition');
     }
 }

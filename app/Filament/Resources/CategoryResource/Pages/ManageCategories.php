@@ -3,18 +3,28 @@
 namespace App\Filament\Resources\CategoryResource\Pages;
 
 use App\Filament\Resources\CategoryResource;
-use Filament\Actions\Action;
-use Filament\Actions\ActionGroup;
-use Filament\Actions\CreateAction;
-use Filament\Actions\StaticAction;
-use Filament\Resources\Pages\ManageRecords;
-use Filament\Support\Enums\Alignment;
-use Filament\Support\Enums\MaxWidth;
+use Filament\{Actions\Action,
+    Actions\ActionGroup,
+    Actions\CreateAction,
+    Actions\StaticAction,
+    Resources\Pages\ManageRecords,
+    Support\Enums\Alignment,
+    Support\Enums\MaxWidth};
 
 class ManageCategories extends ManageRecords
 {
+    /**
+     * The associated resource class for managing categories.
+     *
+     * @var string
+     */
     protected static string $resource = CategoryResource::class;
 
+    /**
+     * Get the header actions for the page.
+     *
+     * @return array|Action[]|ActionGroup[]
+     */
     protected function getHeaderActions(): array
     {
         return [
@@ -22,7 +32,10 @@ class ManageCategories extends ManageRecords
                 ->color('success')
                 ->label('Ajouter')
                 ->modalHeading('Ajouter une catégorie')
-                ->modalCancelAction(fn (StaticAction $action) => $action
+                ->modalCancelAction(/**
+                 * @param StaticAction $action
+                 * @return StaticAction
+                 */ fn (StaticAction $action) => $action
                     ->color('danger'))
                 ->modalSubmitActionLabel('Ajouter')
                 ->icon('heroicon-m-plus-circle')
