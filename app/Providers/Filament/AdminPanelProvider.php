@@ -36,6 +36,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login(Login::class)
             ->darkMode(false)
+            ->spa()
             ->brandName('Espace administrateur')
             ->loginRouteSlug('connexion')
             ->colors(

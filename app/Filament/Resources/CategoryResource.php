@@ -166,7 +166,7 @@ class CategoryResource extends Resource
                     DeleteAction::make()
                         ->button()
                         ->modalHeading('Suppression')
-                        ->modalDescription('Êtes-vous sur de vouloir supprimer cette catégorie ?')
+                        ->modalDescription('Êtes-vous sûr de vouloir supprimer cette catégorie ?')
                         ->modalCancelAction(/**
                          * @param StaticAction $action
                          * @return StaticAction

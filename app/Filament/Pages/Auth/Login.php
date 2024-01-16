@@ -35,7 +35,7 @@ class Login extends BaseLogin
      */
     public function getHeading(): string|Htmlable
     {
-        return __('Connexion');
+        return __(/** @lang text */ 'Connexion');
     }
 
     /**

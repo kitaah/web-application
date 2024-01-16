@@ -211,7 +211,7 @@ class GameResource extends Resource
                 DeleteAction::make()
                     ->button()
                     ->modalHeading('Suppression')
-                    ->modalDescription('Êtes-vous sur de vouloir supprimer ce jeu ?')
+                    ->modalDescription('Êtes-vous sûr de vouloir supprimer ce jeu ?')
                     ->modalCancelAction(/**
                      * @param StaticAction $action
                      * @return StaticAction

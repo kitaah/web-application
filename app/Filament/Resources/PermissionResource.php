@@ -146,7 +146,7 @@ class PermissionResource extends Resource
                 DeleteAction::make()
                     ->button()
                     ->modalHeading('Suppression')
-                    ->modalDescription('Êtes-vous sur de vouloir supprimer cette permission ?')
+                    ->modalDescription('Êtes-vous sûr de vouloir supprimer cette permission ?')
                     ->modalCancelAction(/**
                      * @param StaticAction $action
                      * @return StaticAction

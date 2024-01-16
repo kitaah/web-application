@@ -7,12 +7,25 @@ use App\Models\{CreateCompetition, User};
 class CreateCompetitionPolicy
 {
     /**
-     * Define constants for allowed roles
+     * The role of a super administrator.
      *
+     * @var string
      */
-    const string SUPER_ADMINISTRATOR = 'Super-Administrateur';
-    const string ADMINISTRATOR = 'Administrateur';
-    const string MODERATOR = 'Modérateur';
+    const SUPER_ADMINISTRATOR = 'Super-Administrateur';
+
+    /**
+     * The role of an administrator.
+     *
+     * @var string
+     */
+    const ADMINISTRATOR = 'Administrateur';
+
+    /**
+     * The role of a moderator.
+     *
+     * @var string
+     */
+    const MODERATOR = 'Modérateur';
 
     /**
      * Check if the user has any of the specified roles.

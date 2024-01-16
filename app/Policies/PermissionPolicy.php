@@ -8,10 +8,11 @@ use Spatie\Permission\Models\Permission;
 class PermissionPolicy
 {
     /**
-     * Define constants for allowed roles
+     * The role of a super administrator.
      *
+     * @var string
      */
-    const string SUPER_ADMINISTRATOR = 'Super-Administrateur';
+    const SUPER_ADMINISTRATOR = 'Super-Administrateur';
 
     /**
      * Check if the user has the specified role.

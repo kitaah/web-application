@@ -276,7 +276,7 @@ class UserResource extends Resource
                 DeleteAction::make()
                     ->button()
                     ->modalHeading('Suppression')
-                    ->modalDescription('Êtes-vous sur de vouloir supprimer cet utilisateur ?')
+                    ->modalDescription('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')
                     ->modalCancelAction(/**
                      * @param StaticAction $action
                      * @return StaticAction

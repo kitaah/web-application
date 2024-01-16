@@ -342,7 +342,7 @@ class CreateCompetitionResource extends Resource
                 DeleteAction::make()
                     ->button()
                     ->modalHeading('Suppression')
-                    ->modalDescription('Êtes-vous sur de vouloir supprimer cette planification ?')
+                    ->modalDescription('Êtes-vous sûr de vouloir supprimer cette planification ?')
                     ->modalCancelAction(/**
                      * @param StaticAction $action
                      * @return StaticAction

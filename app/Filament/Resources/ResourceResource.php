@@ -48,6 +48,13 @@ class ResourceResource extends Resource
     protected static ?string $navigationGroup = 'Gestion des ressources';
 
     /**
+     * The slug used for this resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $slug = 'ressources';
+
+    /**
      * Navigation label for the resource.
      *
      * @var string|null
@@ -383,7 +390,7 @@ class ResourceResource extends Resource
                 DeleteAction::make()
                     ->button()
                     ->modalHeading('Suppression')
-                    ->modalDescription('Êtes-vous sur de vouloir supprimer cette ressource ?')
+                    ->modalDescription('Êtes-vous sûr de vouloir supprimer cette ressource ?')
                     ->modalCancelAction(/**
                      * @param StaticAction $action
                      * @return StaticAction

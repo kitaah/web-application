@@ -165,7 +165,7 @@ class RoleResource extends Resource
                 DeleteAction::make()
                     ->button()
                     ->modalHeading('Suppression')
-                    ->modalDescription('Êtes-vous sur de vouloir supprimer ce rôle ?')
+                    ->modalDescription('Êtes-vous sûr de vouloir supprimer ce rôle ?')
                     ->modalCancelAction(/**
                      * @param StaticAction $action
                      * @return StaticAction

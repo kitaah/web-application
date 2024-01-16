@@ -351,7 +351,7 @@ class AssociationResource extends Resource
                 DeleteAction::make()
                     ->button()
                     ->modalHeading('Suppression')
-                    ->modalDescription('Êtes-vous sur de vouloir supprimer cette association ?')
+                    ->modalDescription('Êtes-vous sûr de vouloir supprimer cette association ?')
                     ->modalCancelAction(/**
                      * @param StaticAction $action
                      * @return StaticAction
