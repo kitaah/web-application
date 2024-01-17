@@ -34,6 +34,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/accessibilite', static function () {
+    return Inertia::render('Legal/Accessibility');
+});
+
 Route::get('/mentions-legales', static function () {
     return Inertia::render('Legal/Disclaimer');
 });
