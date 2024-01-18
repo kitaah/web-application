@@ -42,4 +42,8 @@ Route::get('/mentions-legales', static function () {
     return Inertia::render('Legal/Disclaimer');
 });
 
+Route::get('/politique-de-confidentialite', static function () {
+    return Inertia::render('Legal/PrivacyPolicy');
+});
+
 require __DIR__.'/auth.php';
