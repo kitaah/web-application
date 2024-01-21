@@ -250,6 +250,7 @@ class CreateCompetitionResource extends Resource
         return $table
             ->heading('Planification des compétitions')
             ->description('Listing, ajout, modification et suppression de planification de compétitions.')
+            ->deferLoading()
             ->columns([
                 TextColumn::make('name')
                     ->label('Nom')

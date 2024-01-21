@@ -100,8 +100,8 @@ class UserResource extends Resource
         return $form
             ->schema(components: [
                 TextInput::make('name')
-                    ->label('Nom')
-                    ->placeholder('Nom')
+                    ->label('Nom d\'utilisateur')
+                    ->placeholder('Nom d\'utilisateur')
                     ->required()
                     ->autofocus()
                     ->string()
@@ -193,7 +193,7 @@ class UserResource extends Resource
             ->deferLoading()
             ->columns(components: [
                 TextColumn::make('name')
-                    ->label('Nom')
+                    ->label('Nom d\'utilisateur')
                     ->searchable()
                     ->icon('heroicon-m-user-circle')
                     ->iconColor('danger')

@@ -176,6 +176,7 @@ class CompetitionResource extends Resource
         return $table
             ->heading('Gestion des compétitions')
             ->description('Listing, ajout, modification et suppression de compétitions.')
+            ->deferLoading()
             ->columns(components: [
                 TextColumn::make('identification')
                     ->label('Identifiant')

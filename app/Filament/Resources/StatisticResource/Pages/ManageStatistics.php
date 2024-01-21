@@ -5,7 +5,8 @@ namespace App\Filament\Resources\StatisticResource\Pages;
 use App\Filament\{Resources\StatisticResource,
     Resources\StatisticResource\Widgets\ResourcesChartOverview,
     Resources\StatisticResource\Widgets\StatisticsOverview,
-    Resources\StatisticResource\Widgets\UsersChartOverview};
+    Resources\StatisticResource\Widgets\UsersChartOverview,
+    Resources\StatisticResource\Widgets\GamesChartOverview};
 use Filament\Resources\Pages\ManageRecords;
 
 class ManageStatistics extends ManageRecords
@@ -29,6 +30,8 @@ class ManageStatistics extends ManageRecords
             StatisticsOverview::class,
             UsersChartOverview::class,
             ResourcesChartOverview::class,
+            GamesChartOverview::class
+
         ];
     }
 }

@@ -66,7 +66,7 @@ class ResourceResource extends Resource
      *
      * @var string|null
      */
-    protected static ?string $slug = 'une ressource';
+    protected static ?string $slug = 'ressources';
 
     /**
      * Navigation label for the resource.

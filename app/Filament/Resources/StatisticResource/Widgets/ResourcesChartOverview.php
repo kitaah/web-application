@@ -21,16 +21,28 @@ class ResourcesChartOverview extends ApexChartWidget
      * The heading for the chart widget.
      * @var string|null
      */
-    protected static ?string $heading = 'Chart ressources';
+    protected static ?string $heading = 'Graphique ressources';
 
     /**
-     * The loading indicator for the chart widget.
+     * The footer description for the chart widget.
      *
-     * @return string|null
+     * @var string|null
      */
-    protected static ?string $loadingIndicator = 'Chargement...';
+    protected static ?string $footer = 'Informations sur le nombre de ressources.';
 
-    protected static bool $darkMode = false;
+    /**
+     * Polling interval when the data is refresh.
+     *
+     * @var string|null
+     */
+    protected static ?string $pollingInterval = '60s';
+
+    /**
+     * Defer loading.
+     *
+     * @var bool
+     */
+    protected static bool $deferLoading = true;
 
     /**
      * Chart options
@@ -39,6 +51,12 @@ class ResourcesChartOverview extends ApexChartWidget
      */
     protected function getOptions(): array
     {
+        if (!$this->readyToLoad) {
+            return [];
+        }
+
+        sleep(2);
+
         /** @var $data */
         $data = Trend::model(Resource::class)
             ->between(
@@ -55,7 +73,7 @@ class ResourcesChartOverview extends ApexChartWidget
             ],
             'series' => [
                 [
-                    'name' => 'Nombre',
+                    'name' => 'Quantité',
                     'data' => $data->map(/**
                      * @param TrendValue $value
                      * @return mixed
@@ -82,7 +100,7 @@ class ResourcesChartOverview extends ApexChartWidget
                     ],
                 ],
             ],
-            'colors' => ['#16658a'],
+            'colors' => ['#f59e0b'],
             'stroke' => [
                 'curve' => 'smooth',
             ],

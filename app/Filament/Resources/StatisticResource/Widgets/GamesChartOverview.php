@@ -2,32 +2,33 @@
 
 namespace App\Filament\Resources\StatisticResource\Widgets;
 
-use App\Models\User;
+use App\Models\Game;
 use Filament\Forms\Components\DatePicker;
 use Flowframe\{Trend\Trend, Trend\TrendValue};
 use Illuminate\Support\Carbon;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
-class UsersChartOverview extends ApexChartWidget
+
+class GamesChartOverview extends ApexChartWidget
 {
     /**
      * Chart Id
      *
      * @var string|null
      */
-    protected static ?string $chartId = 'userChartOverview';
+    protected static ?string $chartId = 'gamesChartOverview';
 
     /**
      * The heading for the chart widget.
      * @var string|null
      */
-    protected static ?string $heading = 'Graphique utilisateurs';
+    protected static ?string $heading = 'Graphique jeux';
 
     /**
      * The footer description for the chart widget.
      *
      * @var string|null
      */
-    protected static ?string $footer = 'Informations sur le nombre d\'utilisateurs.';
+    protected static ?string $footer = 'Informations sur le nombre de jeux.';
 
     /**
      * Polling interval when the data is refresh.
@@ -55,9 +56,8 @@ class UsersChartOverview extends ApexChartWidget
         }
 
         sleep(2);
-
         /** @var $data */
-        $data = Trend::model(User::class)
+        $data = Trend::model(Game::class)
             ->between(
                 start: Carbon::parse(time: $this->filterFormData['date_start']),
                 end: Carbon::parse(time: $this->filterFormData['date_end']),
@@ -67,7 +67,7 @@ class UsersChartOverview extends ApexChartWidget
 
         return [
             'chart' => [
-                'type' => 'bar',
+                'type' => 'line',
                 'height' => 300,
             ],
             'series' => [
@@ -99,7 +99,7 @@ class UsersChartOverview extends ApexChartWidget
                     ],
                 ],
             ],
-            'colors' => ['#16658a'],
+            'colors' => ['#990000'],
             'stroke' => [
                 'curve' => 'smooth',
             ],
@@ -115,6 +115,7 @@ class UsersChartOverview extends ApexChartWidget
             DatePicker::make('date_end')
                 ->label('Date de fin')
                 ->default(now()->endOfYear()),
+
         ];
     }
 }
