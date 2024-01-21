@@ -4,9 +4,6 @@ namespace App\Models;
 
 use Illuminate\{Database\Eloquent\Factories\HasFactory, Database\Eloquent\Model};
 
-/**
- * @method static count()
- */
 class Competition extends Model
 {
     use HasFactory;

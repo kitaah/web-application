@@ -26,6 +26,20 @@ class PermissionResource extends Resource
     protected static ?string $model = Permission::class;
 
     /**
+     * Get the plural label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $pluralLabel = 'Permissions';
+
+    /**
+     * Get the singular label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $label = 'une permission';
+
+    /**
      * Navigation group for the resource.
      *
      * @var string|null
@@ -170,25 +184,5 @@ class PermissionResource extends Resource
         return [
             'index' => ManagePermissions::route('/'),
         ];
-    }
-
-    /**
-     * Get the plural label for the resource.
-     *
-     * @return string
-     */
-    public static function getPluralLabel(): string
-    {
-        return __(key: /** @lang text */ 'Permissions');
-    }
-
-    /**
-     * Get the singular label for the resource.
-     *
-     * @return string
-     */
-    public static function getLabel(): string
-    {
-        return __(key: /** @lang text */ 'une permission');
     }
 }

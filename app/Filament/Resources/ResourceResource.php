@@ -48,11 +48,25 @@ class ResourceResource extends Resource
     protected static ?string $navigationGroup = 'Gestion des ressources';
 
     /**
+     * Get the plural label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $pluralLabel = 'Ressources';
+
+    /**
+     * Get the singular label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $label = 'une ressource';
+
+    /**
      * The slug used for this resource.
      *
      * @var string|null
      */
-    protected static ?string $slug = 'ressources';
+    protected static ?string $slug = 'une ressource';
 
     /**
      * Navigation label for the resource.
@@ -414,25 +428,5 @@ class ResourceResource extends Resource
         return [
             'index' => ManageResources::route('/'),
         ];
-    }
-
-    /**
-     * Get the plural label for the resource.
-     *
-     * @return string
-     */
-    public static function getPluralLabel(): string
-    {
-        return __(key: /** @lang text */ 'Ressources');
-    }
-
-    /**
-     * Get the singular label for the resource.
-     *
-     * @return string
-     */
-    public static function getLabel(): string
-    {
-        return __(key: /** @lang text */ 'une ressource');
     }
 }

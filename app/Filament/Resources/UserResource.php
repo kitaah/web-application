@@ -33,6 +33,20 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     /**
+     * Get the plural label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $pluralLabel = 'Utilisateurs';
+
+    /**
+     * Get the singular label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $label = 'un utilisateur';
+
+    /**
      * The slug used for this resource.
      *
      * @var string|null
@@ -300,25 +314,5 @@ class UserResource extends Resource
         return [
             'index' => ManageUsers::route('/'),
         ];
-    }
-
-    /**
-     * Get the plural label for the resource.
-     *
-     * @return string
-     */
-    public static function getPluralLabel(): string
-    {
-        return __(key: /** @lang text */ 'Utilisateurs');
-    }
-
-    /**
-     * Get the singular label for the resource.
-     *
-     * @return string
-     */
-    public static function getLabel(): string
-    {
-        return __(key: /** @lang text */ 'un utilisateur');
     }
 }

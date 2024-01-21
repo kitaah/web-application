@@ -3,74 +3,102 @@
 namespace App\Filament\Resources\StatisticResource\Widgets;
 
 use App\Models\Resource;
-use Filament\Widgets\ChartWidget;
+use Filament\Forms\Components\DatePicker;
 use Flowframe\{Trend\Trend, Trend\TrendValue};
+use Illuminate\Support\Carbon;
+use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
-class ResourcesChartOverview extends ChartWidget
+class ResourcesChartOverview extends ApexChartWidget
 {
     /**
-     * The heading for the chart widget.
+     * Chart Id
      *
+     * @var string|null
+     */
+    protected static ?string $chartId = 'resourcesChartOverview';
+
+    /**
+     * The heading for the chart widget.
      * @var string|null
      */
     protected static ?string $heading = 'Chart ressources';
 
     /**
-     * The color theme for the chart widget.
-     *
-     * @var string
-     */
-    protected static string $color = 'success';
-
-    /**
-     * Get the description for the chart widget.
+     * The loading indicator for the chart widget.
      *
      * @return string|null
      */
-    public function getDescription(): ?string
-    {
-        return 'Nombre de ressources créées durant l\'année en cours';
-    }
+    protected static ?string $loadingIndicator = 'Chargement...';
+
+    protected static bool $darkMode = false;
 
     /**
-     * Get the data for rendering the chart.
+     * Chart options
      *
      * @return array
      */
-    protected function getData(): array
+    protected function getOptions(): array
     {
         /** @var $data */
         $data = Trend::model(Resource::class)
             ->between(
-                start: now()->startOfYear(),
-                end: now()->endOfYear(),
+                start: Carbon::parse(time: $this->filterFormData['date_start']),
+                end: Carbon::parse(time: $this->filterFormData['date_end']),
             )
             ->perMonth()
             ->count();
 
         return [
-            'datasets' => [
+            'chart' => [
+                'type' => 'bar',
+                'height' => 300,
+            ],
+            'series' => [
                 [
-                    'label' => 'Ressources créées',
+                    'name' => 'Nombre',
                     'data' => $data->map(/**
                      * @param TrendValue $value
                      * @return mixed
-                     */ callback: fn (TrendValue $value) => $value->aggregate),
-                    'backgroundColor' => '#16658a',
-                    'borderColor' => '#9BD0F5',
+                     */ fn (TrendValue $value) => $value->aggregate),
                 ],
             ],
-            'labels' => ['Janv', 'Fév', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil', 'Août', 'Sept', 'Oct', 'Nov', 'Déc'],
+            'xaxis' => [
+                'categories' => $data->map(/**
+                 * @param TrendValue $value
+                 * @return string
+                 */ fn (TrendValue $value) => $value->date),
+                'labels' => [
+                    'style' => [
+                        'colors' => '#9ca3af',
+                        'fontWeight' => 600,
+                    ],
+                ],
+            ],
+            'yaxis' => [
+                'labels' => [
+                    'style' => [
+                        'colors' => '#9ca3af',
+                        'fontWeight' => 600,
+                    ],
+                ],
+            ],
+            'colors' => ['#16658a'],
+            'stroke' => [
+                'curve' => 'smooth',
+            ],
         ];
     }
 
-    /**
-     * Get the type of the chart (line chart in this case).
-     *
-     * @return string
-     */
-    protected function getType(): string
+    protected function getFormSchema(): array
     {
-        return 'line';
+        return [
+            DatePicker::make('date_start')
+                ->label('Date de début')
+                ->default(now()->startOfYear()),
+            DatePicker::make('date_end')
+                ->label('Date de fin')
+                ->default(now()->endOfYear()),
+
+        ];
     }
 }

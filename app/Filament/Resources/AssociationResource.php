@@ -40,6 +40,20 @@ class AssociationResource extends Resource
     protected static ?string $model = Association::class;
 
     /**
+     * Get the plural label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $pluralLabel = 'Associations';
+
+    /**
+     * Get the singular label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $label = 'une association';
+
+    /**
      * Navigation group for the resource.
      *
      * @var string|null
@@ -375,25 +389,5 @@ class AssociationResource extends Resource
         return [
             'index' => ManageAssociations::route('/'),
         ];
-    }
-
-    /**
-     * Get the plural label for the resource.
-     *
-     * @return string
-     */
-    public static function getPluralLabel(): string
-    {
-        return __(key: /** @lang text */ 'Associations');
-    }
-
-    /**
-     * Get the singular label for the resource.
-     *
-     * @return string
-     */
-    public static function getLabel(): string
-    {
-        return __(key: /** @lang text */ 'une association');
     }
 }

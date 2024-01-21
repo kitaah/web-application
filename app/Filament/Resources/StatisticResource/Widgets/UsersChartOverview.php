@@ -3,72 +3,100 @@
 namespace App\Filament\Resources\StatisticResource\Widgets;
 
 use App\Models\User;
-use Filament\Widgets\ChartWidget;
+use Filament\Forms\Components\DatePicker;
 use Flowframe\{Trend\Trend, Trend\TrendValue};
-
-class UsersChartOverview extends ChartWidget
+use Illuminate\Support\Carbon;
+use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
+class UsersChartOverview extends ApexChartWidget
 {
     /**
-     * The heading for the chart widget.
+     * Chart Id
      *
+     * @var string|null
+     */
+    protected static ?string $chartId = 'userChartOverview';
+
+    /**
+     * The heading for the chart widget.
      * @var string|null
      */
     protected static ?string $heading = 'Chart utilisateurs';
 
     /**
-     * The color theme for the chart widget.
-     *
-     * @var string
-     */
-    protected static string $color = 'danger';
-
-    /**
-     * Get the description for the chart widget.
+     * The loading indicator for the chart widget.
      *
      * @return string|null
      */
-    public function getDescription(): ?string
-    {
-        return 'Nombre d\'utilisateurs inscrits durant l\'année en cours';
-    }
+    protected static ?string $loadingIndicator = 'Chargement...';
+
+    protected static bool $darkMode = false;
 
     /**
-     * Get the data for rendering the chart.
+     * Chart options
      *
      * @return array
      */
-    protected function getData(): array
+    protected function getOptions(): array
     {
         /** @var $data */
         $data = Trend::model(User::class)
             ->between(
-                start: now()->startOfYear(),
-                end: now()->endOfYear(),
+                start: Carbon::parse(time: $this->filterFormData['date_start']),
+                end: Carbon::parse(time: $this->filterFormData['date_end']),
             )
             ->perMonth()
             ->count();
 
         return [
-            'datasets' => [
+            'chart' => [
+                'type' => 'bar',
+                'height' => 300,
+            ],
+            'series' => [
                 [
-                    'label' => 'Utilisateurs inscrits',
+                    'name' => 'Nombre',
                     'data' => $data->map(/**
                      * @param TrendValue $value
                      * @return mixed
-                     */ callback: fn (TrendValue $value) => $value->aggregate),
-                    'backgroundColor' => '#990000',
-                    'borderColor' => '#8f0e0e',
+                     */ fn (TrendValue $value) => $value->aggregate),
                 ],
             ],
-            'labels' => ['Janv', 'Fév', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil', 'Août', 'Sept', 'Oct', 'Nov', 'Déc'],
+            'xaxis' => [
+                'categories' => $data->map(/**
+                 * @param TrendValue $value
+                 * @return string
+                 */ fn (TrendValue $value) => $value->date),
+                'labels' => [
+                    'style' => [
+                        'colors' => '#9ca3af',
+                        'fontWeight' => 600,
+                    ],
+                ],
+            ],
+            'yaxis' => [
+                'labels' => [
+                    'style' => [
+                        'colors' => '#9ca3af',
+                        'fontWeight' => 600,
+                    ],
+                ],
+            ],
+            'colors' => ['#16658a'],
+            'stroke' => [
+                'curve' => 'smooth',
+            ],
         ];
     }
 
-    /**
-     * @return string
-     */
-    protected function getType(): string
+    protected function getFormSchema(): array
     {
-        return 'line';
+        return [
+            DatePicker::make('date_start')
+                ->label('Date de début')
+                ->default(now()->startOfYear()),
+            DatePicker::make('date_end')
+                ->label('Date de fin')
+                ->default(now()->endOfYear()),
+        ];
     }
 }

@@ -27,6 +27,20 @@ class RoleResource extends Resource
     protected static ?string $model = Role::class;
 
     /**
+     * Get the plural label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $pluralLabel = 'Rôles';
+
+    /**
+     * Get the singular label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $label = 'un rôle';
+
+    /**
      * Navigation group for the resource.
      *
      * @var string|null
@@ -187,25 +201,5 @@ class RoleResource extends Resource
         return [
             'index' => ManageRoles::route('/'),
         ];
-    }
-
-    /**
-     * Get the plural label for the resource.
-     *
-     * @return string
-     */
-    public static function getPluralLabel(): string
-    {
-        return __(key: /** @lang text */ 'Rôles');
-    }
-
-    /**
-     * Get the singular label for the resource.
-     *
-     * @return string
-     */
-    public static function getLabel(): string
-    {
-        return __(key: /** @lang text */ 'un rôle');
     }
 }

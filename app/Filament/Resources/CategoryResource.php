@@ -28,6 +28,20 @@ class CategoryResource extends Resource
     protected static ?string $model = Category::class;
 
     /**
+     * Get the plural label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $pluralLabel = 'Catégories';
+
+    /**
+     * Get the singular label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $label = 'une catégorie';
+
+    /**
      * Navigation group for the resource.
      *
      * @var string|null
@@ -188,25 +202,5 @@ class CategoryResource extends Resource
         return [
             'index' => ManageCategories::route('/'),
         ];
-    }
-
-    /**
-     * Get the plural label for the resource.
-     *
-     * @return string
-     */
-    public static function getPluralLabel(): string
-    {
-        return __(key: /** @lang text */ 'Catégories');
-    }
-
-    /**
-     * Get the singular label for the resource.
-     *
-     * @return string
-     */
-    public static function getLabel(): string
-    {
-        return __(key: /** @lang text */ 'une catégorie');
     }
 }

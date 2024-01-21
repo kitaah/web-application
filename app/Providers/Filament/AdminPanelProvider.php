@@ -2,16 +2,14 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Pages\Auth\Login;
+use App\{Filament\Pages\Auth\Login, Filament\Pages\Dashboard};
 use Filament\{Http\Middleware\Authenticate,
     Http\Middleware\DisableBladeIconComponents,
     Http\Middleware\DispatchServingFilamentEvent,
-    Pages\Dashboard,
     Panel,
     PanelProvider,
     Support\Colors\Color,
-    Widgets\AccountWidget,
-    Widgets\FilamentInfoWidget};
+    Widgets\AccountWidget};
 use Illuminate\{Cookie\Middleware\AddQueuedCookiesToResponse,
     Cookie\Middleware\EncryptCookies,
     Foundation\Http\Middleware\VerifyCsrfToken,
@@ -19,6 +17,7 @@ use Illuminate\{Cookie\Middleware\AddQueuedCookiesToResponse,
     Session\Middleware\AuthenticateSession,
     Session\Middleware\StartSession,
     View\Middleware\ShareErrorsFromSession};
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -39,6 +38,9 @@ class AdminPanelProvider extends PanelProvider
             ->spa()
             ->brandName('Espace administrateur')
             ->loginRouteSlug('connexion')
+            ->plugins([
+                FilamentApexChartsPlugin::make()
+            ])
             ->colors(
                 [
                     'danger' => Color::Red,
@@ -48,7 +50,6 @@ class AdminPanelProvider extends PanelProvider
                     'success' => Color::Emerald,
                     'warning' => Color::Orange,
                 ]
-
             )
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -61,7 +62,6 @@ class AdminPanelProvider extends PanelProvider
             ->widgets(
                 [
                     AccountWidget::class,
-                    FilamentInfoWidget::class,
                 ]
             )
             ->middleware(

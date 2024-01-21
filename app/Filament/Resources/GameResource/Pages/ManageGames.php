@@ -28,7 +28,7 @@ class ManageGames extends ManageRecords
             CreateAction::make()
                 ->color('success')
                 ->label('Ajouter')
-                ->modalHeading('Ajouter un jeu')
+                ->modalHeading('Ajouter un quiz')
                 ->modalCancelAction(/**
                  * @param StaticAction $action
                  * @return StaticAction
@@ -39,7 +39,7 @@ class ManageGames extends ManageRecords
                 ->modalWidth(MaxWidth::FourExtraLarge)
                 ->modalFooterActionsAlignment(Alignment::Center)
                 ->createAnother(false)
-                ->successNotificationTitle('Jeu ajouté'),
+                ->successNotificationTitle('Quiz ajouté'),
         ];
     }
 }

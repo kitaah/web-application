@@ -30,6 +30,20 @@ class GameResource extends Resource
     protected static ?string $model = Game::class;
 
     /**
+     * Get the plural label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $pluralLabel = 'Jeux';
+
+    /**
+     * Get the singular label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $label = 'un jeu';
+
+    /**
      * The slug used for this resource.
      *
      * @var string|null
@@ -48,7 +62,7 @@ class GameResource extends Resource
      *
      * @var string|null
      */
-    protected static ?string $navigationLabel = 'Quizz vrai/faux';
+    protected static ?string $navigationLabel = 'Quiz vrai/faux';
 
     /**
      * Navigation icon for the resource.
@@ -144,8 +158,8 @@ class GameResource extends Resource
     {
         /** @var $table */
         return $table
-            ->heading('Gestion des quizz vrai/faux')
-            ->description('Listing, ajout, modification et suppression de quizz vrai/faux.')
+            ->heading('Gestion des quiz vrai/faux')
+            ->description('Listing, ajout, modification et suppression de quiz vrai/faux.')
             ->deferLoading()
             ->columns(components: [
                 TextColumn::make('name')
@@ -207,19 +221,19 @@ class GameResource extends Resource
                     ->modalAlignment(Alignment::Center)
                     ->modalFooterActionsAlignment(Alignment::Center)
                     ->modalWidth(MaxWidth::FourExtraLarge)
-                    ->successNotificationTitle('Jeu modifié'),
+                    ->successNotificationTitle('Quiz modifié'),
                 DeleteAction::make()
                     ->button()
                     ->modalHeading('Suppression')
-                    ->modalDescription('Êtes-vous sûr de vouloir supprimer ce jeu ?')
+                    ->modalDescription('Êtes-vous sûr de vouloir supprimer ce quiz ?')
                     ->modalCancelAction(/**
                      * @param StaticAction $action
                      * @return StaticAction
                      */ fn (StaticAction $action) => $action->color('info'))
                     ->modalSubmitActionLabel('Supprimer')
-                    ->successNotificationTitle('Jeu supprimé'),
+                    ->successNotificationTitle('Quiz supprimé'),
             ])
-            ->searchPlaceholder('Rechercher un quizz')
+            ->searchPlaceholder('Rechercher un quiz')
             ->persistSearchInSession()
             ->persistFiltersInSession()
             ->paginated(condition: [10, 25, 50, 100, 'all']);
@@ -235,25 +249,5 @@ class GameResource extends Resource
         return [
             'index' => ManageGames::route('/'),
         ];
-    }
-
-    /**
-     * Get the plural label for the resource.
-     *
-     * @return string
-     */
-    public static function getPluralLabel(): string
-    {
-        return __(key: /** @lang text */ 'Jeux');
-    }
-
-    /**
-     * Get the singular label for the resource.
-     *
-     * @return string
-     */
-    public static function getLabel(): string
-    {
-        return __(key: /** @lang text */ 'un jeu');
     }
 }

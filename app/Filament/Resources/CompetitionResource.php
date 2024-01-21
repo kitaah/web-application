@@ -33,6 +33,20 @@ class CompetitionResource extends Resource
     protected static ?string $model = Competition::class;
 
     /**
+     * Get the plural label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $pluralLabel = 'Compétitions';
+
+    /**
+     * Get the singular label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $label = 'une compétition';
+
+    /**
      * Navigation group for the resource.
      *
      * @var string|null

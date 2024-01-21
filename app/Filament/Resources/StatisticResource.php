@@ -181,7 +181,9 @@ class StatisticResource extends Resource
                      * @return bool
                      */ abilities: fn () => app(abstract: StatisticPolicy::class)->export(auth()->user(), new Statistic()))
                     ->exports([
-                        ExcelExport::make()->fromTable()->except([
+                        ExcelExport::make()
+                            ->fromTable()
+                            ->except([
                             'updated_at',
                         ])->withFilename(/**
                          * @param $resource
@@ -206,25 +208,5 @@ class StatisticResource extends Resource
         return [
             'index' => ManageStatistics::route('/'),
         ];
-    }
-
-    /**
-     * Get the plural label for the resource.
-     *
-     * @return string
-     */
-    public static function getPluralLabel(): string
-    {
-        return __(key: /** @lang text */ 'Statistiques');
-    }
-
-    /**
-     * Get the singular label for the resource.
-     *
-     * @return string
-     */
-    public static function getLabel(): string
-    {
-        return __(key: /** @lang text */ 'les statistiques');
     }
 }

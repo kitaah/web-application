@@ -35,6 +35,20 @@ class CreateCompetitionResource extends Resource
     protected static ?string $model = CreateCompetition::class;
 
     /**
+     * Get the plural label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $pluralLabel = 'Planifications';
+
+    /**
+     * Get the singular label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $label = 'une planification';
+
+    /**
      * The slug used for this resource.
      *
      * @var string|null
@@ -365,25 +379,5 @@ class CreateCompetitionResource extends Resource
         return [
             'index' => ManageCreateCompetitions::route('/'),
         ];
-    }
-
-    /**
-     * Get the plural label for the resource.
-     *
-     * @return string
-     */
-    public static function getPluralLabel(): string
-    {
-        return __(key: /** @lang text */ 'Planifications');
-    }
-
-    /**
-     * Get the singular label for the resource.
-     *
-     * @return string
-     */
-    public static function getLabel(): string
-    {
-        return __(key: /** @lang text */ 'une planification');
     }
 }

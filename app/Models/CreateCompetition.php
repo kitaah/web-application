@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\{Eloquent\Factories\HasFactory, Eloquent\Relations\BelongsTo, Eloquent\Relations\Pivot};
 
+/**
+ * @method static count()
+ */
 class CreateCompetition extends Pivot
 {
     use HasFactory;
