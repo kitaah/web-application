@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @method static count()
+ * @method static latest()
  */
 class Resource extends Model implements HasMedia
 {

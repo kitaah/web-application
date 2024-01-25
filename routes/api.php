@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Resources\ResourceResource;
+use App\Models\Resource;
 use Illuminate\{Http\Request, Support\Facades\Route};
 
 /*
@@ -16,3 +18,9 @@ use Illuminate\{Http\Request, Support\Facades\Route};
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/resources', static function() {
+    $resources = Resource::latest()->where('is_validated', true)->get();
+    return ResourceResource::collection($resources);
+});
+
