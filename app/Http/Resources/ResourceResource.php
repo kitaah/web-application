@@ -2,13 +2,21 @@
 
 namespace App\Http\Resources;
 
+use App\Models\{Category, User};
+use Carbon\Carbon;
 use Illuminate\{Http\Request, Http\Resources\Json\JsonResource};
 use OpenApi\Annotations as OA;
 
 /**
  * @property mixed $id
+ * @property mixed $user_id
+ * @property mixed $category_id
  * @property mixed $name
  * @property mixed $description
+ * @property mixed $url
+ * @property mixed $slug
+ * @property mixed $created_at
+ * @property mixed $updated_at
  * @method getFirstMediaUrl(string $string)
  */
 class ResourceResource extends JsonResource
@@ -53,11 +61,22 @@ class ResourceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $user = User::find($this->user_id);
+        $category = Category::find($this->category_id);
+        $formattedCreatedAt = Carbon::parse($this->created_at)->format('d/m/Y');
+        $formattedUpdatedAt = Carbon::parse($this->updated_at)->format('d/m/Y');
+
         return [
             'id' => $this->id,
+            'user_name' => $user ? $user->name : null,
+            'category_name' => $category ? $category->name : null,
             'name' => $this->name,
             'description' => $this->description,
-            'resources'  => $this->getFirstMediaUrl('resources'),
+            'slug' => $this->slug,
+            'url' => $this->url,
+            'created_at' => $formattedCreatedAt,
+            'updated_at' => $formattedUpdatedAt,
+            'image'  => $this->getFirstMediaUrl('image'),
         ];
     }
 }

@@ -241,7 +241,7 @@ class ResourceResource extends Resource
                                     ->maxSize(1024)
                                     ->acceptedFileTypes(Collection::make(['image/jpeg', 'image/png']))
                                     ->rules('mimes:jpeg,png')
-                                    ->collection('resources'),
+                                    ->collection('image'),
                             ]),
                     ])->columnSpanFull(),
             ]);

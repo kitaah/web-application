@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\{Foundation\Application, Support\Facades\Route, Support\Facades\URL};
+use App\Http\{Controllers\ProfileController, Controllers\ResourceController};
+use Illuminate\{Foundation\Application, Support\Facades\Route};
 use Inertia\Inertia;
 
 /*
@@ -45,5 +45,7 @@ Route::get('/mentions-legales', static function () {
 Route::get('/politique-de-confidentialite', static function () {
     return Inertia::render('Legal/PrivacyPolicy');
 });
+
+Route::get('/ressources', [ResourceController::class, 'index'])->name('resources.index');
 
 require __DIR__.'/auth.php';

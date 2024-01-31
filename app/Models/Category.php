@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\{Database\Eloquent\Factories\HasFactory, Database\Eloquent\Model, Database\Eloquent\Relations\HasMany};
 
+/**
+ * @method static find(mixed $user_id)
+ */
 class Category extends Model
 {
     use HasFactory;
