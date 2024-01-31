@@ -98,7 +98,7 @@ class PermissionResource extends Resource
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state)),
+                     */ callback: fn (string $state) => htmlspecialchars(trim($state))),
             ]);
     }
 
@@ -123,7 +123,7 @@ class PermissionResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state)),
+                     */ callback: fn (string $state) => htmlspecialchars(trim($state))),
                 TextColumn::make('created_at')
                     ->label('Création')
                     ->icon('heroicon-m-clock')

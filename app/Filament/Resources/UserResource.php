@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages\ManageUsers;
+use App\Models\Statistic;
 use App\Models\User;
 use Exception;
 use Filament\{Actions\StaticAction,
@@ -111,7 +112,7 @@ class UserResource extends Resource
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state)),
+                     */ callback: fn (string $state) => htmlspecialchars(trim($state))),
                 TextInput::make('email')
                     ->placeholder('Email')
                     ->email()
@@ -122,7 +123,7 @@ class UserResource extends Resource
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state)),
+                     */ callback: fn (string $state) => htmlspecialchars(trim($state))),
                 TextInput::make('password')
                     ->label('Mot de passe')
                     ->helperText('Au moins 8 caractères, une lettre majuscule, minuscule, un nombre et un caractère spécial.')
@@ -134,7 +135,7 @@ class UserResource extends Resource
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => Hash::make(htmlspecialchars($state)))
+                     */ callback: fn (string $state) => Hash::make(htmlspecialchars(trim($state))))
                     ->dehydrated(/**
                      * @param string|null $state
                      * @return bool
@@ -152,7 +153,7 @@ class UserResource extends Resource
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => Hash::make(htmlspecialchars($state)))
+                     */ callback: fn (string $state) => Hash::make(htmlspecialchars(trim($state))))
                     ->dehydrated(/**
                      * @param string|null $state
                      * @return bool
@@ -200,14 +201,14 @@ class UserResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state)),
+                     */ callback: fn (string $state) => htmlspecialchars(trim($state))),
                 TextColumn::make('email')
                     ->icon('heroicon-m-at-symbol')
                     ->iconColor('danger')
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state)),
+                     */ callback: fn (string $state) => htmlspecialchars(trim($state))),
                 TextColumn::make('city')
                     ->label('Ville')
                     ->icon('heroicon-m-map-pin')
@@ -216,7 +217,7 @@ class UserResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state))
+                     */ callback: fn (string $state) => htmlspecialchars(trim($state)))
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('roles.name')
                     ->label('Rôle')
@@ -225,7 +226,7 @@ class UserResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state)),
+                     */ callback: fn (string $state) => htmlspecialchars(ucfirst(trim($state)))),
                 TextColumn::make('mood')
                     ->label('Humeur')
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -296,7 +297,12 @@ class UserResource extends Resource
                      * @return StaticAction
                      */ fn (StaticAction $action) => $action->color('info'))
                     ->modalSubmitActionLabel('Supprimer')
-                    ->successNotificationTitle('Utilisateur supprimé'),
+                    ->successNotificationTitle('Utilisateur supprimé')
+                    ->after(/**
+                     * @return void
+                     */ function () {
+                        Statistic::updateUserOnDelete();
+                    }),
             ])
             ->searchPlaceholder('Rechercher un utilisateur')
             ->persistSearchInSession()

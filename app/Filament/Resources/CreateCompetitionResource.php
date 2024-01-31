@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CreateCompetitionResource\Pages\ManageCreateCompetitions;
 use App\Models\CreateCompetition;
+use App\Models\Statistic;
 use Exception;
 use Filament\{Actions\StaticAction,
     Forms\Components\Grid,
@@ -129,7 +130,7 @@ class CreateCompetitionResource extends Resource
                                             ->dehydrateStateUsing(/**
                                              * @param string $state
                                              * @return string
-                                             */ callback: fn (string $state) => ucfirst(htmlspecialchars($state))),
+                                             */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT)))),
                                         TextInput::make('slug')
                                             ->placeholder('Slug')
                                             ->required()
@@ -142,7 +143,7 @@ class CreateCompetitionResource extends Resource
                                             ->dehydrateStateUsing(/**
                                              * @param string $state
                                              * @return string
-                                             */ callback: fn (string $state) => htmlspecialchars($state)),
+                                             */ callback: fn (string $state) => htmlspecialchars(trim($state))),
                                     ])->columns(),
                             ]),
                         Tab::make('Organisation')
@@ -256,11 +257,19 @@ class CreateCompetitionResource extends Resource
                     ->label('Nom')
                     ->searchable()
                     ->icon('heroicon-m-tag')
-                    ->iconColor('danger'),
+                    ->iconColor('danger')
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT)))),
                 TextColumn::make('competition.identification')
                     ->label('Compétition')
                     ->icon('heroicon-m-trophy')
-                    ->iconColor('danger'),
+                    ->iconColor('danger')
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT)))),
                 TextColumn::make('competition.status')
                     ->label('Statut')
                     ->badge()
@@ -302,7 +311,11 @@ class CreateCompetitionResource extends Resource
                     ->searchable()
                     ->icon('heroicon-m-bookmark')
                     ->iconColor('danger')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                 TextColumn::make('created_at')
                     ->label('Création')
                     ->icon('heroicon-m-clock')
@@ -363,7 +376,13 @@ class CreateCompetitionResource extends Resource
                      * @return StaticAction
                      */ fn (StaticAction $action) => $action->color('info'))
                     ->modalSubmitActionLabel('Supprimer')
-                    ->successNotificationTitle('Planification supprimée'),
+                    ->successNotificationTitle('Planification supprimée')
+                    ->after(/**
+                     * @param $record
+                     * @return void
+                     */ function () {
+                        Statistic::updateCreatedCompetitionOnDelete();
+                    }),
             ])
             ->searchPlaceholder('Rechercher une planification')
             ->persistSearchInSession()

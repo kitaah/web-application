@@ -101,7 +101,7 @@ class CategoryResource extends Resource
                         ->unique(ignoreRecord: true)
                         ->live(debounce: 250)
                         ->debounce(250)
-                        ->dehydrateStateUsing(callback: fn (string $state) => ucfirst(htmlspecialchars($state)))
+                        ->dehydrateStateUsing(callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT))))
                         ->afterStateUpdated(callback: fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
                     TextInput::make('slug')
                         ->required()
@@ -112,7 +112,7 @@ class CategoryResource extends Resource
                         ->suffixIcon('heroicon-m-bookmark')
                         ->suffixIconColor('danger')
                         ->unique(ignoreRecord: true)
-                        ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars($state)),
+                        ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars(trim($state))),
                 ]
             );
     }
@@ -137,14 +137,14 @@ class CategoryResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state)),
+                     */ callback: fn (string $state) => htmlspecialchars(ucfirst(trim($state)))),
                 TextColumn::make('slug')
                     ->icon('heroicon-m-bookmark')
                     ->iconColor('danger')
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ fn (string $state) => htmlspecialchars($state))
+                     */ fn (string $state) => htmlspecialchars(trim($state)))
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->label('Création')

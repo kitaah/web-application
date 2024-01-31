@@ -10,6 +10,7 @@ use Filament\{Actions\Action,
     Resources\Pages\ManageRecords,
     Support\Enums\Alignment,
     Support\Enums\MaxWidth};
+use App\Models\Statistic;
 
 class ManageUsers extends ManageRecords
 {
@@ -42,7 +43,13 @@ class ManageUsers extends ManageRecords
                 ->modalWidth(MaxWidth::ThreeExtraLarge)
                 ->modalFooterActionsAlignment(Alignment::Center)
                 ->createAnother(false)
-                ->successNotificationTitle('Utilisateur ajouté'),
+                ->successNotificationTitle('Utilisateur ajouté')
+                ->after(/**
+                 * @param $record
+                 * @return void
+                 */ callback: function ($record): void {
+                    Statistic::updateUser();
+                }),
         ];
     }
 }

@@ -9,6 +9,7 @@ use Filament\{Actions\Action,
     Actions\StaticAction,
     Resources\Pages\ManageRecords,
     Support\Enums\Alignment};
+use App\Models\Statistic;
 
 class ManageAssociations extends ManageRecords
 {
@@ -41,7 +42,12 @@ class ManageAssociations extends ManageRecords
                 ->modalAlignment(Alignment::Center)
                 ->modalFooterActionsAlignment(Alignment::Center)
                 ->createAnother(false)
-                ->successNotificationTitle('Association ajoutée'),
+                ->successNotificationTitle('Association ajoutée')
+                ->after(/**
+                 * @return void
+                 */ callback: function (): void {
+                    Statistic::updateAssociation();
+                }),
         ];
     }
 }

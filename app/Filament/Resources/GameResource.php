@@ -9,7 +9,6 @@ use Filament\{Actions\StaticAction,
     Forms\Components\Toggle,
     Forms\Form,
     Forms\Set,
-    Resources\Pages\PageRegistration,
     Resources\Resource,
     Support\Enums\Alignment,
     Support\Enums\MaxWidth,
@@ -18,6 +17,7 @@ use Filament\{Actions\StaticAction,
     Tables\Actions\EditAction,
     Tables\Columns\TextColumn,
     Tables\Table};
+use App\Models\Statistic;
 use Illuminate\Support\Str;
 
 class GameResource extends Resource
@@ -99,10 +99,6 @@ class GameResource extends Resource
                     ->suffixIcon('heroicon-m-tag')
                     ->suffixIconColor('danger')
                     ->unique(ignoreRecord: true)
-                    ->dehydrateStateUsing(/**
-                     * @param string $state
-                     * @return string
-                     */ callback: fn (string $state) => ucfirst($state))
                     ->live(debounce: 250)
                     ->debounce(250)
                     ->afterStateUpdated(/**
@@ -113,7 +109,7 @@ class GameResource extends Resource
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state, ENT_COMPAT)),
+                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT)))),
                 TextInput::make('slug')
                     ->placeholder('Slug')
                     ->required()
@@ -126,7 +122,7 @@ class GameResource extends Resource
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state)),
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                 Toggle::make('is_right')
                     ->label('Réponse')
                     ->onIcon('heroicon-o-check')
@@ -144,7 +140,7 @@ class GameResource extends Resource
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state, ENT_COMPAT)),
+                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT)))),
             ]);
     }
 
@@ -171,7 +167,7 @@ class GameResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state, ENT_COMPAT)),
+                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT)))),
                 TextColumn::make('question')
                     ->label('Question')
                     ->icon('heroicon-m-question-mark-circle')
@@ -179,7 +175,7 @@ class GameResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state, ENT_COMPAT)),
+                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT)))),
                 TextColumn::make('slug')
                     ->label('Slug')
                     ->icon('heroicon-m-bookmark')
@@ -187,7 +183,7 @@ class GameResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state))
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state, ENT_COMPAT)))
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->label('Création')
@@ -231,7 +227,12 @@ class GameResource extends Resource
                      * @return StaticAction
                      */ fn (StaticAction $action) => $action->color('info'))
                     ->modalSubmitActionLabel('Supprimer')
-                    ->successNotificationTitle('Quiz supprimé'),
+                    ->successNotificationTitle('Quiz supprimé')
+                    ->after(/**
+                     * @return void
+                     */ function () {
+                        Statistic::updateGameOnDelete();
+                    }),
             ])
             ->searchPlaceholder('Rechercher un quiz')
             ->persistSearchInSession()

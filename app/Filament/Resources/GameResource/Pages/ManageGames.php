@@ -3,10 +3,14 @@
 namespace App\Filament\Resources\GameResource\Pages;
 
 use App\Filament\Resources\GameResource;
-use Filament\Actions\{Action, ActionGroup, CreateAction, StaticAction};
-use Filament\Resources\Pages\ManageRecords;
-use Filament\Support\Enums\Alignment;
-use Filament\Support\Enums\MaxWidth;
+use App\Models\Statistic;
+use Filament\{Actions\Action,
+    Actions\ActionGroup,
+    Actions\CreateAction,
+    Actions\StaticAction,
+    Resources\Pages\ManageRecords,
+    Support\Enums\Alignment,
+    Support\Enums\MaxWidth};
 
 class ManageGames extends ManageRecords
 {
@@ -39,7 +43,12 @@ class ManageGames extends ManageRecords
                 ->modalWidth(MaxWidth::FourExtraLarge)
                 ->modalFooterActionsAlignment(Alignment::Center)
                 ->createAnother(false)
-                ->successNotificationTitle('Quiz ajouté'),
+                ->successNotificationTitle('Quiz ajouté')
+                ->after(/**
+                 * @return void
+                 */ callback: function (): void {
+                    Statistic::updateGame();
+                }),
         ];
     }
 }

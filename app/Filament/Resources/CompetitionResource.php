@@ -115,7 +115,7 @@ class CompetitionResource extends Resource
                             ->dehydrateStateUsing(/**
                              * @param string $state
                              * @return string
-                             */ callback: fn (string $state) => strtoupper($state)),
+                             */ callback: fn (string $state) => strtoupper(trim(htmlspecialchars($state, ENT_COMPAT)))),
                         TextInput::make('slug')
                             ->required()
                             ->placeholder('Slug')

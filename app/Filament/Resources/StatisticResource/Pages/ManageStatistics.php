@@ -24,14 +24,13 @@ class ManageStatistics extends ManageRecords
      * @return array
      */
 
-    protected function getFooterWidgets(): array
+    protected function getHeaderWidgets(): array
     {
         return [
             StatisticsOverview::class,
             UsersChartOverview::class,
             ResourcesChartOverview::class,
             GamesChartOverview::class
-
         ];
     }
 }

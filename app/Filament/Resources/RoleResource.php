@@ -98,7 +98,7 @@ class RoleResource extends Resource
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => ucfirst(htmlspecialchars($state))),
+                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state)))),
                 Select::make('permissions')
                     ->required()
                     ->placeholder('Sélectionnez une/des permission(s)')
@@ -114,7 +114,7 @@ class RoleResource extends Resource
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state)),
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
             ]);
     }
 
@@ -134,7 +134,11 @@ class RoleResource extends Resource
                 TextColumn::make('name')
                     ->label('Rôles')
                     ->icon('heroicon-m-finger-print')
-                    ->iconColor('danger'),
+                    ->iconColor('danger')
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars(ucfirst(trim(($state))))),
                 TextColumn::make('permissions.name')
                     ->label('Permissions')
                     ->icon('heroicon-m-key')
@@ -142,7 +146,7 @@ class RoleResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state)),
+                     */ callback: fn (string $state) => htmlspecialchars(ucfirst(trim(($state))))),
                 TextColumn::make('created_at')
                     ->label('Création')
                     ->icon('heroicon-m-clock')

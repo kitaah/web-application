@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ResourceResource\Pages\ManageResources;
 use Exception;
-use App\Models\{Resource as ResourceModel, User};
+use App\Models\{Resource as ResourceModel, Statistic, User};
 use Filament\{Actions\StaticAction,
     Forms\Components\Grid,
     Forms\Components\Hidden,
@@ -142,7 +142,7 @@ class ResourceResource extends Resource
                                             ->dehydrateStateUsing(/**
                                              * @param string $state
                                              * @return string
-                                             */ callback: fn (string $state) => ucfirst(htmlspecialchars($state, ENT_COMPAT))),
+                                             */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT)))),
                                         Select::make('category_id')
                                             ->label('Catégorie')
                                             ->placeholder('Sélectionnez une catégorie')
@@ -171,7 +171,7 @@ class ResourceResource extends Resource
                                             ->dehydrateStateUsing(/**
                                              * @param string $state
                                              * @return string
-                                             */ callback: fn (string $state) => htmlspecialchars($state)),
+                                             */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                                         TextInput::make('url')
                                             ->placeholder('Http(s)://')
                                             ->string()
@@ -182,7 +182,7 @@ class ResourceResource extends Resource
                                             ->dehydrateStateUsing(/**
                                              * @param $state
                                              * @return mixed|string
-                                             */ callback: fn ($state) => is_string($state) ? htmlspecialchars($state) : $state),
+                                             */ callback: fn ($state) => is_string($state) ? htmlspecialchars(trim($state), ENT_COMPAT) : $state),
                                     ])->columns(),
                                 Grid::make('Validation and status')
                                     ->schema(components: [
@@ -271,7 +271,7 @@ class ResourceResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state, ENT_COMPAT)),
+                     */ callback: fn (string $state) => htmlspecialchars(ucfirst(trim($state, ENT_COMPAT)))),
                 IconColumn::make('is_validated')
                     ->label('Validation')
                     ->alignCenter()
@@ -324,7 +324,7 @@ class ResourceResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state))
+                     */ callback: fn (string $state) => htmlspecialchars(trim($state)))
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('slug')
                     ->label('Slug')
@@ -333,7 +333,7 @@ class ResourceResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state))
+                     */ callback: fn (string $state) => htmlspecialchars(trim($state)))
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->label('Création')
@@ -410,7 +410,12 @@ class ResourceResource extends Resource
                      * @return StaticAction
                      */ fn (StaticAction $action) => $action->color('info'))
                     ->modalSubmitActionLabel('Supprimer')
-                    ->successNotificationTitle('Ressource supprimée'),
+                    ->successNotificationTitle('Ressource supprimée')
+                    ->after(/**
+                     * @return void
+                     */ function () {
+                        Statistic::updateResourceOnDelete();
+                    }),
             ])
             ->searchPlaceholder('Rechercher une ressource')
             ->persistSearchInSession()

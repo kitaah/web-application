@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\AssociationResource\Pages\ManageAssociations;
 use App\Models\Association;
+use App\Models\Statistic;
 use Exception;
 use Filament\{Actions\StaticAction,
     Forms\Components\Grid,
@@ -135,7 +136,7 @@ class AssociationResource extends Resource
                                             ->dehydrateStateUsing(/**
                                              * @param string $state
                                              * @return string
-                                             */ callback: fn (string $state) => htmlspecialchars($state, ENT_COMPAT)),
+                                             */ callback: fn (string $state) => trim(htmlspecialchars($state, ENT_COMPAT))),
                                         TextInput::make('slug')
                                             ->placeholder('Slug')
                                             ->required()
@@ -147,7 +148,7 @@ class AssociationResource extends Resource
                                             ->dehydrateStateUsing(/**
                                              * @param string $state
                                              * @return string
-                                             */ callback: fn (string $state) => htmlspecialchars($state)),
+                                             */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                                     ])->columns(2),
                                 Grid::make('SIRET and city')
                                     ->schema(components: [
@@ -163,7 +164,7 @@ class AssociationResource extends Resource
                                             ->dehydrateStateUsing(/**
                                              * @param string $state
                                              * @return string
-                                             */ callback: fn (string $state) => htmlspecialchars($state)),
+                                             */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                                         Select::make('city')
                                             ->label('Ville')
                                             ->placeholder('Sélectionnez une ville')
@@ -175,7 +176,7 @@ class AssociationResource extends Resource
                                             ->dehydrateStateUsing(/**
                                              * @param string $state
                                              * @return string
-                                             */ callback: fn (string $state) => htmlspecialchars($state, ENT_COMPAT)),
+                                             */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                                     ])->columns(2),
                                 Grid::make('Victory')
                                     ->schema(components: [
@@ -371,7 +372,12 @@ class AssociationResource extends Resource
                      * @return StaticAction
                      */ fn (StaticAction $action) => $action->color('info'))
                     ->modalSubmitActionLabel('Supprimer')
-                    ->successNotificationTitle('Association supprimée'),
+                    ->successNotificationTitle('Association supprimée')
+                    ->after(/**
+                     * @return void
+                     */ function () {
+                        Statistic::updateAssociationOnDelete();
+                    }),
             ])
             ->searchPlaceholder('Rechercher une association')
             ->persistSearchInSession()

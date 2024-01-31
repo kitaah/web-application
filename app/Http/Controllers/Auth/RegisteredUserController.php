@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Statistic;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -55,6 +56,8 @@ class RegisteredUserController extends Controller
 
         /** @var $user */
         Auth::login($user);
+
+        Statistic::updateUser();
 
         return redirect(RouteServiceProvider::HOME);
     }

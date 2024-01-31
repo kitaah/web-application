@@ -24,6 +24,13 @@ class StatisticResource extends Resource
     protected static ?string $model = Statistic::class;
 
     /**
+     * Get the plural label for the resource.
+     *
+     * @var string|null
+     */
+    protected static ?string $pluralLabel = 'Statistiques';
+
+    /**
      * The slug used for this resource.
      *
      * @var string|null
@@ -157,12 +164,6 @@ class StatisticResource extends Resource
                     ->icon('heroicon-m-user-group')
                     ->iconColor('danger')
                     ->toggleable(),
-                TextColumn::make('updated_at')
-                    ->label('Mise à jour')
-                    ->icon('heroicon-m-clock')
-                    ->iconColor('danger')
-                    ->dateTime(format: 'd-m-Y H:i:s')
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->toggleColumnsTriggerAction(
             /**
@@ -190,9 +191,6 @@ class StatisticResource extends Resource
                          * @return string
                          */ fn ($resource) => $resource::getPluralLabel().date(' - d-m-Y')),
                     ]),
-                EditAction::make()
-                    ->color('warning')
-                    ->successNotificationTitle('Statistiques modifiées'),
             ])
             ->persistFiltersInSession()
             ->paginated(condition: false);

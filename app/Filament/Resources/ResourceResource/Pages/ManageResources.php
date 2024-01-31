@@ -10,6 +10,7 @@ use Filament\{Actions\Action,
     Resources\Pages\ManageRecords,
     Support\Enums\Alignment,
     Support\Enums\MaxWidth};
+use App\Models\Statistic;
 
 class ManageResources extends ManageRecords
 {
@@ -42,7 +43,12 @@ class ManageResources extends ManageRecords
                 ->modalWidth(MaxWidth::FourExtraLarge)
                 ->modalFooterActionsAlignment(Alignment::Center)
                 ->createAnother(false)
-                ->successNotificationTitle('Ressource ajoutée'),
+                ->successNotificationTitle('Ressource ajoutée')
+                ->after(/**
+                 * @return void
+                 */ callback: function (): void {
+                    Statistic::updateResource();
+                }),
         ];
     }
 }
