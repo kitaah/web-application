@@ -2,24 +2,22 @@
 
 namespace App\Http\Resources;
 
-use App\Models\{Category, User};
-use Carbon\Carbon;
 use Illuminate\{Http\Request, Http\Resources\Json\JsonResource};
 use OpenApi\Annotations as OA;
 
 /**
  * @property mixed $id
- * @property mixed $user_id
- * @property mixed $category_id
  * @property mixed $name
  * @property mixed $description
  * @property mixed $url
  * @property mixed $slug
  * @property mixed $created_at
  * @property mixed $updated_at
+ * @property mixed $user
+ * @property mixed $category
  * @method getFirstMediaUrl(string $string)
  */
-class ResourceResource extends JsonResource
+class AllResourcesResource extends JsonResource
 {
     /**
      * @OA\Get(
@@ -38,7 +36,11 @@ class ResourceResource extends JsonResource
      *      @OA\Response(
      *       response=403,
      *       description="Forbidden"
-     *    ),
+     *      ),
+     *      @OA\Response(
+     *        response=404,
+     *        description="Not found"
+     *      ),
      * ),
      * @OA\Info(
      *       title="Resources API Documentation",
@@ -47,36 +49,35 @@ class ResourceResource extends JsonResource
      *          @OA\Contact(
      *         email="contact@mna-coding.fr"
      *    )
-     *  )
+     *  ),
      * @OA\Server(
-     *   description="Returns list of validated resources",
      *   url="https://web-application.ddev.site:8443/"
      *  )
      *
-     * Get a list of validated resources.
+     *  Transform the resource into an array.
      *
      * @param Request $request
      * @return array<string, mixed>
      *
      */
+
     public function toArray(Request $request): array
     {
-        $user = User::find($this->user_id);
-        $category = Category::find($this->category_id);
-        $formattedCreatedAt = Carbon::parse($this->created_at)->format('d/m/Y');
-        $formattedUpdatedAt = Carbon::parse($this->updated_at)->format('d/m/Y');
-
-        return [
+        $data = [
             'id' => $this->id,
-            'user_name' => $user ? $user->name : null,
-            'category_name' => $category ? $category->name : null,
             'name' => $this->name,
+            'user_name' => $this->user ? $this->user->name : null,
+            'category_name' => $this->category ? $this->category->name : null,
             'description' => $this->description,
             'slug' => $this->slug,
             'url' => $this->url,
-            'created_at' => $formattedCreatedAt,
-            'updated_at' => $formattedUpdatedAt,
-            'image'  => $this->getFirstMediaUrl('image'),
+            'image' => $this->getFirstMediaUrl('image'),
+            'created_at' => $this->created_at->format('d/m/Y'),
+            'updated_at' => $this->updated_at->format('d/m/Y'),
         ];
+
+        return array_filter($data, static function ($value) {
+            return $value !== null;
+        });
     }
 }

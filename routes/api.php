@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Resources\ResourceResource;
+use App\Http\Resources\AllResourcesResource;
 use App\Models\Resource;
 use Illuminate\{Http\Request, Support\Facades\Route};
 
@@ -21,6 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/resources', static function() {
     $resources = Resource::latest()->where('is_validated', true)->get();
-    return ResourceResource::collection($resources);
+    return AllResourcesResource::collection($resources);
 });
 
