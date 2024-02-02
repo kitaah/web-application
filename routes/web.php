@@ -1,6 +1,9 @@
 <?php
 
-use App\Http\{Controllers\CompetitionController, Controllers\ProfileController, Controllers\ResourceController};
+use App\Http\{Controllers\CompetitionController,
+    Controllers\GameController,
+    Controllers\ProfileController,
+    Controllers\ResourceController};
 use Illuminate\{Foundation\Application, Support\Facades\Route};
 use Inertia\Inertia;
 
@@ -49,5 +52,7 @@ Route::get('/politique-de-confidentialite', static function () {
 Route::get('/ressources', [ResourceController::class, 'index'])->name('resources.index');
 
 Route::get('/competition', [CompetitionController::class, 'index'])->name('competition.index');
+
+Route::get('/game', [GameController::class, 'index'])->name('game.index');
 
 require __DIR__.'/auth.php';

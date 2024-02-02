@@ -16,7 +16,7 @@ class ResourceController extends Controller
     public function index(): Response
     {
         /** @var $resources */
-        $resources = Resource::all();
+        $resources = Resource::with('media')->get();
 
         return Inertia::render('Resources/Resources', [
             'resources' => $resources,

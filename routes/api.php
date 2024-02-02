@@ -1,10 +1,9 @@
 <?php
 
-use App\Http\Resources\AllResourcesResource;
-use App\Http\Resources\CompetitionResource;
-use App\Models\Competition;
-use App\Models\CreateCompetition;
-use App\Models\Resource;
+use App\Http\{Resources\AllResourcesResource,
+    Resources\CompetitionResource,
+    Resources\GameResource};
+use App\Models\{CreateCompetition, Game, Resource};
 use Illuminate\{Http\Request, Support\Facades\Route};
 
 /*
@@ -34,4 +33,10 @@ Route::get('/competition', static function() {
         ->get();
     return CompetitionResource::collection($competition);
 });
+
+Route::get('/game', static function () {
+    $game = Game::inRandomOrder()->firstOrFail();
+    return new GameResource($game);
+});
+
 

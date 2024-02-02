@@ -6,6 +6,7 @@ use Illuminate\{Database\Eloquent\Factories\HasFactory, Database\Eloquent\Model}
 
 /**
  * @method static count()
+ * @method static inRandomOrder()
  */
 class Game extends Model
 {
