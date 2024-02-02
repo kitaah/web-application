@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('project')->nullable(false);
             $table->string('siret', 14)->nullable(false)->unique();
             $table->string('city', 50)->nullable(false);
-            $table->integer('points')->nullable();
+            $table->integer('points')->nullable(false)->default(0);
             $table->boolean('is_winner')->default(false);
             $table->timestamps();
         });

@@ -12,6 +12,7 @@ use Filament\{Actions\StaticAction,
     Forms\Components\Tabs,
     Forms\Components\Tabs\Tab,
     Forms\Components\TextInput,
+    Forms\Components\Toggle,
     Forms\Form,
     Forms\Set,
     Resources\Resource,
@@ -21,6 +22,7 @@ use Filament\{Actions\StaticAction,
     Tables\Actions\Action,
     Tables\Actions\DeleteAction,
     Tables\Actions\EditAction,
+    Tables\Columns\IconColumn,
     Tables\Columns\TextColumn,
     Tables\Filters\SelectFilter,
     Tables\Table};
@@ -144,6 +146,28 @@ class CreateCompetitionResource extends Resource
                                              * @param string $state
                                              * @return string
                                              */ callback: fn (string $state) => htmlspecialchars(trim($state))),
+                                        Toggle::make('is_published')
+                                            ->label('Publication')
+                                            ->onIcon('heroicon-o-check')
+                                            ->onColor('success')
+                                            ->offIcon('heroicon-o-x-mark')
+                                            ->offColor('danger')
+                                            ->default(false),
+                                        Select::make('status')
+                                            ->label('Statut')
+                                            ->required()
+                                            ->placeholder('Sélectionnez un statut')
+                                            ->options([
+                                                'Non lancée' => 'Non lancée',
+                                                'En cours' => 'En cours',
+                                                'Terminée' => 'Terminée',
+                                            ])
+                                            ->suffixIcon('heroicon-m-information-circle')
+                                            ->suffixIconColor('danger')
+                                            ->dehydrateStateUsing(/**
+                                             * @param string $state
+                                             * @return string
+                                             */ callback: fn (string $state) => htmlspecialchars($state)),
                                     ])->columns(),
                             ]),
                         Tab::make('Organisation')
@@ -270,7 +294,7 @@ class CreateCompetitionResource extends Resource
                      * @param string $state
                      * @return string
                      */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT)))),
-                TextColumn::make('competition.status')
+                TextColumn::make('status')
                     ->label('Statut')
                     ->badge()
                     ->alignCenter()
@@ -307,6 +331,10 @@ class CreateCompetitionResource extends Resource
                      * @param string $state
                      * @return string
                      */ callback: fn (string $state) => htmlspecialchars($state)),
+                IconColumn::make('is_published')
+                    ->label('Publication')
+                    ->alignCenter()
+                    ->boolean(),
                 TextColumn::make('slug')
                     ->searchable()
                     ->icon('heroicon-m-bookmark')
@@ -338,7 +366,7 @@ class CreateCompetitionResource extends Resource
                     ->label('Ajouter des colonnes'),
             )
             ->filters([
-                SelectFilter::make('competition.status')
+                SelectFilter::make('status')
                     ->label('Statut')
                     ->options([
                         'Non lancée' => 'Non lancée',
@@ -378,7 +406,6 @@ class CreateCompetitionResource extends Resource
                     ->modalSubmitActionLabel('Supprimer')
                     ->successNotificationTitle('Planification supprimée')
                     ->after(/**
-                     * @param $record
                      * @return void
                      */ function () {
                         Statistic::updateCreatedCompetitionOnDelete();

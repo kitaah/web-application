@@ -149,7 +149,7 @@ class AssociationResource extends Resource
                                              * @param string $state
                                              * @return string
                                              */ callback: fn (string $state) => trim(htmlspecialchars($state))),
-                                    ])->columns(2),
+                                    ])->columns(),
                                 Grid::make('SIRET and city')
                                     ->schema(components: [
                                         TextInput::make('siret')
@@ -177,7 +177,7 @@ class AssociationResource extends Resource
                                              * @param string $state
                                              * @return string
                                              */ callback: fn (string $state) => trim(htmlspecialchars($state))),
-                                    ])->columns(2),
+                                    ])->columns(),
                                 Grid::make('Victory')
                                     ->schema(components: [
                                         Toggle::make('is_winner')
@@ -187,7 +187,7 @@ class AssociationResource extends Resource
                                             ->offIcon('heroicon-o-x-mark')
                                             ->offColor('danger')
                                             ->default(false),
-                                    ])->columns(2),
+                                    ])->columns(),
                             ]),
                         Tab::make('Description de l\'association')
                             ->icon('heroicon-m-newspaper')
@@ -238,7 +238,7 @@ class AssociationResource extends Resource
                                     ->maxSize(1024)
                                     ->acceptedFileTypes(Collection::make(['image/jpeg', 'image/png']))
                                     ->rules('mimes:jpeg,png')
-                                    ->collection('associations'),
+                                    ->collection('image'),
                             ]),
                     ])->columnSpanFull(),
             ]);

@@ -16,8 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('identification', 50)->nullable(false)->unique();
             $table->string('slug', 50)->nullable(false)->unique();
-            $table->decimal('budget', 8, 2)->nullable(false)->default(0);
-            $table->string('status', 50)->nullable(false);
+            $table->decimal('budget', 10, 2)->nullable(false)->default(0);
             $table->date('start_date')->nullable(false);
             $table->date('end_date')->nullable(false);
             $table->timestamps();

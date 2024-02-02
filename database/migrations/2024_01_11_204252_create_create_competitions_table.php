@@ -20,6 +20,8 @@ return new class extends Migration
             $table->foreignId('association_id_second')->constrained()->onDelete('cascade');
             $table->foreignId('association_id_third')->constrained()->onDelete('cascade');
             $table->foreignId('competition_id')->constrained()->onDelete('cascade');
+            $table->boolean('is_published')->default(false);
+            $table->string('status', 50)->nullable(false);
             $table->timestamps();
         });
     }

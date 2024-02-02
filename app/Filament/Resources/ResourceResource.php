@@ -361,7 +361,7 @@ class ResourceResource extends Resource
                     ->label('Catégorie')
                     ->relationship('category', 'name'),
                 TernaryFilter::make('is_validated')
-                    ->label(__('Validation'))
+                    ->label('Validation')
                     ->placeholder('Tout')
                     ->trueLabel('Validée')
                     ->falseLabel('Non validée')

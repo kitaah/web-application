@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\{HasMedia, InteractsWithMedia};
 
 /**
  * @method static count()
+ * @method static find($associationId)
  */
 class Association extends Model implements HasMedia
 {

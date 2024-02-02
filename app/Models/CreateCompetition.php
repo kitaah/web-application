@@ -6,6 +6,8 @@ use Illuminate\Database\{Eloquent\Factories\HasFactory, Eloquent\Relations\Belon
 
 /**
  * @method static count()
+ * @method static where(string $string, string $string1)
+ * @method static oldest()
  */
 class CreateCompetition extends Pivot
 {
@@ -26,10 +28,21 @@ class CreateCompetition extends Pivot
     protected $fillable = [
         'name',
         'slug',
+        'status',
+        'is_published',
         'association_id',
         'association_id_second',
         'association_id_third',
         'competition_id',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'is_published' => 'boolean',
     ];
 
     /**

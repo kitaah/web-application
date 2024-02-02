@@ -7,7 +7,6 @@ use App\Models\Competition;
 use Filament\{Actions\StaticAction,
     Forms\Components\DatePicker,
     Forms\Components\Grid,
-    Forms\Components\Select,
     Forms\Components\TextInput,
     Forms\Form,
     Forms\Set,
@@ -125,29 +124,6 @@ class CompetitionResource extends Resource
                             ->suffixIcon('heroicon-m-bookmark')
                             ->suffixIconColor('danger')
                             ->unique(ignoreRecord: true),
-                        TextInput::make('budget')
-                            ->placeholder('Budget')
-                            ->required()
-                            ->numeric()
-                            ->minValue(0)
-                            ->maxValue(1000000)
-                            ->suffixIcon('heroicon-m-currency-dollar')
-                            ->suffixIconColor('danger'),
-                        Select::make('status')
-                            ->label('Statut')
-                            ->required()
-                            ->placeholder('Sélectionnez un statut')
-                            ->options([
-                                'Non lancée' => 'Non lancée',
-                                'En cours' => 'En cours',
-                                'Terminée' => 'Terminée',
-                            ])
-                            ->suffixIcon('heroicon-m-information-circle')
-                            ->suffixIconColor('danger')
-                            ->dehydrateStateUsing(/**
-                             * @param string $state
-                             * @return string
-                             */ callback: fn (string $state) => htmlspecialchars($state)),
                     ])->columns(),
                 Grid::make('Start and end date')
                     ->schema(components: [
@@ -160,6 +136,14 @@ class CompetitionResource extends Resource
                             ->date()
                             ->required(),
                     ])->columns(),
+                TextInput::make('budget')
+                    ->placeholder('Budget')
+                    ->required()
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(10000000)
+                    ->suffixIcon('heroicon-m-currency-dollar')
+                    ->suffixIconColor('danger'),
             ]);
     }
 
@@ -188,59 +172,20 @@ class CompetitionResource extends Resource
                     ->icon('heroicon-m-currency-dollar')
                     ->iconColor('danger')
                     ->sortable(),
-                TextColumn::make('status')
-                    ->label('Statut')
-                    ->badge()
-                    ->alignCenter()
-                    ->colors([
-                        'primary' => /**
-                         * @param $state
-                         * @return bool
-                         */ static fn ($state): bool => $state === 'Non lancée',
-                        'success' => /**
-                         * @param $state
-                         * @return bool
-                         */ static fn ($state): bool => $state === 'En cours',
-                        'danger' => /**
-                         * @param $state
-                         * @return bool
-                         */ static fn ($state): bool => $state === 'Terminée',
-                    ])
-                    ->icons([
-                        'heroicon-s-x-mark' => /**
-                         * @param $state
-                         * @return bool
-                         */ static fn ($state): bool => $state === 'Non lancée',
-                        'heroicon-s-check' => /**
-                         * @param $state
-                         * @return bool
-                         */ static fn ($state): bool => $state === 'En cours',
-                        'heroicon-s-bookmark' => /**
-                         * @param $state
-                         * @return bool
-                         */ static fn ($state): bool => $state === 'Terminée',
-                    ])
-                    ->iconPosition('before')
-                    ->formatStateUsing(/**
-                     * @param string $state
-                     * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state)),
-                TextColumn::make('slug')
-                    ->searchable()
-                    ->icon('heroicon-m-bookmark')
-                    ->iconColor('danger')
-                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('start_date')
-                    ->label('Date de création')
+                    ->label('Date de début')
                     ->icon('heroicon-m-clock')
                     ->iconColor('danger')
-                    ->date('d-m-Y')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->date('d-m-Y'),
                 TextColumn::make('end_date')
                     ->label('Date de fin')
                     ->icon('heroicon-m-clock')
                     ->iconColor('danger')
-                    ->date('d-m-Y')
+                    ->date('d-m-Y'),
+                TextColumn::make('slug')
+                    ->searchable()
+                    ->icon('heroicon-m-bookmark')
+                    ->iconColor('danger')
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->label('Création')
