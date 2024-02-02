@@ -46,7 +46,7 @@ class CategoryResource extends Resource
      *
      * @var string|null
      */
-    protected static ?string $navigationGroup = 'Gestion des ressources';
+    protected static ?string $navigationGroup = 'Gestion des catégories';
 
     /**
      * Navigation label for the resource.
@@ -128,7 +128,8 @@ class CategoryResource extends Resource
         /** @var $table */
         return $table
             ->heading('Gestion des catégories')
-            ->description('Listing, ajout, modification et suppression de catégories.')
+            ->description('Listing, ajout, modification et suppression de catégories associées aux ressources et associations.')
+            ->deferLoading()
             ->columns(components: [
                 TextColumn::make('name')
                     ->label('Nom')
@@ -137,14 +138,14 @@ class CategoryResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars(ucfirst(trim($state)))),
+                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT)))),
                 TextColumn::make('slug')
                     ->icon('heroicon-m-bookmark')
                     ->iconColor('danger')
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ fn (string $state) => htmlspecialchars(trim($state)))
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state, ENT_COMPAT)))
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->label('Création')

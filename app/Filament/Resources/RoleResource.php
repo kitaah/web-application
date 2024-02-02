@@ -130,6 +130,7 @@ class RoleResource extends Resource
         return $table
             ->heading('Gestion des rôles')
             ->description('Listing, ajout, modification et suppression de rôles.')
+            ->deferLoading()
             ->columns(components: [
                 TextColumn::make('name')
                     ->label('Rôles')
@@ -138,7 +139,7 @@ class RoleResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars(ucfirst(trim(($state))))),
+                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state)))),
                 TextColumn::make('permissions.name')
                     ->label('Permissions')
                     ->icon('heroicon-m-key')
@@ -146,7 +147,7 @@ class RoleResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars(ucfirst(trim(($state))))),
+                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state)))),
                 TextColumn::make('created_at')
                     ->label('Création')
                     ->icon('heroicon-m-clock')

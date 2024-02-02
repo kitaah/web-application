@@ -26,6 +26,7 @@ use Filament\{Actions\StaticAction,
     Tables\Actions\EditAction,
     Tables\Columns\IconColumn,
     Tables\Columns\TextColumn,
+    Tables\Filters\SelectFilter,
     Tables\Filters\TernaryFilter,
     Tables\Table};
 use Illuminate\{Database\Eloquent\Builder, Support\Collection, Support\Str};
@@ -178,6 +179,35 @@ class AssociationResource extends Resource
                                              * @return string
                                              */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                                     ])->columns(),
+                                Grid::make('Victory and category')
+                                    ->schema(components: [
+                                        Select::make('category_id')
+                                            ->label('Catégorie')
+                                            ->placeholder('Sélectionnez une catégorie')
+                                            ->required()
+                                            ->regex('/^[0-9]+$/i')
+                                            ->relationship('category', 'name')
+                                            ->suffixIcon('heroicon-m-bars-3')
+                                            ->suffixIconColor('danger')
+                                            ->preload()
+                                            ->dehydrateStateUsing(/**
+                                             * @param string $state
+                                             * @return string
+                                             */ callback: fn (string $state) => htmlspecialchars($state)),
+                                        TextInput::make('url')
+                                            ->label('Site internet')
+                                            ->placeholder('Http(s)://')
+                                            ->required()
+                                            ->string()
+                                            ->activeUrl()
+                                            ->maxLength(255)
+                                            ->suffixIcon('heroicon-m-globe-alt')
+                                            ->suffixIconColor('danger')
+                                            ->dehydrateStateUsing(/**
+                                             * @param $state
+                                             * @return mixed|string
+                                             */ callback: fn ($state) => is_string($state) ? trim(htmlspecialchars($state), ENT_COMPAT) : $state),
+                                    ])->columns(),
                                 Grid::make('Victory')
                                     ->schema(components: [
                                         Toggle::make('is_winner')
@@ -233,8 +263,12 @@ class AssociationResource extends Resource
                             ->schema(components: [
                                 SpatieMediaLibraryFileUpload::make('thumbnail')
                                     ->label('Logo')
-                                    ->helperText('Formats autorisés: JPEG et PNG')
+                                    ->helperText('Formats autorisés: JPEG et PNG - Limite de taille: 1MB')
                                     ->required()
+                                    ->openable()
+                                    ->downloadable()
+                                    ->image()
+                                    ->imageEditor()
                                     ->maxSize(1024)
                                     ->acceptedFileTypes(Collection::make(['image/jpeg', 'image/png']))
                                     ->rules('mimes:jpeg,png')
@@ -291,11 +325,19 @@ class AssociationResource extends Resource
                     ->icon('heroicon-m-map-pin')
                     ->iconColor('danger')
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true)
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
                      */ callback: fn (string $state) => htmlspecialchars($state)),
+                TextColumn::make('category.name')
+                    ->label('Catégorie')
+                    ->icon('heroicon-m-bars-3')
+                    ->iconColor('danger')
+                    ->formatStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => htmlspecialchars(trim($state)))
+                    ->toggleable(isToggledHiddenByDefault: true),
                 IconColumn::make('is_winner')
                     ->label('Gagnant')
                     ->alignCenter()
@@ -306,8 +348,7 @@ class AssociationResource extends Resource
                     ->icon('heroicon-m-calculator')
                     ->iconColor('danger')
                     ->numeric()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Création')
                     ->icon('heroicon-m-clock')
@@ -330,6 +371,9 @@ class AssociationResource extends Resource
                     ->label('Ajouter des colonnes'),
             )
             ->filters([
+                SelectFilter::make('category')
+                    ->label('Catégorie')
+                    ->relationship('category', 'name'),
                 TernaryFilter::make('is_winner')
                     ->label('Gagnant')
                     ->placeholder('Tout')

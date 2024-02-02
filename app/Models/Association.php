@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\{Database\Eloquent\Factories\HasFactory, Database\Eloquent\Model, Support\Collection};
+use Illuminate\{Database\Eloquent\Factories\HasFactory,
+    Database\Eloquent\Model,
+    Database\Eloquent\Relations\BelongsTo,
+    Support\Collection};
 use JsonException;
 use Spatie\MediaLibrary\{HasMedia, InteractsWithMedia};
 
 /**
  * @method static count()
- * @method static find($associationId)
+ * @method static findOrFail($associationId)
  */
 class Association extends Model implements HasMedia
 {
@@ -22,10 +25,12 @@ class Association extends Model implements HasMedia
     protected $fillable = [
         'name',
         'slug',
+        'category_id',
         'description',
         'project',
         'siret',
         'city',
+        'url',
         'points',
         'is_winner',
     ];
@@ -61,5 +66,15 @@ class Association extends Model implements HasMedia
         }
 
         return collect();
+    }
+
+    /**
+     * Get the category that this model belongs to.
+     *
+     * @return BelongsTo
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 }

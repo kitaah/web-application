@@ -112,7 +112,7 @@ class UserResource extends Resource
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars(trim($state))),
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                 TextInput::make('email')
                     ->placeholder('Email')
                     ->email()
@@ -123,7 +123,7 @@ class UserResource extends Resource
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars(trim($state))),
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                 TextInput::make('password')
                     ->label('Mot de passe')
                     ->helperText('Au moins 8 caractères, une lettre majuscule, minuscule, un nombre et un caractère spécial.')
@@ -135,7 +135,7 @@ class UserResource extends Resource
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => Hash::make(htmlspecialchars(trim($state))))
+                     */ callback: fn (string $state) => Hash::make(trim(htmlspecialchars($state))))
                     ->dehydrated(/**
                      * @param string|null $state
                      * @return bool
@@ -153,7 +153,7 @@ class UserResource extends Resource
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => Hash::make(htmlspecialchars(trim($state))))
+                     */ callback: fn (string $state) => Hash::make(trim(htmlspecialchars($state))))
                     ->dehydrated(/**
                      * @param string|null $state
                      * @return bool
@@ -201,14 +201,14 @@ class UserResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars(trim($state))),
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                 TextColumn::make('email')
                     ->icon('heroicon-m-at-symbol')
                     ->iconColor('danger')
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars(trim($state))),
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                 TextColumn::make('city')
                     ->label('Ville')
                     ->icon('heroicon-m-map-pin')
@@ -217,7 +217,7 @@ class UserResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars(trim($state)))
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state)))
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('roles.name')
                     ->label('Rôle')
@@ -226,7 +226,7 @@ class UserResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars(ucfirst(trim($state)))),
+                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT)))),
                 TextColumn::make('mood')
                     ->label('Humeur')
                     ->toggleable(isToggledHiddenByDefault: true),

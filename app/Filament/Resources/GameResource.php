@@ -164,6 +164,7 @@ class GameResource extends Resource
                     ->icon('heroicon-m-user-circle')
                     ->iconColor('danger')
                     ->searchable()
+                    ->sortable()
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string

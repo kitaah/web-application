@@ -236,8 +236,12 @@ class ResourceResource extends Resource
                             ->schema(components: [
                                 SpatieMediaLibraryFileUpload::make('thumbnail')
                                     ->label('Image')
-                                    ->helperText('Formats autorisés: JPEG et PNG')
+                                    ->helperText('Formats autorisés: JPEG et PNG - Limite de taille: 1MB')
                                     ->required()
+                                    ->openable()
+                                    ->downloadable()
+                                    ->image()
+                                    ->imageEditor()
                                     ->maxSize(1024)
                                     ->acceptedFileTypes(Collection::make(['image/jpeg', 'image/png']))
                                     ->rules('mimes:jpeg,png')
@@ -271,7 +275,7 @@ class ResourceResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars(ucfirst(trim($state, ENT_COMPAT)))),
+                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT)))),
                 IconColumn::make('is_validated')
                     ->label('Validation')
                     ->alignCenter()
@@ -324,7 +328,7 @@ class ResourceResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars(trim($state)))
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state, ENT_COMPAT)))
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('slug')
                     ->label('Slug')
@@ -333,7 +337,7 @@ class ResourceResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars(trim($state)))
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state, ENT_COMPAT)))
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->label('Création')

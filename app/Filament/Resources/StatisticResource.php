@@ -128,6 +128,7 @@ class StatisticResource extends Resource
         return $table
             ->heading('Gestion des statistiques')
             ->description('Consultation et exportation des statistiques.')
+            ->deferLoading()
             ->columns(components: [
                 TextColumn::make('total_associations')
                     ->label('Total associations')

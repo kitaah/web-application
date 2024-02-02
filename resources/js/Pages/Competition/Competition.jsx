@@ -28,6 +28,10 @@ const Competition = () => {
         setSelectedAssociation(association);
     };
 
+    const openWebsite = () => {
+        window.open(selectedAssociation.url, '_blank');
+    };
+
     return (
         <div className="container mx-auto my-8">
             <h1 className="text-4xl font-bold mb-4 text-center">Compétition</h1>
@@ -112,6 +116,10 @@ const Competition = () => {
                                     <ul>
                                         <li>{selectedAssociation.name}</li>< br/>
                                         <li className="flex items-center justify-center"><img src={selectedAssociation.image} width={50} alt={name} /></li>< br/>
+                                        <li>Secteur: {selectedAssociation.category_name}</li>< br/>
+                                        <li>
+                                            <button className="bg-blue-500 text-white px-6 py-3 rounded-full" onClick={openWebsite}>Visiter le site</button>
+                                        </li>
                                         <li className="font-bold">Ville: {selectedAssociation.city}</li>< br/>
                                         <li className="font-bold">Description : {selectedAssociation.description}</li>< br/>
                                         <li className="font-bold">Projet : {selectedAssociation.project}</li>< br/>

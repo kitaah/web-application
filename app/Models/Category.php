@@ -31,4 +31,14 @@ class Category extends Model
     {
         return $this->hasMany(Resource::class);
     }
+
+    /**
+     * Get the associations associated with this category.
+     *
+     * @return HasMany
+     */
+    public function associations(): HasMany
+    {
+        return $this->hasMany(Association::class);
+    }
 }

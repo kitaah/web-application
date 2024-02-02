@@ -43,9 +43,9 @@ class AllResourcesResource extends JsonResource
      *      ),
      * ),
      * @OA\Info(
-     *       title="Resources API Documentation",
+     *       title="Project API Documentation",
      *       version="1.0",
-     *       description="Documentation for Resources API",
+     *       description="Documentation for project APIs",
      *          @OA\Contact(
      *         email="contact@mna-coding.fr"
      *    )

@@ -153,4 +153,65 @@ class Statistic extends Model
     {
         return static::firstOrNew([]);
     }
+
+    /**
+     * Generic method to delete a model, trigger the deletion update methods, and any additional update methods.
+     *
+     * @param int $id
+     * @param string $modelClass
+     * @param string ...$updateMethods
+     * @return void
+     */
+    public function deleteModel(int $id, string $modelClass, ...$updateMethods): void
+    {
+        $modelClass::destroy($id);
+
+        foreach ($updateMethods as $updateMethod) {
+            self::$updateMethod();
+        }
+    }
+
+    /**
+     * Delete an Association model and trigger the associated update method.
+     *
+     * @param int $id
+     * @return void
+     */
+    public function deleteAssociation(int $id): void
+    {
+        $this->deleteModel($id, Association::class, 'updateAssociationOnDelete');
+    }
+
+    /**
+     * Delete a Competition model and trigger the associated update method.
+     *
+     * @param int $id
+     * @return void
+     */
+    public function deleteCompetition(int $id): void
+    {
+        $this->deleteModel($id, Competition::class, 'updateCreatedCompetitionOnDelete');
+    }
+
+    /**
+     * Delete a Category model and trigger the associated update methods.
+     *
+     * @param int $id
+     * @return void
+     */
+    public function deleteCategory(int $id): void
+    {
+        $this->deleteModel($id, Category::class, 'updateResourceOnDelete', 'updateAssociationOnDelete');
+    }
+
+    /**
+     * Delete a User model and trigger the associated update method.
+     *
+     * @param int $id
+     * @return void
+     */
+    public function deleteUser(int $id): void
+    {
+        $this->deleteModel($id, User::class, 'updateResourceOnDelete');
+    }
 }

@@ -14,12 +14,14 @@ return new class extends Migration
     {
         Schema::create('associations', static function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->string('name', 50)->nullable(false)->unique();
             $table->string('slug', 50)->nullable(false)->unique();
             $table->text('description')->nullable(false);
             $table->text('project')->nullable(false);
             $table->string('siret', 14)->nullable(false)->unique();
             $table->string('city', 50)->nullable(false);
+            $table->string('url', 255)->nullable(false)->unique();
             $table->integer('points')->nullable(false)->default(0);
             $table->boolean('is_winner')->default(false);
             $table->timestamps();

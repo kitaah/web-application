@@ -37,6 +37,9 @@ class GameResource extends JsonResource
      *        description="Not found"
      *      ),
      * ),
+     * @OA\Server(
+     *    url="https://web-application.ddev.site:8443/"
+     *   )
      *
      *  Transform the resource into an array.
      *

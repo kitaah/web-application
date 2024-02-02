@@ -106,14 +106,16 @@ class CompetitionResource extends JsonResource
      */
     private function getAssociationData($associationId): ?array
     {
-        $association = Association::find($associationId);
+        $association = Association::findOrFail($associationId);
 
         return $association
             ? [
                 'name' => $association->name,
                 'description' => $association->description,
+                'category_name' => optional($association->category)->name,
                 'project' => $association->project,
                 'city' => $association->city,
+                'url' => $association->url,
                 'points' => $this->formatWithThousandSpaces($association->points),
                 'image' => $association->getFirstMediaUrl('image'),
             ]

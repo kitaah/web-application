@@ -114,6 +114,7 @@ class PermissionResource extends Resource
         return $table
             ->heading('Gestion des permissions')
             ->description('Listing, ajout, modification et suppression de permissions.')
+            ->deferLoading()
             ->columns(components: [
                 TextColumn::make('name')
                     ->label('Permissions')
@@ -123,7 +124,7 @@ class PermissionResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars(trim($state))),
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                 TextColumn::make('created_at')
                     ->label('Création')
                     ->icon('heroicon-m-clock')
