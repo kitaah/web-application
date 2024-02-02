@@ -22,7 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/resources', static function() {
-    $resources = Resource::latest()->where('is_validated', true)->get();
+    $resources = Resource::latest()
+        ->where('is_validated', true)
+        ->where('status', 'Publiée')
+        ->get();
     return AllResourcesResource::collection($resources);
 });
 
