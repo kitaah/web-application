@@ -1,6 +1,7 @@
-import React from 'react';
+import { usePage } from '@inertiajs/react';
 
-const Accessibility = () => {
+export default function Accessibility() {
+    const { props } = usePage();
     return (
         <div className="container mx-auto my-8">
             <h1 className="text-4xl font-bold mb-4 text-center">Accessibilité du site</h1>
@@ -115,5 +116,3 @@ const Accessibility = () => {
         </div>
     );
 };
-
-export default Accessibility;

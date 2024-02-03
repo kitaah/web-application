@@ -15,6 +15,7 @@ class ProfileController extends Controller
 {
     /**
      * Display the user's profile form.
+     *
      * @param Request $request
      * @return Response
      */
@@ -28,6 +29,7 @@ class ProfileController extends Controller
 
     /**
      * Update the user's profile information.
+     *
      * @param ProfileUpdateRequest $request
      * @return RedirectResponse
      */
@@ -47,6 +49,7 @@ class ProfileController extends Controller
 
     /**
      * Delete the user's account.
+     *
      * @param Request $request
      * @return RedirectResponse
      */

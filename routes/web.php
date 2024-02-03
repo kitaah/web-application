@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\{Controllers\CompetitionController,
+use App\Http\{Controllers\AssociationController,
+    Controllers\CompetitionController,
     Controllers\GameController,
     Controllers\ProfileController,
     Controllers\ResourceController};
@@ -37,21 +38,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/accessibilite', static function () {
-    return Inertia::render('Legal/Accessibility');
-});
-
-Route::get('/mentions-legales', static function () {
-    return Inertia::render('Legal/Disclaimer');
-});
-
-Route::get('/politique-de-confidentialite', static function () {
-    return Inertia::render('Legal/PrivacyPolicy');
-});
+Route::inertia('/accessibilite', 'Legal/Accessibility');
+Route::inertia('/mentions-legales', 'Legal/Disclaimer');
+Route::inertia('/politique-de-confidentialite', 'Legal/PrivacyPolicy');
 
 Route::get('/ressources', [ResourceController::class, 'index'])->name('resources.index');
+Route::get('/ressource/{slug}', [ResourceController::class, 'show'])->name('resources.show');
 
 Route::get('/competition', [CompetitionController::class, 'index'])->name('competition.index');
+
+Route::get('/association/{slug}', [AssociationController::class, 'show'])->name('associations.show');
 
 Route::get('/game', [GameController::class, 'index'])->name('game.index');
 

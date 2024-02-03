@@ -9,6 +9,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 /**
  * @method static count()
  * @method static latest()
+ * @method static where(string $string, $slug)
  */
 class Resource extends Model implements HasMedia
 {

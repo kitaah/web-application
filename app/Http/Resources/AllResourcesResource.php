@@ -50,6 +50,37 @@ class AllResourcesResource extends JsonResource
      *         email="contact@mna-coding.fr"
      *    )
      *  ),
+     * @OA\Get(
+     *      path="/api/resource/{slug}",
+     *      operationId="getSingleResource",
+     *      tags={"Resource"},
+     *      summary="Get a single validated resource",
+     * @OA\Parameter(
+     *      name="slug",
+     *      required=true,
+     *      in="path",
+     *      description="Slug of the resource",
+     *      @OA\Schema(
+     *         type="string"
+     *          )
+     *       ),
+     *       @OA\Response(
+     *        response=200,
+     *        description="Successful operation",
+     *       ),
+     *       @OA\Response(
+     *        response=401,
+     *        description="Unauthorized - Invalid credentials",
+     *       ),
+     *       @OA\Response(
+     *        response=403,
+     *        description="Forbidden"
+     *       ),
+     *       @OA\Response(
+     *         response=404,
+     *         description="Not found"
+     *       ),
+     *  ),
      * @OA\Server(
      *   url="https://web-application.ddev.site:8443/"
      *  )
@@ -65,8 +96,8 @@ class AllResourcesResource extends JsonResource
         $data = [
             'id' => $this->id,
             'name' => $this->name,
-            'user_name' => $this->user ? $this->user->name : null,
-            'category_name' => $this->category ? $this->category->name : null,
+            'user_name' => optional($this->user)->name,
+            'category_name' => optional($this->category)->name,
             'description' => $this->description,
             'slug' => $this->slug,
             'url' => $this->url,

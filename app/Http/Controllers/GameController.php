@@ -10,16 +10,20 @@ use Inertia\Response;
 class GameController extends Controller
 {
     /**
-     * Resource controller.
+     * Get one random game.
      *
      * @return Response
      */
     public function index(): Response
     {
-        $game = Game::inRandomOrder()->firstorfail();
+        $game = Game::inRandomOrder()->firstOrFail();
+
+        if (!$game) {
+            abort(404);
+        }
 
         return Inertia::render('Games/Game', [
-            'game' => $game,
+            'game' => $game
         ]);
     }
 }

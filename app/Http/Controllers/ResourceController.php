@@ -9,17 +9,73 @@ use Inertia\{Inertia, Response};
 class ResourceController extends Controller
 {
     /**
-     * Resource controller.
+     * Resources listing.
      *
      * @return Response
      */
     public function index(): Response
     {
-        /** @var $resources */
-        $resources = Resource::with('media')->get();
+        $resources = Resource::latest()
+            ->with('media')
+            ->where('is_validated', true)
+            ->where('status', 'Publiée')
+            ->get();
+
+        if (!$resources) {
+            abort(404);
+        }
+
+        $resourceData = $resources->map(function ($resource) {
+            return array_filter([
+                'id' => $resource->id,
+                'name' => $resource->name,
+                'url' => $resource->url,
+                'slug' => $resource->slug,
+                'description' => $resource->description,
+                'category_name' => optional($resource->category)->name,
+                'user_name' => optional($resource->user)->name,
+                'created_at' => $resource->created_at->format('d/m/Y'),
+                'updated_at' => $resource->updated_at->format('d/m/Y'),
+                'image' => $resource->getFirstMediaUrl('image'),
+            ]);
+        });
 
         return Inertia::render('Resources/Resources', [
-            'resources' => $resources,
+            'resources' => $resourceData,
+        ]);
+    }
+
+    /**
+     * Specific resource.
+     *
+     * @param string $slug
+     * @return Response
+     */
+    public function show(string $slug): Response
+    {
+        $resource = Resource::where('slug', $slug)
+            ->where('is_validated', true)
+            ->where('status', 'Publiée')
+            ->with('media')
+            ->firstOrFail();
+
+        if (!$resource) {
+            abort(404);
+        }
+
+        return Inertia::render('Resources/Resource', [
+            'resource' => array_filter([
+                'id' => $resource->id,
+                'name' => $resource->name,
+                'url' => $resource->url,
+                'description' => $resource->description,
+                'category_name' => $resource->category->name,
+                'user_name' => $resource->user->name,
+                'created_at' => $resource->created_at->format('d/m/Y'),
+                'updated_at' => $resource->updated_at->format('d/m/Y'),
+                'image' => $resource->getFirstMediaUrl('image'),
+            ]),
         ]);
     }
 }
+
