@@ -40,6 +40,7 @@ class AdminPanelProvider extends PanelProvider
             ->spa()
             ->brandName('Espace administrateur')
             ->loginRouteSlug('connexion')
+            ->emailVerification(EmailVerificationPrompt::class)
             ->plugins([
                 FilamentApexChartsPlugin::make()
             ])
@@ -77,7 +78,6 @@ class AdminPanelProvider extends PanelProvider
                     SubstituteBindings::class,
                     DisableBladeIconComponents::class,
                     DispatchServingFilamentEvent::class,
-                    EnsureEmailIsVerified::class,
                 ]
             )
             ->authMiddleware(

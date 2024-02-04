@@ -14,7 +14,10 @@ use App\Policies\{AssociationPolicy,
     RolePolicy,
     StatisticPolicy,
     UserPolicy};
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Lang;
 use Spatie\{Permission\Models\Permission, Permission\Models\Role};
 
 class AuthServiceProvider extends ServiceProvider
@@ -42,6 +45,17 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        VerifyEmail::toMailUsing(callback: static function (object $notifiable, string $url) {
+            return (new MailMessage)
+                ->from('contact@re-r.fr', 'L\'équipe de (RE)SOURCES RELATIONNELLES')
+                ->greeting('Bonjour ' . $notifiable->name . ' !')
+                ->subject('Activation du compte')
+                ->line('Veuillez cliquer sur le bouton ci-dessous pour activer votre compte.')
+                ->action('Activation du compte', $url)
+                ->line(Lang::get('Ce lien expira dans :count minutes.', ['count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')]))
+                ->line("Ceci est un message automatique, aucune réponse de votre part n'est requise.")
+                ->salutation('L\'équipe de (RE)SOURCES RELATIONNELLES');
+        });
+
     }
 }

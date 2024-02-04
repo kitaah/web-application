@@ -161,7 +161,7 @@ class GameResource extends Resource
                 TextColumn::make('name')
                     ->label('Nom')
                     ->searchable()
-                    ->icon('heroicon-m-user-circle')
+                    ->icon('heroicon-m-tag')
                     ->iconColor('danger')
                     ->searchable()
                     ->sortable()
