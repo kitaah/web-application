@@ -79,4 +79,14 @@ class Association extends Model implements HasMedia
     {
         return $this->belongsTo(Category::class);
     }
+
+    /**
+     * Increment the 'points' counter for association votes.
+     *
+     * @return void
+     */
+    public static function updateAssociationVotes(): void
+    {
+        static::updateCounter('points');
+    }
 }

@@ -18,10 +18,6 @@ class GameController extends Controller
     {
         $game = Game::inRandomOrder()->firstOrFail();
 
-        if (!$game) {
-            abort(404);
-        }
-
         return Inertia::render('Games/Game', [
             'game' => $game
         ]);

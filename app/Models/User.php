@@ -13,6 +13,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static count()
  * @method static find(int|string|null $userId)
  * @method static create(array $array)
+ * @method static updateUserPoints(User|\Illuminate\Contracts\Auth\Authenticatable|null $user)
+ * @property mixed $name
  */
 class User extends Authenticatable implements FilamentUser
 {

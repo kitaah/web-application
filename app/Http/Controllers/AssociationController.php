@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Association;
-use App\Models\Resource;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/**
+ * @method static updateCounter(string $string)
+ */
 class AssociationController extends Controller
 {
     /**
@@ -20,11 +23,7 @@ class AssociationController extends Controller
     {
         $association = Association::where('slug', $slug)
             ->with('media')
-            ->first();
-
-        if (!$association) {
-            abort(404);
-        }
+            ->firstOrFail();
 
         return Inertia::render('Associations/Association', [
             'association' => array_filter([
@@ -38,5 +37,21 @@ class AssociationController extends Controller
                 'image' => $association->getFirstMediaUrl('image'),
             ]),
         ]);
+    }
+
+    /**
+     * Vote for an association.
+     *
+     * @param string $slug
+     * @return JsonResponse
+     */
+    public function vote(string $slug): JsonResponse
+    {
+        $association = Association::where('slug', $slug)->firstOrFail();
+        $association->increment('points');
+
+        Association::updateAssociationVotes();
+
+        return response()->json(['success' => true]);
     }
 }
