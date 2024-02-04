@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Filament\{Models\Contracts\FilamentUser, Panel};
-use Illuminate\{Database\Eloquent\Factories\HasFactory,
+use Illuminate\{Contracts\Auth\MustVerifyEmail,
+    Database\Eloquent\Factories\HasFactory,
     Foundation\Auth\User as Authenticatable,
     Notifications\Notifiable};
 use Laravel\Sanctum\HasApiTokens;
@@ -16,7 +17,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static updateUserPoints(User|\Illuminate\Contracts\Auth\Authenticatable|null $user)
  * @property mixed $name
  */
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, HasRoles, Notifiable;
 

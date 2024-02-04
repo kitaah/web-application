@@ -6,11 +6,13 @@ use App\{Filament\Pages\Auth\Login, Filament\Pages\Dashboard};
 use Filament\{Http\Middleware\Authenticate,
     Http\Middleware\DisableBladeIconComponents,
     Http\Middleware\DispatchServingFilamentEvent,
+    Pages\Auth\EmailVerification\EmailVerificationPrompt,
     Panel,
     PanelProvider,
     Support\Colors\Color,
     Widgets\AccountWidget};
-use Illuminate\{Cookie\Middleware\AddQueuedCookiesToResponse,
+use Illuminate\{Auth\Middleware\EnsureEmailIsVerified,
+    Cookie\Middleware\AddQueuedCookiesToResponse,
     Cookie\Middleware\EncryptCookies,
     Foundation\Http\Middleware\VerifyCsrfToken,
     Routing\Middleware\SubstituteBindings,
@@ -75,6 +77,7 @@ class AdminPanelProvider extends PanelProvider
                     SubstituteBindings::class,
                     DisableBladeIconComponents::class,
                     DispatchServingFilamentEvent::class,
+                    EnsureEmailIsVerified::class,
                 ]
             )
             ->authMiddleware(
