@@ -56,6 +56,5 @@ class AuthServiceProvider extends ServiceProvider
                 ->line("Ceci est un message automatique, aucune réponse de votre part n'est requise.")
                 ->salutation('L\'équipe de (RE)SOURCES RELATIONNELLES');
         });
-
     }
 }

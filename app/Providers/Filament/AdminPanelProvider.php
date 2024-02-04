@@ -3,10 +3,10 @@
 namespace App\Providers\Filament;
 
 use App\{Filament\Pages\Auth\Login, Filament\Pages\Dashboard};
+use App\Filament\Pages\Auth\EmailVerificationPrompt;
 use Filament\{Http\Middleware\Authenticate,
     Http\Middleware\DisableBladeIconComponents,
     Http\Middleware\DispatchServingFilamentEvent,
-    Pages\Auth\EmailVerification\EmailVerificationPrompt,
     Panel,
     PanelProvider,
     Support\Colors\Color,
