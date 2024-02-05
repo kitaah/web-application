@@ -18,7 +18,7 @@ export default function Resources() {
                                 <div className="flex justify-center items-center">
                                     <img src={image} width="400" alt={name} />
                                 </div>
-                                <Link href={`/ressource/${slug}`}>
+                                <Link href={route('resource.edit', { slug: slug })} href={`/ressource/${slug}`}>
                                     <button className="m-5 px-6 py-2 mx-5 text-white bg-green-500 rounded-md focus:outline-none">Voir la ressource</button>
                                 </Link>
                                 <div>Url: <strong>{url}</strong></div><br />

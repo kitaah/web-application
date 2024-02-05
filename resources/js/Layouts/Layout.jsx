@@ -95,7 +95,8 @@ export default function Authenticated({ header, children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
+                                        <Dropdown.Link href={route('profile.edit')}>Profil</Dropdown.Link>
+                                        <Dropdown.Link href={route('resource.userIndex')}>Mes ressources</Dropdown.Link>
                                         <Dropdown.Link href={route('logout')} method="post" as="button">
                                             Déconnexion
                                         </Dropdown.Link>

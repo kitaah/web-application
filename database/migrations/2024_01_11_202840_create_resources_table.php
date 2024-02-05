@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('description')->nullable(false);
             $table->string('url', 255)->nullable();
             $table->boolean('is_validated')->default(false);
-            $table->string('status', 50)->nullable(false);
+            $table->string('status', 50)->nullable(false)->default('En attente');
             $table->timestamps();
         });
     }

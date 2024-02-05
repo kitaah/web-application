@@ -3,6 +3,7 @@
 use App\Http\{Controllers\AssociationController,
     Controllers\CompetitionController,
     Controllers\GameController,
+    Controllers\ImageResourceController,
     Controllers\ProfileController,
     Controllers\ResourceController,
     Controllers\UserController};
@@ -38,6 +39,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/game', [GameController::class, 'index'])->name('game.index');
+    Route::get('/mes-ressources', [ResourceController::class, 'userIndex'])->name('resource.userIndex');
+    Route::get('/mes-ressources/ajout', [ResourceController::class, 'create'])->name('resource.create');
+    Route::post('/mes-ressources/ajout', [ResourceController::class, 'store'])->name('resource.store');
+    Route::get('/mes-ressources/modifier/{slug}', [ResourceController::class, 'edit'])->name('resource.edit');
+    Route::post( '/mes-ressources/modifier/{slug}', [ResourceController::class, 'update'])->name('resource.update');
+    Route::get('/mes-ressources/modifier-image/{slug}', [ImageResourceController::class, 'edit'])->name('image.edit');
+    Route::post( '/mes-ressources/modifier-image/{slug}', [ImageResourceController::class, 'update'])->name('image.update');
 });
 
 Route::inertia('/', 'Home')->name('home');
@@ -48,7 +56,7 @@ Route::inertia('/politique-de-confidentialite', 'Legal/PrivacyPolicy')->name('pr
 Route::get('/ressources', [ResourceController::class, 'index'])->name('resources.index');
 Route::get('/ressource/{slug}', [ResourceController::class, 'show'])->name('resources.show');
 
-Route::get('/mes-ressources', [ResourceController::class, 'userResources'])->name('user.resources');
+
 
 Route::get('/competition', [CompetitionController::class, 'index'])->name('competition.index');
 
