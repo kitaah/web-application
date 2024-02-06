@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Inertia\Response;
+use Inertia\{Inertia, Response};
 
+/**
+ * Class GameController
+ *
+ * @package App\Http\Controllers
+ */
 class GameController extends Controller
 {
     /**
@@ -16,10 +20,25 @@ class GameController extends Controller
      */
     public function index(): Response
     {
-        $game = Game::inRandomOrder()->firstOrFail();
+        $game = $this->getRandomGame();
 
         return Inertia::render('Games/Game', [
             'game' => $game
         ]);
+    }
+
+    /**
+     * Get a random game.
+     *
+     * @return Game
+     */
+    private function getRandomGame(): Game
+    {
+        /**
+         * The randomly selected game.
+         *
+         * @var Game
+         */
+        return Game::inRandomOrder()->firstOrFail();
     }
 }

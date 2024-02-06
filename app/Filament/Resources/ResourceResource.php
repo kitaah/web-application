@@ -236,15 +236,15 @@ class ResourceResource extends Resource
                             ->schema(components: [
                                 SpatieMediaLibraryFileUpload::make('thumbnail')
                                     ->label('Image')
-                                    ->helperText('Formats autorisés: JPEG et PNG - Limite de taille: 1MB')
+                                    ->helperText('Formats autorisés: JPEG, JPG et PNG - Limite de taille: 1MB')
                                     ->required()
                                     ->openable()
                                     ->downloadable()
                                     ->image()
                                     ->imageEditor()
                                     ->maxSize(1024)
-                                    ->acceptedFileTypes(Collection::make(['image/jpeg', 'image/png']))
-                                    ->rules('mimes:jpeg,png')
+                                    ->acceptedFileTypes(Collection::make(['image/jpeg', 'image/png', 'image/jpg']))
+                                    ->rules('mimes:jpeg,jpg,png')
                                     ->collection('image'),
                             ]),
                     ])->columnSpanFull(),

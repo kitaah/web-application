@@ -94,7 +94,6 @@ class CategoryResource extends Resource
                         ->required()
                         ->autofocus()
                         ->string()
-                        ->alphaDash()
                         ->maxLength(50)
                         ->suffixIcon('heroicon-m-bars-3')
                         ->suffixIconColor('danger')

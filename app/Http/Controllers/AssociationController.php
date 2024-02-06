@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Association;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use Inertia\Response;
+use Inertia\{Inertia, Response};
 
 /**
  * @method static updateCounter(string $string)

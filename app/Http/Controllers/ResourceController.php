@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Resource;
-use App\Models\User;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
+use App\Models\{Category, Resource, User};
+use Illuminate\{Http\RedirectResponse,
+    Http\Request,
+    Support\Facades\Auth,
+    Support\Facades\Redirect,
+    Http\UploadedFile,
+    Support\Facades\Validator,
+    Validation\Rule};
 use Inertia\{Inertia, Response};
-use Illuminate\Http\UploadedFile;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
-use Illuminate\Support\Facades\Validator;
+use Spatie\{MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist,
+    MediaLibrary\MediaCollections\Exceptions\FileIsTooBig};
+
 
 class ResourceController extends Controller
 {
@@ -84,7 +84,7 @@ class ResourceController extends Controller
     }
 
     /**
-     * Resources listing of the authenticated user
+     * Resources listing of the authenticated user.
      *
      * @return Response
      */
@@ -117,6 +117,11 @@ class ResourceController extends Controller
         ]);
     }
 
+    /**
+     * Create a new resource for the authenticated user.
+     *
+     * @return Response
+     */
     public function create(): Response
     {
         $categories = Category::all();
@@ -127,18 +132,22 @@ class ResourceController extends Controller
     }
 
     /**
+     * Store a new resource for the authenticated user
+     *
+     * @param Request $request
+     * @return RedirectResponse
      * @throws FileDoesNotExist
      * @throws FileIsTooBig
      */
     public function store(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
-            'name' => 'required',
-            'url' => 'required',
-            'slug' => 'required',
-            'description' => 'required',
-            'category_id' => 'required|exists:categories,id',
-            'image' => 'required|image|mimes:jpeg,png,jpg',
+            'name' => ['required', 'string', 'max:50', Rule::unique('resources', 'name')],
+            'url' => ['required', 'url', 'string', 'max:255'],
+            'slug' => ['required', 'string', 'alpha_dash', 'max:50', Rule::unique('resources', 'slug')],
+            'description' => ['required', 'string', 'max:5000'],
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
+            'image' => ['required','image', 'mimes:jpeg,png,jpg', 'max:1024'],
         ]);
 
         $resource = new Resource([
@@ -147,16 +156,23 @@ class ResourceController extends Controller
             'user_id' => auth()->id(),
             'slug' => $validatedData['slug'],
             'description' => $validatedData['description'],
+            'image' => $validatedData['image'],
         ]);
 
         $resource->category()->associate($validatedData['category_id']);
-        $resource->save();
+        $resource->save($request->only(['name', 'url', 'user_id', 'slug', 'image', 'category_id', 'description']));
 
         $resource->addMedia($request->file('image'))->toMediaCollection('image');
 
         return Redirect::route('resource.userIndex');
     }
 
+    /**
+     *  Edit the current resource for the authenticated user
+     *
+     * @param $slug
+     * @return Response
+     */
     public function edit($slug): Response
     {
         $resource = Resource::where('slug', $slug)->firstOrFail();
@@ -168,18 +184,39 @@ class ResourceController extends Controller
         ]);
     }
 
+    /**
+     * Update the current resource for the authenticated user
+     *
+     * @param Request $request
+     * @param $slug
+     * @return RedirectResponse
+     */
     public function update(Request $request, $slug): RedirectResponse
     {
         $resource = Resource::where('slug', $slug)->firstOrFail();
 
-        Validator::make($request->all(), [
-            'name' => ['required', 'sometimes'],
-            'url' => ['required', 'sometimes'],
-            'description' => ['required', 'sometimes'],
-            'category_id' => ['required', 'sometimes', 'exists:categories,id'],
+        Validator::make($request->only(['name', 'url', 'slug', 'description', 'category_id']), [
+            'name' => [
+                'required',
+                'sometimes',
+                'string',
+                'max:50',
+                Rule::unique('resources', 'name')->ignore($resource->id),
+            ],
+            'url' => ['required', 'sometimes', 'url', 'string', 'max:255'],
+            'slug' => [
+                'required',
+                'sometimes',
+                'string',
+                'alpha_dash',
+                'max:50',
+                Rule::unique('resources', 'slug')->ignore($resource->id),
+            ],
+            'description' => ['required', 'sometimes', 'string', 'max:5000'],
+            'category_id' => ['required', 'sometimes', 'integer', 'exists:categories,id'],
         ])->validate();
 
-        $resource->update($request->only(['name', 'url', 'description', 'category_id', 'image']));
+        $resource->update($request->only(['name', 'url', 'slug', 'description', 'category_id']));
 
         return Redirect::route('resource.userIndex');
     }

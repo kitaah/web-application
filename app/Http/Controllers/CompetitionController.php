@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Association;
-use App\Models\Competition;
-use App\Models\CreateCompetition;
+use App\Models\{Association, Competition, CreateCompetition};
 use DateTime;
 use Illuminate\Http\Request;
 use Inertia\{Inertia, Response};

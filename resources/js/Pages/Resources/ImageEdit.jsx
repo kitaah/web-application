@@ -1,21 +1,20 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { usePage, useForm, Link } from '@inertiajs/react';
 import Layout from '@/Layouts/Layout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import TextArea from '@/Components/TextArea';
 import FileInput from "@/Components/FileInput";
 import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
 
 const ImageEdit = () => {
     const { resource } = usePage().props;
     const { data, setData, post, processing, errors, reset } = useForm({
+        _method: 'put',
         image: null,
     });
 
-    React.useEffect(() => {
+    useEffect(() => {
         return () => {
             reset('image');
         };
@@ -37,7 +36,7 @@ const ImageEdit = () => {
     return (
         <Layout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight text-center">Ressource</h2>}>
             <div className="container mx-auto my-8">
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight text-center">Modifier une ressource</h2>
+                <h2 className="font-semibold text-xl text-gray-800 leading-tight text-center">Modifier l'image de la ressource</h2>
 
                 <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
                     <div>
@@ -47,7 +46,7 @@ const ImageEdit = () => {
                     </div>
 
                     <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-                        <form onSubmit={handleSubmit} method="POST" encType="multipart/form-data">
+                        <form onSubmit={handleSubmit} method="PUT" encType="multipart/form-data">
                             <div className="mt-4">
                                 <InputLabel htmlFor="image" value="Image" />
                                 <FileInput

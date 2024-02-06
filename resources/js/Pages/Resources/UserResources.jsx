@@ -1,6 +1,5 @@
 import Layout from '@/Layouts/Layout';
-import {Link, usePage} from '@inertiajs/react';
-import NavLink from "@/Components/NavLink.jsx";
+import {Link, usePage } from '@inertiajs/react';
 
 export default function UserResources() {
     const { userResources } = usePage().props;
@@ -47,9 +46,6 @@ export default function UserResources() {
                                                             Statut
                                                         </th>
                                                         <th scope="col" className="px-6 py-3">
-                                                            Validée
-                                                        </th>
-                                                        <th scope="col" className="px-6 py-3">
                                                             Voir
                                                         </th>
                                                         <th scope="col" className="px-6 py-3">
@@ -77,14 +73,9 @@ export default function UserResources() {
                                                         <th scope="col" className="px-6 py-3">
                                                             {status}
                                                         </th>
-                                                        <th scope="col" className="px-6 py-3">
-                                                            {is_validated ? 'Oui' : 'Non'}
-                                                        </th>
                                                         <td className="px-6 py-4">
-                                                            {status === 'En attente' ? (
-                                                                <button className="m-5 px-6 py-2 mx-5 text-white bg-blue-500 rounded-md focus:outline-none">Indisponible</button>
-                                                            ) : status === 'Suspendue' ? (
-                                                                <button className="m-5 px-6 py-2 mx-5 text-white bg-red-500 rounded-md focus:outline-none">Suspendue</button>
+                                                            {!is_validated ? (
+                                                                <button className="m-5 px-6 py-2 mx-5 text-white bg-red-500 rounded-md focus:outline-none">Indisponible</button>
                                                             ) : (
                                                                 <Link href={route('resources.show', { slug: slug })}>
                                                                     <button className="m-5 px-6 py-2 mx-5 text-white bg-green-500 rounded-md focus:outline-none">
@@ -94,10 +85,8 @@ export default function UserResources() {
                                                             )}
                                                         </td>
                                                         <td className="px-6 py-4">
-                                                            {status === 'En attente' ? (
-                                                                <button className="m-5 px-6 py-2 mx-5 text-white bg-blue-500 rounded-md focus:outline-none">Indisponible</button>
-                                                            ) : status === 'Suspendue' ? (
-                                                                <button className="m-5 px-6 py-2 mx-5 text-white bg-red-500 rounded-md focus:outline-none">Non valable</button>
+                                                            {!is_validated ? (
+                                                                <button className="m-5 px-6 py-2 mx-5 text-white bg-red-500 rounded-md focus:outline-none">Indisponible</button>
                                                             ) : (
                                                                 <Link href={route('resource.edit', { slug: slug })}>
                                                                     <button className="m-5 px-6 py-2 mx-5 text-white bg-blue-500 rounded-md focus:outline-none">
@@ -107,10 +96,8 @@ export default function UserResources() {
                                                             )}
                                                         </td>
                                                         <td className="px-6 py-4">
-                                                            {status === 'En attente' ? (
-                                                                <button className="m-5 px-6 py-2 mx-5 text-white bg-blue-500 rounded-md focus:outline-none">Indisponible</button>
-                                                            ) : status === 'Suspendue' ? (
-                                                                <button className="m-5 px-6 py-2 mx-5 text-white bg-red-500 rounded-md focus:outline-none">Non valable</button>
+                                                            {!is_validated ? (
+                                                                <button className="m-5 px-6 py-2 mx-5 text-white bg-red-500 rounded-md focus:outline-none">Indisponible</button>
                                                             ) : (
                                                                 <Link href={route('image.edit', { slug: slug })}>
                                                                     <button className="m-5 px-6 py-2 mx-5 text-white bg-blue-500 rounded-md focus:outline-none">

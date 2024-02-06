@@ -12,7 +12,7 @@ export default function Resources() {
                 <section className="mb-8 text-center">
                     <h2 className="text-2xl font-bold mb-2 text-center">Consultez la liste des ressources</h2>
                     <ul className="mb-2">
-                        {resources.map(({ category_name, description, id, image, name, slug, url, user_name, created_at, updated_at }) => (
+                        {resources.map(({ category_name, id, image, name, slug, url, user_name, created_at, updated_at }) => (
                             <li key={id}>
                                 <div>Titre: <strong>{name}</strong></div><br />
                                 <div className="flex justify-center items-center">

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {usePage, useForm, Link} from '@inertiajs/react';
 import Layout from '@/Layouts/Layout';
 import InputError from '@/Components/InputError';
@@ -20,6 +20,8 @@ const Create = () => {
         category_id: '',
         image: null,
     });
+
+    const [isResourceAdded, setIsResourceAdded] = useState(false);
 
     useEffect(() => {
         return () => {
@@ -46,7 +48,7 @@ const Create = () => {
     };
 
     const handleImageChange = (e) => {
-        setData('image', e.target.files[0]); // Ajout de la gestion du changement d'image
+        setData('image', e.target.files[0]);
     };
 
     const handleSubmit = (e) => {
@@ -58,7 +60,7 @@ const Create = () => {
         formData.append('slug', data.slug);
         formData.append('description', data.description);
         formData.append('category_id', data.category_id);
-        formData.append('image', data.image); // Ajout du champ pour l'image dans le formData
+        formData.append('image', data.image);
 
         post(route('resource.store'), formData);
     };
@@ -78,10 +80,14 @@ const Create = () => {
             <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             <form onSubmit={handleSubmit} method="POST" encType="multipart/form-data">
                 <div>
-                    <InputLabel htmlFor="name" value="Nom" />
+                    <div className="flex items-center">
+                        <InputLabel htmlFor="name" value="Nom" />
+                        <span style={{ color: 'red', marginLeft: '5px' }}>*</span>
+                    </div>
                     <TextInput
                         id="name"
                         name="name"
+                        placeholder="Nom"
                         value={data.name}
                         className="mt-1 block w-full"
                         autoComplete="name"
@@ -92,11 +98,26 @@ const Create = () => {
                     <InputError message={errors.name} className="mt-2" />
                 </div>
 
+                <div className="hidden">
+                    <InputLabel htmlFor="slug" value="Slug" />
+                    <TextInput
+                        id="slug"
+                        name="slug"
+                        value={data.slug}
+                        className="mt-1 block w-full"
+                        autoComplete="slug"
+                        onChange={(e) => setData('slug', e.target.value)}
+                        required
+                    />
+                    <InputError message={errors.slug} className="mt-2" />
+                </div>
+
                 <div className="mt-4">
                     <InputLabel htmlFor="description" value="Description" />
                     <TextArea
                         id="description"
                         name="description"
+                        placeholder="Description"
                         value={data.description}
                         className="mt-1 block w-full"
                         autoComplete="description"
@@ -111,6 +132,7 @@ const Create = () => {
                     <TextInput
                         id="url"
                         name="url"
+                        placeholder="Url"
                         value={data.url}
                         className="mt-1 block w-full"
                         autoComplete="url"
@@ -154,7 +176,7 @@ const Create = () => {
 
                 <div className="flex items-center justify-end mt-4">
                     <PrimaryButton type="submit" disabled={processing}>
-                        Ajout la ressource
+                        Ajouter
                     </PrimaryButton>
                 </div>
             </form>

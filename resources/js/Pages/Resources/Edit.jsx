@@ -6,13 +6,17 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import TextArea from '@/Components/TextArea';
+import FileInput from "@/Components/FileInput";
 import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
+import slugify from "react-slugify";
 
 const Edit = () => {
     const { resource, categories } = usePage().props;
     const { data, setData, post, processing, errors, reset } = useForm({
+        _method: 'put',
         name: resource.name,
         url: resource.url,
+        slug: resource.slug,
         description: resource.description,
         category_id: resource.category_id,
     });
@@ -23,8 +27,22 @@ const Edit = () => {
         };
     }, []);
 
+    let slugTimeout;
+
+    const generateSlug = (value) => {
+        clearTimeout(slugTimeout);
+        slugTimeout = setTimeout(() => {
+            if (value.trim() !== '') {
+                const generatedSlug = slugify(value);
+                console.log('Generated Slug:', generatedSlug);
+                setData('slug', generatedSlug);
+            }
+        }, 5000);
+    };
+
     const handleNameChange = (e) => {
         setData('name', e.target.value);
+        generateSlug(e.target.value);
     };
 
     const handleSubmit = (e) => {
@@ -52,12 +70,13 @@ const Edit = () => {
                     </div>
 
                     <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-                        <form onSubmit={handleSubmit} method="POST" encType="multipart/form-data">
+                        <form onSubmit={handleSubmit} method="PUT" encType="multipart/form-data">
                             <div>
                                 <InputLabel htmlFor="name" value="Nom" />
                                 <TextInput
                                     id="name"
                                     name="name"
+                                    placeholder="Nom"
                                     value={data.name}
                                     className="mt-1 block w-full"
                                     autoComplete="name"
@@ -67,11 +86,26 @@ const Edit = () => {
                                 <InputError message={errors.name} className="mt-2" />
                             </div>
 
+                            <div className="hidden">
+                                <InputLabel htmlFor="slug" value="Slug" />
+                                <TextInput
+                                    id="slug"
+                                    name="slug"
+                                    value={data.slug}
+                                    className="mt-1 block w-full"
+                                    autoComplete="slug"
+                                    onChange={(e) => setData('slug', e.target.value)}
+                                    required
+                                />
+                                <InputError message={errors.slug} className="mt-2" />
+                            </div>
+
                             <div className="mt-4">
                                 <InputLabel htmlFor="description" value="Description" />
                                 <TextArea
                                     id="description"
                                     name="description"
+                                    placeholder="Description"
                                     value={data.description}
                                     className="mt-1 block w-full"
                                     autoComplete="description"
@@ -85,6 +119,7 @@ const Edit = () => {
                                 <TextInput
                                     id="url"
                                     name="url"
+                                    placeholder="Url"
                                     value={data.url}
                                     className="mt-1 block w-full"
                                     autoComplete="url"
@@ -112,7 +147,7 @@ const Edit = () => {
 
                             <div className="flex items-center justify-end mt-4">
                                 <PrimaryButton type="submit" disabled={processing}>
-                                    Modifier la ressource
+                                    Modifier
                                 </PrimaryButton>
                             </div>
                         </form>

@@ -43,9 +43,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/mes-ressources/ajout', [ResourceController::class, 'create'])->name('resource.create');
     Route::post('/mes-ressources/ajout', [ResourceController::class, 'store'])->name('resource.store');
     Route::get('/mes-ressources/modifier/{slug}', [ResourceController::class, 'edit'])->name('resource.edit');
-    Route::post( '/mes-ressources/modifier/{slug}', [ResourceController::class, 'update'])->name('resource.update');
+    Route::put( '/mes-ressources/modifier/{slug}', [ResourceController::class, 'update'])->name('resource.update');
     Route::get('/mes-ressources/modifier-image/{slug}', [ImageResourceController::class, 'edit'])->name('image.edit');
-    Route::post( '/mes-ressources/modifier-image/{slug}', [ImageResourceController::class, 'update'])->name('image.update');
+    Route::put( '/mes-ressources/modifier-image/{slug}', [ImageResourceController::class, 'update'])->name('image.update');
+    Route::post('/association/{slug}/vote', [AssociationController::class, 'vote'])->name('associations.vote');
 });
 
 Route::inertia('/', 'Home')->name('home');
@@ -56,11 +57,9 @@ Route::inertia('/politique-de-confidentialite', 'Legal/PrivacyPolicy')->name('pr
 Route::get('/ressources', [ResourceController::class, 'index'])->name('resources.index');
 Route::get('/ressource/{slug}', [ResourceController::class, 'show'])->name('resources.show');
 
-
-
 Route::get('/competition', [CompetitionController::class, 'index'])->name('competition.index');
 
 Route::get('/association/{slug}', [AssociationController::class, 'show'])->name('associations.show');
-Route::post('/association/{slug}/vote', [AssociationController::class, 'vote'])->name('associations.vote');
+
 
 require __DIR__.'/auth.php';

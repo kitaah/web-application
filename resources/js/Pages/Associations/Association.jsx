@@ -11,7 +11,7 @@ export default function Association() {
         try {
             await axios.post(`/association/${association.slug}/vote`);
         } catch (error) {
-            console.error.response('Error voting:', error);
+            console.error('Error voting:', error.response);
         }
     };
 
