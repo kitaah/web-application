@@ -1,5 +1,10 @@
 import Layout from '@/Layouts/Layout';
 import {Link, usePage } from '@inertiajs/react';
+import DeleteUserForm from "@/Pages/Profile/Partials/DeleteUserForm.jsx";
+import ImageEdit from "@/Pages/Resources/ImageEdit.jsx";
+import PrimaryButton from "@/Components/PrimaryButton.jsx";
+import DangerButton from "@/Components/DangerButton.jsx";
+import SecondaryButton from "@/Components/SecondaryButton.jsx";
 
 export default function UserResources() {
     const { userResources } = usePage().props;
@@ -75,34 +80,34 @@ export default function UserResources() {
                                                         </th>
                                                         <td className="px-6 py-4">
                                                             {!is_validated ? (
-                                                                <button className="m-5 px-6 py-2 mx-5 text-white bg-red-500 rounded-md focus:outline-none">Indisponible</button>
+                                                                <DangerButton>Indisponible</DangerButton>
                                                             ) : (
                                                                 <Link href={route('resources.show', { slug: slug })}>
-                                                                    <button className="m-5 px-6 py-2 mx-5 text-white bg-green-500 rounded-md focus:outline-none">
-                                                                        Voir la ressource
-                                                                    </button>
+                                                                    <SecondaryButton>
+                                                                        Voir
+                                                                    </SecondaryButton>
                                                                 </Link>
                                                             )}
                                                         </td>
                                                         <td className="px-6 py-4">
                                                             {!is_validated ? (
-                                                                <button className="m-5 px-6 py-2 mx-5 text-white bg-red-500 rounded-md focus:outline-none">Indisponible</button>
+                                                                <DangerButton>Indisponible</DangerButton>
                                                             ) : (
                                                                 <Link href={route('resource.edit', { slug: slug })}>
-                                                                    <button className="m-5 px-6 py-2 mx-5 text-white bg-blue-500 rounded-md focus:outline-none">
-                                                                        Modifier la ressource
-                                                                    </button>
+                                                                    <SecondaryButton>
+                                                                        Modifier
+                                                                    </SecondaryButton>
                                                                 </Link>
                                                             )}
                                                         </td>
                                                         <td className="px-6 py-4">
                                                             {!is_validated ? (
-                                                                <button className="m-5 px-6 py-2 mx-5 text-white bg-red-500 rounded-md focus:outline-none">Indisponible</button>
+                                                                <DangerButton>Indisponible</DangerButton>
                                                             ) : (
                                                                 <Link href={route('image.edit', { slug: slug })}>
-                                                                    <button className="m-5 px-6 py-2 mx-5 text-white bg-blue-500 rounded-md focus:outline-none">
-                                                                        Modifier l'image
-                                                                    </button>
+                                                                    <SecondaryButton>
+                                                                        Modifier
+                                                                    </SecondaryButton>
                                                                 </Link>
                                                             )}
                                                         </td>

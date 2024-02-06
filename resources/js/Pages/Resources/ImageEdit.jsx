@@ -28,6 +28,7 @@ const ImageEdit = () => {
         e.preventDefault();
 
         const formData = new FormData();
+        formData.append('_method', 'PUT');
         formData.append('image', data.image);
 
         post(route('image.update', resource.slug, formData));

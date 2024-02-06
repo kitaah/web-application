@@ -31,12 +31,12 @@ export default function Association() {
                             <a href={association.url} className="px-6 py-2 mx-5 text-white bg-blue-500 rounded-md focus:outline-none" target="_blank" rel="noopener noreferrer">
                                 Voir le site
                             </a></div>< br />
-                            <div>Ville: <strong>{association.city}</strong></div>< br />
+                            <div>Département: <strong>{association.department}</strong></div>< br />
                             <div>Description: <strong>{association.description}</strong></div>< br />
                             <div>Projet: <strong>{association.project}</strong></div>< br/>
+                            <div>Addresse: <strong>{association.address}</strong></div>< br/>
                             {auth.user && (
                             <div>
-                                {/* Your existing UI */}
                                 <button
                                     onClick={handleVote}
                                     className="px-6 py-2 mt-4 text-white bg-green-500 rounded-md focus:outline-none"

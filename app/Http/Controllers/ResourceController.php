@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Category, Resource, User};
+use App\Models\{Category, Resource, Statistic, User};
 use Illuminate\{Http\RedirectResponse,
     Http\Request,
     Support\Facades\Auth,
@@ -163,6 +163,8 @@ class ResourceController extends Controller
         $resource->save($request->only(['name', 'url', 'user_id', 'slug', 'image', 'category_id', 'description']));
 
         $resource->addMedia($request->file('image'))->toMediaCollection('image');
+
+        Statistic::updateResource();
 
         return Redirect::route('resource.userIndex');
     }

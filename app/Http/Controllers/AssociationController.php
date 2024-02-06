@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Association;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\{Http\JsonResponse, Http\Request};
 use Inertia\{Inertia, Response};
 
 /**
@@ -25,16 +24,17 @@ class AssociationController extends Controller
             ->firstOrFail();
 
         return Inertia::render('Associations/Association', [
-            'association' => array_filter([
+            'association' => [
                 'name' => $association->name,
                 'slug' => $association->slug,
                 'category_name' => optional($association->category)->name,
                 'url' => $association->url,
-                'city' => $association->city,
+                'department' => $association->department,
+                'address' => $association->address,
                 'description' => $association->description,
                 'project' => $association->project,
                 'image' => $association->getFirstMediaUrl('image'),
-            ]),
+            ],
         ]);
     }
 

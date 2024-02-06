@@ -9,6 +9,7 @@ use Exception;
 use Filament\{Actions\StaticAction,
     Forms\Components\Grid,
     Forms\Components\Hidden,
+    Forms\Components\Repeater,
     Forms\Components\Select,
     Forms\Components\SpatieMediaLibraryFileUpload,
     Forms\Components\Tabs,
@@ -30,6 +31,7 @@ use Filament\{Actions\StaticAction,
     Tables\Filters\TernaryFilter,
     Tables\Table};
 use Illuminate\{Database\Eloquent\Builder, Support\Collection, Support\Str};
+use GuzzleHttp\Exception\GuzzleException;
 use JsonException;
 
 class AssociationResource extends Resource
@@ -96,12 +98,13 @@ class AssociationResource extends Resource
      * @param Form $form
      * @return Form
      * @throws JsonException
+     * @throws GuzzleException
      */
     public static function form(Form $form): Form
     {
         $association = new Association();
-        $cities = $association->fetchCitiesFromAPI();
-        $cityOptions = $cities->pluck('label', 'id')->toArray();
+        $labels = $association->fetchDepartments();
+        $departmentsOptions = array_combine($labels->toArray(), $labels->toArray());
 
         /** @var $form */
         return $form
@@ -166,18 +169,24 @@ class AssociationResource extends Resource
                                              * @param string $state
                                              * @return string
                                              */ callback: fn (string $state) => trim(htmlspecialchars($state))),
-                                        Select::make('city')
-                                            ->label('Ville')
+                                        Select::make('department')
+                                            ->label('Département')
                                             ->placeholder('Sélectionnez une ville')
                                             ->required()
                                             ->preload()
-                                            ->options($cityOptions)
+                                            ->searchable()
+                                            ->searchPrompt('Rechercher une ville')
+                                            ->loadingMessage('Chargement des villes...')
+                                            ->noSearchResultsMessage('Aucune ville trouvée')
+                                            ->selectablePlaceholder(false)
+                                            ->options($departmentsOptions)
+                                            ->optionsLimit(20)
                                             ->suffixIcon('heroicon-m-map-pin')
                                             ->suffixIconColor('danger')
                                             ->dehydrateStateUsing(/**
                                              * @param string $state
                                              * @return string
-                                             */ callback: fn (string $state) => trim(htmlspecialchars($state))),
+                                             */ callback: fn (string $state) => trim(htmlspecialchars($state, ENT_COMPAT))),
                                     ])->columns(),
                                 Grid::make('Victory and category')
                                     ->schema(components: [
@@ -210,16 +219,92 @@ class AssociationResource extends Resource
                                     ])->columns(),
                                 Grid::make('Victory')
                                     ->schema(components: [
-                                        Toggle::make('is_winner')
-                                            ->label('Gagnant')
-                                            ->onIcon('heroicon-o-check')
-                                            ->onColor('success')
-                                            ->offIcon('heroicon-o-x-mark')
-                                            ->offColor('danger')
-                                            ->default(false),
+                                        TextInput::make('address')
+                                            ->label('Addresse')
+                                            ->placeholder('Addresse')
+                                            ->required()
+                                            ->string()
+                                            ->maxlength(50)
+                                            ->suffixIcon('heroicon-m-map-pin')
+                                            ->suffixIconColor('danger')
+                                            ->unique(ignoreRecord: true)
+                                            ->dehydrateStateUsing(/**
+                                             * @param string $state
+                                             * @return string
+                                             */ callback: fn (string $state) => trim(htmlspecialchars($state, ENT_COMPAT))),
+                                        TextInput::make('points')
+                                            ->disabled()
+                                            ->suffixIcon('heroicon-m-calculator')
+                                            ->suffixIconColor('danger'),
                                     ])->columns(),
+                                Toggle::make('is_winner')
+                                    ->label('Gagnant')
+                                    ->onIcon('heroicon-o-check')
+                                    ->onColor('success')
+                                    ->offIcon('heroicon-o-x-mark')
+                                    ->offColor('danger')
+                                    ->default(false),
                             ]),
-                        Tab::make('Description de l\'association')
+                        Tab::make('Contact')
+                            ->icon('heroicon-m-user-circle')
+                            ->iconPosition(IconPosition::After)
+                                    ->schema(components: [
+                                        Repeater::make('contact_information')
+                                            ->label('Contact')
+                                            ->helperText('Trois contacts maximum, seul le premier contact est visible pour les citoyens')
+                                            ->schema(components: [
+                                                Grid::make('Adrress and phone number')
+                                                    ->schema(components: [
+                                                TextInput::make('first_name')
+                                                    ->label('Prénom')
+                                                    ->string()
+                                                    ->required()
+                                                    ->placeholder('Prénom')
+                                                    ->suffixIcon('heroicon-m-user-circle')
+                                                    ->suffixIconColor('danger')
+                                                    ->dehydrateStateUsing(/**
+                                                     * @param string $state
+                                                     * @return string
+                                                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state)))),
+                                                TextInput::make('last_name')
+                                                    ->label('Nom')
+                                                    ->string()
+                                                    ->placeholder('Nom')
+                                                    ->suffixIcon('heroicon-m-user-circle')
+                                                    ->suffixIconColor('danger')
+                                                    ->dehydrateStateUsing(/**
+                                                     * @param string $state
+                                                     * @return string
+                                                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state)))),
+                                                TextInput::make('email')
+                                                    ->label('Email')
+                                                    ->email()
+                                                    ->placeholder('Email')
+                                                    ->suffixIcon('heroicon-m-at-symbol')
+                                                    ->suffixIconColor('danger')
+                                                    ->dehydrateStateUsing(/**
+                                                     * @param string $state
+                                                     * @return string
+                                                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
+                                                TextInput::make('phone_number')
+                                                    ->label('Téléphone')
+                                                    ->string()
+                                                    ->placeholder('Téléphone')
+                                                    ->required()
+                                                    ->suffixIcon('heroicon-m-phone')
+                                                    ->suffixIconColor('danger')
+                                                    ->dehydrateStateUsing(/**
+                                                     * @param string $state
+                                                     * @return string
+                                                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
+                                                    ])->columns(2),
+                                            ])->columns(2)
+                                            ->reorderable(false)
+                                            ->collapsible(false)
+                                            ->minItems(1)
+                                            ->maxItems(3)
+                            ]),
+                        Tab::make('Présentation')
                             ->icon('heroicon-m-newspaper')
                             ->iconPosition(IconPosition::After)
                             ->schema(components: [
@@ -238,7 +323,7 @@ class AssociationResource extends Resource
                                      * @return string
                                      */ callback: fn (string $state) => ucfirst(htmlspecialchars($state, ENT_COMPAT))),
                             ]),
-                        Tab::make('Description du projet')
+                        Tab::make('Projet')
                             ->icon('heroicon-m-clipboard-document-check')
                             ->iconPosition(IconPosition::After)
                             ->schema(components: [
@@ -320,15 +405,15 @@ class AssociationResource extends Resource
                      * @param string $state
                      * @return string
                      */ callback: fn (string $state) => htmlspecialchars($state)),
-                TextColumn::make('city')
-                    ->label('Code postal')
+                TextColumn::make('department')
+                    ->label('Département')
                     ->icon('heroicon-m-map-pin')
                     ->iconColor('danger')
                     ->searchable()
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => htmlspecialchars($state)),
+                     */ callback: fn (string $state) => htmlspecialchars($state, ENT_COMPAT)),
                 TextColumn::make('category.name')
                     ->label('Catégorie')
                     ->icon('heroicon-m-bars-3')

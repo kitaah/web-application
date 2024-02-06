@@ -23,7 +23,7 @@ const Edit = () => {
 
     useEffect(() => {
         return () => {
-            reset('name', 'url', 'description', 'category_id');
+            reset('name', 'url', 'slug', 'description', 'category_id');
         };
     }, []);
 
@@ -49,8 +49,10 @@ const Edit = () => {
         e.preventDefault();
 
         const formData = new FormData();
+        formData.append('_method', 'PUT');
         formData.append('name', data.name);
         formData.append('url', data.url);
+        formData.append('url', data.slug);
         formData.append('description', data.description);
         formData.append('category_id', data.category_id);
 
