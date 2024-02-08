@@ -50,14 +50,13 @@ export default function Authenticated({ header, children }) {
                                     Compétition
                                 </NavLink>
                             </div>
-                            {auth.user && (
+                            {auth.user && auth.user.email_verified_at ? (
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink href={route('game.index')} active={route().current('game.*')}>
                                     Jeux
                                 </NavLink>
                             </div>
-                            )}
-                            {!auth.user && (
+                            ) : (
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink href={route('login')} active={route().current('login')}>
                                     Connexion
@@ -66,7 +65,7 @@ export default function Authenticated({ header, children }) {
                             )}
                         </div>
 
-                        {auth.user && (
+                        {auth.user && auth.user.email_verified_at ? (
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
                             <div className="ms-3 relative">
                                 <Dropdown>
@@ -104,8 +103,8 @@ export default function Authenticated({ header, children }) {
                                 </Dropdown>
                             </div>
                         </div>
+                        ) : ( <div></div>
                         )}
-
                         <div className="-me-2 flex items-center sm:hidden">
                             <button
                                 onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
@@ -131,7 +130,6 @@ export default function Authenticated({ header, children }) {
                         </div>
                     </div>
                 </div>
-
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>

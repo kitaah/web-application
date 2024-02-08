@@ -1,6 +1,8 @@
 import GuestLayout from '@/Layouts/GuestLayout';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { Head, Link, useForm } from '@inertiajs/react';
+import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
+import Layout from '@/Layouts/Layout';
 
 export default function VerifyEmail({ status }) {
     const { post, processing } = useForm({});
@@ -12,7 +14,17 @@ export default function VerifyEmail({ status }) {
     };
 
     return (
-        <GuestLayout>
+        <Layout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight text-center">S'inscrire</h2>}>
+            <div className="container mx-auto my-8">
+                <h2 className="font-semibold text-xl text-gray-800 leading-tight text-center">Inscription</h2>
+
+                <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+                    <div>
+                        <Link href="/">
+                            <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+                        </Link>
+                    </div>
+                    <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             <Head title="Email Verification" />
 
             <div className="mb-4 text-sm text-gray-600">
@@ -41,6 +53,9 @@ export default function VerifyEmail({ status }) {
                     </Link>
                 </div>
             </form>
-        </GuestLayout>
+                    </div>
+                </div>
+            </div>
+        </Layout>
     );
 }

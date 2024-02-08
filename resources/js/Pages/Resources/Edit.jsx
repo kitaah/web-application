@@ -10,7 +10,7 @@ import FileInput from "@/Components/FileInput";
 import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
 import slugify from "react-slugify";
 
-const Edit = () => {
+export default function Edit() {
     const { resource, categories } = usePage().props;
     const { data, setData, post, processing, errors, reset } = useForm({
         _method: 'put',
@@ -127,7 +127,7 @@ const Edit = () => {
                                     autoComplete="url"
                                     onChange={(e) => setData('url', e.target.value)}
                                 />
-                                <InputError message={errors.description} className="mt-2" />
+                                <InputError message={errors.url} className="mt-2" />
                             </div>
 
                             <div className="mt-4">
@@ -159,5 +159,3 @@ const Edit = () => {
         </Layout>
     );
 };
-
-export default Edit;

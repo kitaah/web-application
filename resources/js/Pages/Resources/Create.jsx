@@ -98,7 +98,7 @@ const Create = () => {
                     <InputError message={errors.name} className="mt-2" />
                 </div>
 
-                <div className="hidden">
+                <div className="mt-4">
                     <InputLabel htmlFor="slug" value="Slug" />
                     <TextInput
                         id="slug"
@@ -139,7 +139,7 @@ const Create = () => {
                         onChange={(e) => setData('url', e.target.value)}
                         required
                     />
-                    <InputError message={errors.description} className="mt-2" />
+                    <InputError message={errors.url} className="mt-2" />
                 </div>
 
                 <div className="mt-4">

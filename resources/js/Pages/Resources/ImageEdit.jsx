@@ -7,7 +7,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import FileInput from "@/Components/FileInput";
 import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
 
-const ImageEdit = () => {
+export default function ImageEdit(){
     const { resource } = usePage().props;
     const { data, setData, post, processing, errors, reset } = useForm({
         _method: 'put',
@@ -73,5 +73,3 @@ const ImageEdit = () => {
         </Layout>
     );
 };
-
-export default ImageEdit;

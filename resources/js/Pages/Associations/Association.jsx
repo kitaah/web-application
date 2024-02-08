@@ -35,17 +35,16 @@ export default function Association() {
                             <div>Description: <strong>{association.description}</strong></div>< br />
                             <div>Projet: <strong>{association.project}</strong></div>< br/>
                             <div>Addresse: <strong>{association.address}</strong></div>< br/>
-                            {auth.user && (
-                            <div>
-                                <button
-                                    onClick={handleVote}
-                                    className="px-6 py-2 mt-4 text-white bg-green-500 rounded-md focus:outline-none"
-                                >
-                                    Vote pour cette association
-                                </button>
-                            </div>
-                                )}
-                            {!auth.user && (
+                            {auth.user && auth.user.email_verified_at ? (
+                                <div>
+                                    <button
+                                        onClick={handleVote}
+                                        className="px-6 py-2 mt-4 text-white bg-green-500 rounded-md focus:outline-none"
+                                    >
+                                        Vote pour cette association
+                                    </button>
+                                </div>
+                            ) : (
                                 <div className="font-bold">Si tu souhaites voter pour cette association inscris toi dès maintenant !</div>
                             )}
                         </div>

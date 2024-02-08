@@ -97,6 +97,10 @@ class UserResource extends Resource
      */
     public static function form(Form $form): Form
     {
+        $association = new User();
+        $labels = $association->fetchDepartments();
+        $departmentsOptions = array_combine($labels->toArray(), $labels->toArray());
+
         /** @var $form */
         return $form
             ->schema(components: [
@@ -125,7 +129,7 @@ class UserResource extends Resource
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
+                     */ callback: fn (string $state) => strtolower(trim(htmlspecialchars($state)))),
                 TextInput::make('password')
                     ->label('Mot de passe')
                     ->helperText('Au moins 8 caractères, une lettre majuscule, minuscule, un nombre et un caractère spécial.')
@@ -165,6 +169,24 @@ class UserResource extends Resource
                      * @return bool
                      */ condition: fn (string $operation): bool => $operation === 'create')
                     ->maxLength(255),
+                Select::make('department')
+                    ->label('Département')
+                    ->placeholder('Sélectionnez un département')
+                    ->required()
+                    ->preload()
+                    ->searchable()
+                    ->searchPrompt('Rechercher un département')
+                    ->loadingMessage('Chargement des départements...')
+                    ->noSearchResultsMessage('Aucun département trouvé')
+                    ->selectablePlaceholder(false)
+                    ->options($departmentsOptions)
+                    ->optionsLimit(20)
+                    ->suffixIcon('heroicon-m-map-pin')
+                    ->suffixIconColor('danger')
+                    ->dehydrateStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state, ENT_COMPAT))),
                 Hidden::make('terms_accepted')
                     ->default(true),
                 Select::make('roles')
@@ -175,8 +197,6 @@ class UserResource extends Resource
                     ->preload()
                     ->suffixIcon('heroicon-m-finger-print')
                     ->suffixIconColor('danger'),
-                DateTimePicker::make('email_verified_at')
-                    ->label('Date de vérification de l\'email'),
             ]);
     }
 
@@ -210,9 +230,9 @@ class UserResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
-                TextColumn::make('city')
-                    ->label('Ville')
+                     */ callback: fn (string $state) => strtolower(trim(htmlspecialchars($state)))),
+                TextColumn::make('department')
+                    ->label('Département')
                     ->icon('heroicon-m-map-pin')
                     ->iconColor('danger')
                     ->searchable()

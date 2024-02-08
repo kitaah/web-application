@@ -79,7 +79,7 @@ export default function UserResources() {
                                                             {status}
                                                         </th>
                                                         <td className="px-6 py-4">
-                                                            {!is_validated ? (
+                                                            {status === "En attente" || status === "Suspendue" || !is_validated ? (
                                                                 <DangerButton>Indisponible</DangerButton>
                                                             ) : (
                                                                 <Link href={route('resources.show', { slug: slug })}>
@@ -90,7 +90,7 @@ export default function UserResources() {
                                                             )}
                                                         </td>
                                                         <td className="px-6 py-4">
-                                                            {!is_validated ? (
+                                                            {status === "En attente" || status === "Suspendue" || !is_validated ? (
                                                                 <DangerButton>Indisponible</DangerButton>
                                                             ) : (
                                                                 <Link href={route('resource.edit', { slug: slug })}>
@@ -101,7 +101,7 @@ export default function UserResources() {
                                                             )}
                                                         </td>
                                                         <td className="px-6 py-4">
-                                                            {!is_validated ? (
+                                                            {(status === "En attente" || status === "Suspendue" || !is_validated) ? (
                                                                 <DangerButton>Indisponible</DangerButton>
                                                             ) : (
                                                                 <Link href={route('image.edit', { slug: slug })}>

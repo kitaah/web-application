@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\DepartmentsTrait;
 use Filament\{Models\Contracts\FilamentUser, Panel};
 use Illuminate\{Contracts\Auth\MustVerifyEmail,
     Database\Eloquent\Factories\HasFactory,
@@ -19,7 +20,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, HasRoles, Notifiable;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable, DepartmentsTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -28,8 +29,9 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
      */
     protected $fillable = [
         'name',
-        'city',
+        'department',
         'email',
+        'points',
         'mood',
         'password',
         'terms_accepted',

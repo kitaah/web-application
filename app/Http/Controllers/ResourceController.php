@@ -197,7 +197,7 @@ class ResourceController extends Controller
     {
         $resource = Resource::where('slug', $slug)->firstOrFail();
 
-        Validator::make($request->only(['name', 'url', 'slug', 'description', 'category_id']), [
+        Validator::make($request->only(['name', 'url', 'slug','description', 'category_id']), [
             'name' => [
                 'required',
                 'sometimes',

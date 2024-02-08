@@ -22,6 +22,8 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
+        "react-modal": "^3.16.1",
+        "react-select": "^5.8.0",
         "react-slugify": "^3.0.3"
     }
 }

@@ -171,13 +171,13 @@ class AssociationResource extends Resource
                                              */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                                         Select::make('department')
                                             ->label('Département')
-                                            ->placeholder('Sélectionnez une ville')
+                                            ->placeholder('Sélectionnez un département')
                                             ->required()
                                             ->preload()
                                             ->searchable()
-                                            ->searchPrompt('Rechercher une ville')
-                                            ->loadingMessage('Chargement des villes...')
-                                            ->noSearchResultsMessage('Aucune ville trouvée')
+                                            ->searchPrompt('Rechercher un département')
+                                            ->loadingMessage('Chargement des départements...')
+                                            ->noSearchResultsMessage('Aucun département trouvé')
                                             ->selectablePlaceholder(false)
                                             ->options($departmentsOptions)
                                             ->optionsLimit(20)
@@ -251,7 +251,7 @@ class AssociationResource extends Resource
                                     ->schema(components: [
                                         Repeater::make('contact_information')
                                             ->label('Contact')
-                                            ->helperText('Trois contacts maximum, seul le premier contact est visible pour les citoyens')
+                                            ->helperText('Trois contacts maximum')
                                             ->schema(components: [
                                                 Grid::make('Adrress and phone number')
                                                     ->schema(components: [
@@ -269,6 +269,7 @@ class AssociationResource extends Resource
                                                 TextInput::make('last_name')
                                                     ->label('Nom')
                                                     ->string()
+                                                    ->required()
                                                     ->placeholder('Nom')
                                                     ->suffixIcon('heroicon-m-user-circle')
                                                     ->suffixIconColor('danger')
@@ -278,6 +279,7 @@ class AssociationResource extends Resource
                                                      */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state)))),
                                                 TextInput::make('email')
                                                     ->label('Email')
+                                                    ->required()
                                                     ->email()
                                                     ->placeholder('Email')
                                                     ->suffixIcon('heroicon-m-at-symbol')
@@ -285,12 +287,12 @@ class AssociationResource extends Resource
                                                     ->dehydrateStateUsing(/**
                                                      * @param string $state
                                                      * @return string
-                                                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
+                                                     */ callback: fn (string $state) => strtolower(trim(htmlspecialchars($state)))),
                                                 TextInput::make('phone_number')
                                                     ->label('Téléphone')
+                                                    ->required()
                                                     ->string()
                                                     ->placeholder('Téléphone')
-                                                    ->required()
                                                     ->suffixIcon('heroicon-m-phone')
                                                     ->suffixIconColor('danger')
                                                     ->dehydrateStateUsing(/**
