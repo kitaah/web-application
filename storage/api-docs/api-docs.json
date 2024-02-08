@@ -1,0 +1,127 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Project API Documentation",
+        "description": "Documentation for project APIs",
+        "contact": {
+            "email": "contact@mna-coding.fr"
+        },
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "https://web-application.ddev.site:8443/"
+        },
+        {
+            "url": "https://web-application.ddev.site:8443/"
+        },
+        {
+            "url": "https://web-application.ddev.site:8443/"
+        }
+    ],
+    "paths": {
+        "/api/resources": {
+            "get": {
+                "tags": [
+                    "Resources"
+                ],
+                "summary": "Get a list of validated resources",
+                "operationId": "getResourcesList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid credentials"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        },
+        "/api/resource/{slug}": {
+            "get": {
+                "tags": [
+                    "Resource"
+                ],
+                "summary": "Get a single validated resource",
+                "operationId": "getSingleResource",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Slug of the resource",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid credentials"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        },
+        "/api/competition": {
+            "get": {
+                "tags": [
+                    "Competition"
+                ],
+                "summary": "Get current competition information",
+                "operationId": "getCurrentCompetition",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid credentials"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        },
+        "/api/game": {
+            "get": {
+                "tags": [
+                    "Games"
+                ],
+                "summary": "Get a random quiz",
+                "operationId": "getRandomGame",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid credentials"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            }
+        }
+    }
+}
