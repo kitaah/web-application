@@ -88,7 +88,7 @@ export default function Edit() {
                                 <InputError message={errors.name} className="mt-2" />
                             </div>
 
-                            <div className="hidden">
+                            <div className="mt-4">
                                 <InputLabel htmlFor="slug" value="Slug" />
                                 <TextInput
                                     id="slug"

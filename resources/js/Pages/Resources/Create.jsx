@@ -137,7 +137,6 @@ const Create = () => {
                         className="mt-1 block w-full"
                         autoComplete="url"
                         onChange={(e) => setData('url', e.target.value)}
-                        required
                     />
                     <InputError message={errors.url} className="mt-2" />
                 </div>

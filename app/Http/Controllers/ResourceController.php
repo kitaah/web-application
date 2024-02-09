@@ -139,27 +139,34 @@ class ResourceController extends Controller
      * @throws FileDoesNotExist
      * @throws FileIsTooBig
      */
+
     public function store(Request $request): RedirectResponse
     {
-        $validatedData = $request->validate([
+        $data = $request->only(['name', 'url', 'slug', 'description', 'category_id', 'image']);
+
+        $validator = Validator::make($data, [
             'name' => ['required', 'string', 'max:50', Rule::unique('resources', 'name')],
-            'url' => ['required', 'url', 'string', 'max:255'],
+            'url' => ['nullable', 'url', 'string', 'max:255'],
             'slug' => ['required', 'string', 'alpha_dash', 'max:50', Rule::unique('resources', 'slug')],
             'description' => ['required', 'string', 'max:5000'],
             'category_id' => ['required', 'integer', 'exists:categories,id'],
-            'image' => ['required','image', 'mimes:jpeg,png,jpg', 'max:1024'],
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:1024'],
         ]);
+
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
 
         $resource = new Resource([
-            'name' => $validatedData['name'],
-            'url' => $validatedData['url'],
+            'name' => $data['name'],
+            'url' => $data['url'],
             'user_id' => auth()->id(),
-            'slug' => $validatedData['slug'],
-            'description' => $validatedData['description'],
-            'image' => $validatedData['image'],
+            'slug' => $data['slug'],
+            'description' => $data['description'],
+            'image' => $data['image'],
         ]);
 
-        $resource->category()->associate($validatedData['category_id']);
+        $resource->category()->associate($data['category_id']);
         $resource->save($request->only(['name', 'url', 'user_id', 'slug', 'image', 'category_id', 'description']));
 
         $resource->addMedia($request->file('image'))->toMediaCollection('image');
@@ -198,21 +205,10 @@ class ResourceController extends Controller
         $resource = Resource::where('slug', $slug)->firstOrFail();
 
         Validator::make($request->only(['name', 'url', 'slug','description', 'category_id']), [
-            'name' => [
-                'required',
-                'sometimes',
-                'string',
-                'max:50',
-                Rule::unique('resources', 'name')->ignore($resource->id),
+            'name' => ['required', 'sometimes', 'string', 'max:50', Rule::unique('resources', 'name')->ignore($resource->id),
             ],
-            'url' => ['required', 'sometimes', 'url', 'string', 'max:255'],
-            'slug' => [
-                'required',
-                'sometimes',
-                'string',
-                'alpha_dash',
-                'max:50',
-                Rule::unique('resources', 'slug')->ignore($resource->id),
+            'url' => ['nullable', 'url', 'string', 'max:255'],
+            'slug' => ['required', 'sometimes', 'string', 'alpha_dash', 'max:50', Rule::unique('resources', 'slug')->ignore($resource->id),
             ],
             'description' => ['required', 'sometimes', 'string', 'max:5000'],
             'category_id' => ['required', 'sometimes', 'integer', 'exists:categories,id'],
