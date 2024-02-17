@@ -2,7 +2,8 @@
 
 namespace App\Http;
 
-use App\{Http\Middleware\Authenticate,
+use App\{Http\Middleware\ApiResourceToken,
+    Http\Middleware\Authenticate,
     Http\Middleware\EncryptCookies,
     Http\Middleware\HandleInertiaRequests,
     Http\Middleware\PreventRequestsDuringMaintenance,
@@ -80,6 +81,7 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $middlewareAliases = [
+        'mobile' => ApiResourceToken::class,
         'auth' => Authenticate::class,
         'auth.basic' => AuthenticateWithBasicAuth::class,
         'auth.session' => AuthenticateSession::class,

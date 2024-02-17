@@ -21,10 +21,20 @@ class AllResourcesResource extends JsonResource
 {
     /**
      * @OA\Get(
-     *     path="/api/resources",
-     *     operationId="getResourcesList",
-     *     tags={"Resources"},
-     *     summary="Get a list of validated resources",
+     *       path="/api/resources",
+     *      operationId="getResourcesList",
+     *      tags={"Resources"},
+     *      summary="Get a list of validated resources",
+     *      security={{ "api_token": {} }},
+     *          @OA\Parameter(
+     *          name="X-Api-Token",
+     *          in="header",
+     *          description="API Token",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
      *      @OA\Response(
      *       response=200,
      *       description="Successful operation",
@@ -42,6 +52,19 @@ class AllResourcesResource extends JsonResource
      *        description="Not found"
      *      ),
      * ),
+     * @OA\Get(
+     *       path="/api/token",
+     *       operationId="generateToken",
+     *       tags={"Token"},
+     *       summary="Generate a new API token",
+     *       @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\JsonContent(
+     *               @OA\Property(property="token", type="string")
+     *           )
+     *       ),
+     *   ),
      * @OA\Info(
      *       title="Project API Documentation",
      *       version="1.0",
