@@ -50,6 +50,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::inertia('/', 'Home')->name('home');
+Route::inertia('/Home2', 'Home2')->name('home2');
 Route::inertia('/accessibilite', 'Legal/Accessibility')->name('accessibility');
 Route::inertia('/mentions-legales', 'Legal/Disclaimer')->name('disclaimer');
 Route::inertia('/politique-de-confidentialite', 'Legal/PrivacyPolicy')->name('privacypolicy');

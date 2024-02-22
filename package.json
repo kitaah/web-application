@@ -3,7 +3,10 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "postinstall": "copy-dsfr-to-public",
+        "predev": "only-include-used-icons",
+        "prebuild": "only-include-used-icons"
     },
     "devDependencies": {
         "@headlessui/react": "^1.4.2",
@@ -22,6 +25,8 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
+        "@codegouvfr/react-dsfr": "^1.7.2",
+        "flowbite-react": "^0.7.2",
         "react-modal": "^3.16.1",
         "react-select": "^5.8.0",
         "react-slugify": "^3.0.3"
