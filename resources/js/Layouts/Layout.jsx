@@ -4,6 +4,7 @@ import NavLink from "@/Components/NavLink";
 import { Link, usePage } from "@inertiajs/react";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.jsx";
 import Dropdown from "@/Components/Dropdown.jsx";
+import { Footer } from "@codegouvfr/react-dsfr/Footer";
 
 export default function Authenticated({ header, children }) {
     const { auth } = usePage().props;
@@ -232,6 +233,25 @@ export default function Authenticated({ header, children }) {
             )}
 
             <main>{children}</main>
+
+            <Footer
+                accessibility="fully compliant"
+                brandTop={
+                    <>
+                        Ministère
+                        <br />
+                        DU TRAVAIL
+                        <br />
+                        DE LA SANTé
+                        <br />
+                        ET DES SOLIDARITéS
+                    </>
+                }
+                homeLinkProps={{
+                    href: "/",
+                    title: "Accueil - Ministère",
+                }}
+            ></Footer>
         </div>
     );
 }
