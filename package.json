@@ -29,6 +29,7 @@
         "flowbite-react": "^0.7.2",
         "react-modal": "^3.16.1",
         "react-select": "^5.8.0",
-        "react-slugify": "^3.0.3"
+        "react-slugify": "^3.0.3",
+        "swiper": "^11.0.7"
     }
 }

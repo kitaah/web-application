@@ -1,0 +1,45 @@
+.Assoc {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.AssocRank {
+    font-weight: bold;
+    font-size: large;
+    text-transform: uppercase;
+    color: whitesmoke;
+}
+
+.AssocBody {
+    background-color: rgb(230, 230, 230);
+    display: inline-block;
+    align-items: center;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.AssocBody img {
+    margin: 0.5vh auto;
+}
+
+.AssocPoints p:nth-child(2) {
+    font-weight: bold;
+    font-size: larger;
+}
+
+.AssocPoints {
+    text-transform: uppercase;
+    color: whitesmoke;
+}
+
+.SwiperWrapper {
+    background: rgb(69, 69, 69);
+    background: radial-gradient(
+        circle,
+        rgba(69, 69, 69, 1) 1%,
+        rgba(112, 112, 112, 1) 10%,
+        rgba(154, 154, 154, 1) 20%,
+        rgba(212, 212, 212, 1) 47%,
+        rgba(255, 255, 255, 1) 100%
+    );
+}
