@@ -54,6 +54,8 @@ Route::inertia('/Home2', 'Home2')->name('home2');
 Route::inertia('/accessibilite', 'Legal/Accessibility')->name('accessibility');
 Route::inertia('/mentions-legales', 'Legal/Disclaimer')->name('disclaimer');
 Route::inertia('/politique-de-confidentialite', 'Legal/PrivacyPolicy')->name('privacypolicy');
+Route::inertia('/conditions-generales-utilisation', 'Legal/TermsAndConditions')->name('termsandconditions');
+Route::inertia('/politique-de-cookies', 'Legal/CookiePolicy')->name('cookiepolicy');
 
 Route::get('/ressources', [ResourceController::class, 'index'])->name('resources.index');
 Route::get('/ressource/{slug}', [ResourceController::class, 'show'])->name('resources.show');
