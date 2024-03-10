@@ -132,7 +132,9 @@ export default function Register() {
                                 onChange={(e) => setData('terms_accepted', e.target.checked)}
                                 className="form-checkbox"
                             />
-                            <span className="ml-2">J'accepte les conditions d'utilisation</span>
+                            <span className="ml-2">J'accepte <Link
+                                href={route('termsandconditions')} className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">les conditions générales d'utilisation</Link>
+                            </span>
                         </label>
                         <InputError message={errors.terms_accepted} className="mt-2" />
                     </div>

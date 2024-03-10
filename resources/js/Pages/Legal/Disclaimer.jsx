@@ -1,8 +1,6 @@
 import Layout from '@/Layouts/Layout';
-import { usePage } from '@inertiajs/react';
 
 export default function Disclaimer() {
-    const { props } = usePage();
 
     return (
         <Layout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight text-center">Mentions légales</h2>}>
@@ -58,10 +56,9 @@ export default function Disclaimer() {
                 <section className="mb-8">
                     <h2 className="text-2xl font-bold mb-2">Propriété intellectuelle</h2>
                     <h3 className="text-2xl font-bold mb-2">Contenus publiés par le ministère</h3>
-                    <p>Les ressources relationnelles mises en ligne par le ministère sur le site ressources-relationnelles, à l'exception des marques, logos, contenus grevés de droits de propriété intellectuelle de tiers
-                        ou contenant des données à caractère personnel, sont des informations publiques qui peuvent être réutilisées librement et gratuitement.< br/>
-                        Les modalités de réutilisation sont définies par la loi n°78-753 du 17 juillet 1978, ainsi que par les conditions générales de réutilisation des informations publiques.< br/>
-                        Si vous envisagez de réutiliser des contenus disponibles sur ce site publiés par nos soins, veuillez nous <a href="https://fr.wikipedia.org/" className="font-bold">nous contacter</a>.< br/></p>
+                    <p>Sauf mention explicite de propriété intellectuelle détenue par des tiers, les contenus de ce site sont proposés sous licence etalab-2.0.< br/>
+                        La Licence Ouverte Etalab est une licence ouverte, qui permet notamment la réutilisation libre des données, leur redistribution et leur modification, sous réserve de mentionner la source et la date de dernière mise à jour des données.< br/>
+                        Pour plus d'informations sur la Licence Ouverte Etalab, vous pouvez consulter le texte intégral de la licence sur le site officiel d'Etalab.< br/></p>
                     <h3 className="text-2xl font-bold mb-2">Contenus publiés par les utilisateurs</h3>
                     <p>Les utilisateurs garantissent qu'ils détiennent les droits nécessaires sur les textes et images qu'ils publient et que leur utilisation ne viole pas les droits de tiers.< br/>
                         Ils sont entièrement responsables de tout litige résultant de l'utilisation de contenus soumis.< br/>

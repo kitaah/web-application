@@ -1,8 +1,6 @@
 import Layout from '@/Layouts/Layout';
-import { usePage } from '@inertiajs/react';
 
 export default function Accessibility() {
-    const { props } = usePage();
 
     return (
         <Layout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight text-center">Accessibilité</h2>}>
@@ -15,7 +13,7 @@ export default function Accessibility() {
                     <p>Le DICOM des ministères sociaux s’engage à rendre son site « (RE)SOURCES RELATIONNELLES » accessible conformément
                         à l’article 47 de la loi n° 2005-102 du 11 février 2005.<br/>
                         À cette fin, il met en œuvre la stratégie et les actions suivantes.<br/>
-                        Cette déclaration d’accessibilité s’applique à : https://ressources-relationnelles.fr/.</p>
+                        Cette déclaration d’accessibilité s’applique à: https://ressources-relationnelles.fr/.</p>
                 </section>
 
                 <section className="mb-8">
@@ -61,8 +59,7 @@ export default function Accessibility() {
 
                 <section className="mb-8">
                     <h2 className="text-2xl font-bold mb-2">Technologies utilisées pour la réalisation du site web</h2>
-                    <p>-  HTML, CSS, Javascript.< br/>
-                        - Framework PHP Laravel.</p>
+                    <p>HTML, CSS, Javascript et PHP.</p>
                 </section>
 
                 <section className="mb-8">
@@ -88,11 +85,11 @@ export default function Accessibility() {
                         - Accessibilité <a href="https://fr.wikipedia.org/" className="font-bold">https://ressources-relationnelles.fr/accessibilite</a><br/>
                         - Mentions légales <a href="https://fr.wikipedia.org/" className="font-bold">https://ressources-relationnelles.fr/mentions-legales</a><br/>
                         - Politique de confidentialité <a href="https://fr.wikipedia.org/" className="font-bold">https://ressources-relationnelles.fr/politique-de-confidentialite</a><br/>
-                        - Gestion de cookies <a href="https://fr.wikipedia.org/" className="font-bold">https://ressources-relationnelles.fr/gestion-de-cookies</a><br/>
+                        - Politique de cookies <a href="https://fr.wikipedia.org/" className="font-bold">https://ressources-relationnelles.fr/politique-de-cookies</a><br/>
+                        - Conditions générales d'utilisation <a href="https://fr.wikipedia.org/" className="font-bold">https://ressources-relationnelles.fr/conditions-generales-utilisation</a><br/>
                         - Listing des ressources <a href="https://fr.wikipedia.org/" className="font-bold">https://ressources-relationnelles.fr/ressources</a><br/>
                         - Page ressource "L'évolution du handisport en Bretagne" <a href="https://fr.wikipedia.org/" className="font-bold">https://ressources-relationnelles.fr/ressource/levolution-du-handisport-en-bretagne</a><br/>
                         - Page ressource "Le bien-être au travail" <a href="https://fr.wikipedia.org/" className="font-bold">https://ressources-relationnelles.fr/ressource/le-bien-etre-au-travail</a><br/>
-                        - Listing des associations <a href="https://fr.wikipedia.org/" className="font-bold">https://ressources-relationnelles.fr/associations</a><br/>
                         - Page association "Solidarité bordelaise" <a href="https://fr.wikipedia.org/" className="font-bold">https://ressources-relationnelles.fr/association/solidarite-bordelaise</a><br/>
                     </p>
                 </section>

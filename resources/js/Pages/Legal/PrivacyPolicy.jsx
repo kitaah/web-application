@@ -1,8 +1,6 @@
 import Layout from '@/Layouts/Layout';
-import { usePage } from '@inertiajs/react';
 
 export default function PrivacyPolicy() {
-    const { props } = usePage();
 
     return (
         <Layout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight text-center">Politique de confidentialité</h2>}>
