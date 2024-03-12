@@ -47,7 +47,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         VerifyEmail::toMailUsing(callback: static function (object $notifiable, string $url) {
             return (new MailMessage)
-                ->from('contact@re-r.fr', 'L\'équipe de (RE)SOURCES RELATIONNELLES')
+                ->from('contact@re-relationnelles.fr', 'L\'équipe de (RE)SOURCES RELATIONNELLES')
                 ->greeting('Bonjour ' . $notifiable->name . ' !')
                 ->subject('Activation du compte')
                 ->line('Veuillez cliquer sur le bouton ci-dessous pour activer votre compte.')

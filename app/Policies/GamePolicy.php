@@ -21,13 +21,6 @@ class GamePolicy
     const ADMINISTRATOR = 'Administrateur';
 
     /**
-     * The role of a moderator.
-     *
-     * @var string
-     */
-    const MODERATOR = 'Modérateur';
-
-    /**
      * Check if the user has any of the specified roles.
      *
      * @param User $user
@@ -50,7 +43,6 @@ class GamePolicy
         $allowedRoles = [
             self::SUPER_ADMINISTRATOR,
             self::ADMINISTRATOR,
-            self::MODERATOR,
         ];
 
         return $this->hasRole($user, $allowedRoles);
@@ -84,7 +76,6 @@ class GamePolicy
         $allowedRoles = [
             self::SUPER_ADMINISTRATOR,
             self::ADMINISTRATOR,
-            self::MODERATOR,
         ];
 
         return $this->hasRole($user, $allowedRoles);
