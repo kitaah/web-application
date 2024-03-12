@@ -84,6 +84,10 @@ class AdminPanelProvider extends PanelProvider
                 [
                     Authenticate::class,
                 ]
+            )
+            ->renderHook(
+                'panels::footer',
+                fn () => view('filament.custom-footer'),
             );
     }
 }
