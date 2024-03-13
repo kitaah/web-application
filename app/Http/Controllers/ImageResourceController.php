@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Resource;
-use Illuminate\{Http\RedirectResponse, Http\Request, Support\Facades\Redirect, Support\Facades\Validator};
+use Illuminate\{Http\RedirectResponse, Http\Request, Support\Facades\Redirect, Support\Facades\Validator, Support\Str};
 use Inertia\{Inertia, Response};
 use Spatie\{MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist,
     MediaLibrary\MediaCollections\Exceptions\FileIsTooBig};
@@ -101,7 +101,8 @@ class ImageResourceController extends Controller
         $resource->clearMediaCollection('image');
 
         try {
-            $resource->addMedia($request->file('image'))->toMediaCollection('image');
+            $randomFileName = strtoupper(Str::random(26)) . '.' . $request->file('image')->getClientOriginalExtension();
+            $resource->addMedia($request->file('image'))->usingFileName($randomFileName)->toMediaCollection('image');
         } catch (FileDoesNotExist | FileIsTooBig $exception) {
             throw ValidationException::withMessages(['image' => $exception->getMessage()]);
         }

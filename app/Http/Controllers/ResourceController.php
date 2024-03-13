@@ -9,6 +9,7 @@ use Illuminate\{Http\RedirectResponse,
     Support\Facades\Redirect,
     Http\UploadedFile,
     Support\Facades\Validator,
+    Support\Str,
     Validation\Rule};
 use Inertia\{Inertia, Response};
 use Spatie\{MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist,
@@ -142,9 +143,7 @@ class ResourceController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $data = $request->only(['name', 'url', 'slug', 'description', 'category_id', 'image']);
-
-        $validator = Validator::make($data, [
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:50', Rule::unique('resources', 'name')],
             'url' => ['nullable', 'url', 'string', 'max:255'],
             'slug' => ['required', 'string', 'alpha_dash', 'max:50', Rule::unique('resources', 'slug')],
@@ -157,19 +156,19 @@ class ResourceController extends Controller
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
-        $resource = new Resource([
-            'name' => $data['name'],
-            'url' => $data['url'],
-            'user_id' => auth()->id(),
-            'slug' => $data['slug'],
-            'description' => $data['description'],
-            'image' => $data['image'],
-        ]);
+        $resource = new Resource();
+        $resource->name = $request->input('name');
+        $resource->url = $request->input('url');
+        $resource->user_id = auth()->id();
+        $resource->slug = $request->input('slug');
+        $resource->description = $request->input('description');
+        $resource->category_id = $request->input('category_id');
+        $resource->save();
 
-        $resource->category()->associate($data['category_id']);
-        $resource->save($request->only(['name', 'url', 'user_id', 'slug', 'image', 'category_id', 'description']));
-
-        $resource->addMedia($request->file('image'))->toMediaCollection('image');
+        if ($request->hasFile('image')) {
+            $randomFileName = strtoupper(Str::random(26)) . '.' . $request->file('image')->getClientOriginalExtension();
+            $resource->addMedia($request->file('image'))->usingFileName($randomFileName)->toMediaCollection('image');
+        }
 
         Statistic::updateResource();
 
