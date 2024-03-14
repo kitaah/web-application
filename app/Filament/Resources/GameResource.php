@@ -99,6 +99,9 @@ class GameResource extends Resource
                     ->suffixIcon('heroicon-m-tag')
                     ->suffixIconColor('danger')
                     ->unique(ignoreRecord: true)
+                    ->validationMessages([
+                        'unique' => 'Un jeu possède déjà ce nom.',
+                    ])
                     ->live(debounce: 250)
                     ->debounce(250)
                     ->afterStateUpdated(/**
@@ -109,13 +112,16 @@ class GameResource extends Resource
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT)))),
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state, ENT_COMPAT))),
                 TextInput::make('slug')
                     ->placeholder('Slug')
                     ->required()
                     ->string()
                     ->alphaDash()
                     ->required()
+                    ->validationMessages([
+                        'unique' => 'Ce slug existe déjà.',
+                    ])
                     ->maxLength(50)
                     ->suffixIcon('heroicon-m-bookmark')
                     ->suffixIconColor('danger')

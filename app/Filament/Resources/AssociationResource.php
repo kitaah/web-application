@@ -130,6 +130,9 @@ class AssociationResource extends Resource
                                             ->suffixIcon('heroicon-m-tag')
                                             ->suffixIconColor('danger')
                                             ->unique(ignoreRecord: true)
+                                            ->validationMessages([
+                                                'unique' => 'L\'association existe déjà.',
+                                            ])
                                             ->live(debounce: 250)
                                             ->debounce(250)
                                             ->afterStateUpdated(/**
@@ -149,6 +152,9 @@ class AssociationResource extends Resource
                                             ->suffixIcon('heroicon-m-bookmark')
                                             ->suffixIconColor('danger')
                                             ->unique(ignoreRecord: true)
+                                            ->validationMessages([
+                                                'unique' => 'Ce slug existe déjà.',
+                                            ])
                                             ->dehydrateStateUsing(/**
                                              * @param string $state
                                              * @return string
@@ -165,6 +171,9 @@ class AssociationResource extends Resource
                                             ->suffixIcon('heroicon-m-identification')
                                             ->suffixIconColor('danger')
                                             ->unique(ignoreRecord: true)
+                                            ->validationMessages([
+                                                'unique' => 'L\'association existe déjà.',
+                                            ])
                                             ->dehydrateStateUsing(/**
                                              * @param string $state
                                              * @return string
@@ -220,8 +229,8 @@ class AssociationResource extends Resource
                                 Grid::make('Victory')
                                     ->schema(components: [
                                         TextInput::make('address')
-                                            ->label('Addresse')
-                                            ->placeholder('Addresse')
+                                            ->label('Adresse')
+                                            ->placeholder('Adresse')
                                             ->required()
                                             ->string()
                                             ->maxlength(50)
@@ -299,8 +308,8 @@ class AssociationResource extends Resource
                                                      * @param string $state
                                                      * @return string
                                                      */ callback: fn (string $state) => trim(htmlspecialchars($state))),
-                                                    ])->columns(2),
-                                            ])->columns(2)
+                                                    ])->columns(),
+                                            ])->columns()
                                             ->reorderable(false)
                                             ->collapsible(false)
                                             ->minItems(1)

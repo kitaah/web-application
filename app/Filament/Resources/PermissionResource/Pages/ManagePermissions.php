@@ -39,7 +39,7 @@ class ManagePermissions extends ManageRecords
                 ->modalSubmitActionLabel('Ajouter')
                 ->icon('heroicon-m-plus-circle')
                 ->modalAlignment(Alignment::Center)
-                ->modalWidth(MaxWidth::Large)
+                ->modalWidth(MaxWidth::TwoExtraLarge)
                 ->modalFooterActionsAlignment(Alignment::Center)
                 ->createAnother(false)
                 ->successNotificationTitle('Permission ajoutée'),

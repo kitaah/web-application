@@ -109,6 +109,9 @@ class UserResource extends Resource
                     ->placeholder('Nom d\'utilisateur')
                     ->required()
                     ->unique(ignoreRecord: true)
+                    ->validationMessages([
+                        'unique' => 'L\'utilisateur existe déjà.',
+                    ])
                     ->autofocus()
                     ->string()
                     ->maxLength(50)
@@ -122,6 +125,9 @@ class UserResource extends Resource
                     ->placeholder('Email')
                     ->email()
                     ->unique(ignoreRecord: true)
+                    ->validationMessages([
+                        'unique' => 'L\'utilisateur existe déjà.',
+                    ])
                     ->required()
                     ->maxLength(255)
                     ->suffixIcon('heroicon-m-at-symbol')

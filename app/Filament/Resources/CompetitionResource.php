@@ -104,6 +104,9 @@ class CompetitionResource extends Resource
                             ->suffixIcon('heroicon-m-tag')
                             ->suffixIconColor('danger')
                             ->unique(ignoreRecord: true)
+                            ->validationMessages([
+                                'unique' => 'L\'identifiant existe déjà.',
+                            ])
                             ->live(debounce: 250)
                             ->debounce(250)
                             ->afterStateUpdated(/**
@@ -123,7 +126,10 @@ class CompetitionResource extends Resource
                             ->maxLength(50)
                             ->suffixIcon('heroicon-m-bookmark')
                             ->suffixIconColor('danger')
-                            ->unique(ignoreRecord: true),
+                            ->unique(ignoreRecord: true)
+                            ->validationMessages([
+                                'unique' => 'Ce slug existe déjà.',
+                            ]),
                     ])->columns(),
                 Grid::make('Start and end date')
                     ->schema(components: [

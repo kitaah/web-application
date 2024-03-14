@@ -132,6 +132,9 @@ class ResourceResource extends Resource
                                             ->suffixIcon('heroicon-m-tag')
                                             ->suffixIconColor('danger')
                                             ->unique(ignoreRecord: true)
+                                            ->validationMessages([
+                                                'unique' => 'Une ressource possède déjà ce nom.',
+                                            ])
                                             ->live(debounce: 250)
                                             ->debounce(250)
                                             ->afterStateUpdated(/**
@@ -142,7 +145,7 @@ class ResourceResource extends Resource
                                             ->dehydrateStateUsing(/**
                                              * @param string $state
                                              * @return string
-                                             */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT)))),
+                                             */ callback: fn (string $state) => trim(htmlspecialchars($state, ENT_COMPAT))),
                                         Select::make('category_id')
                                             ->label('Catégorie')
                                             ->placeholder('Sélectionnez une catégorie')
@@ -168,6 +171,9 @@ class ResourceResource extends Resource
                                             ->suffixIcon('heroicon-m-bookmark')
                                             ->suffixIconColor('danger')
                                             ->unique(ignoreRecord: true)
+                                            ->validationMessages([
+                                                'unique' => 'Ce slug existe déjà.',
+                                            ])
                                             ->dehydrateStateUsing(/**
                                              * @param string $state
                                              * @return string

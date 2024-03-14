@@ -122,6 +122,9 @@ class CreateCompetitionResource extends Resource
                                             ->suffixIcon('heroicon-m-tag')
                                             ->suffixIconColor('danger')
                                             ->unique(ignoreRecord: true)
+                                            ->validationMessages([
+                                                'unique' => 'La compétition existe déjà.',
+                                            ])
                                             ->live(debounce: 250)
                                             ->debounce(250)
                                             ->afterStateUpdated(/**
@@ -132,7 +135,7 @@ class CreateCompetitionResource extends Resource
                                             ->dehydrateStateUsing(/**
                                              * @param string $state
                                              * @return string
-                                             */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT)))),
+                                             */ callback: fn (string $state) => trim(htmlspecialchars($state, ENT_COMPAT))),
                                         TextInput::make('slug')
                                             ->placeholder('Slug')
                                             ->required()
@@ -142,6 +145,9 @@ class CreateCompetitionResource extends Resource
                                             ->suffixIcon('heroicon-m-bookmark')
                                             ->suffixIconColor('danger')
                                             ->unique(ignoreRecord: true)
+                                            ->validationMessages([
+                                                'unique' => 'Ce slug existe déjà.',
+                                            ])
                                             ->dehydrateStateUsing(/**
                                              * @param string $state
                                              * @return string

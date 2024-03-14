@@ -98,9 +98,12 @@ class CategoryResource extends Resource
                         ->suffixIcon('heroicon-m-bars-3')
                         ->suffixIconColor('danger')
                         ->unique(ignoreRecord: true)
+                        ->validationMessages([
+                            'unique' => 'La catégorie existe déjà.',
+                        ])
                         ->live(debounce: 250)
                         ->debounce(250)
-                        ->dehydrateStateUsing(callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT))))
+                        ->dehydrateStateUsing(callback: fn (string $state) => trim(htmlspecialchars($state, ENT_COMPAT)))
                         ->afterStateUpdated(callback: fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
                     TextInput::make('slug')
                         ->required()
@@ -111,6 +114,9 @@ class CategoryResource extends Resource
                         ->suffixIcon('heroicon-m-bookmark')
                         ->suffixIconColor('danger')
                         ->unique(ignoreRecord: true)
+                        ->validationMessages([
+                            'unique' => 'Ce slug existe déjà.',
+                        ])
                         ->dehydrateStateUsing(callback: fn (string $state) => htmlspecialchars(trim($state))),
                 ]
             );

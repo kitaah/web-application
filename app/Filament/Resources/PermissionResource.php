@@ -95,6 +95,9 @@ class PermissionResource extends Resource
                     ->suffixIcon('heroicon-m-key')
                     ->suffixIconColor('danger')
                     ->unique(ignoreRecord: true)
+                    ->validationMessages([
+                        'unique' => 'La :attribute existe déjà.',
+                    ])
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string

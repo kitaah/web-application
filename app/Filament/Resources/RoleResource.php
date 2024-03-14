@@ -95,10 +95,13 @@ class RoleResource extends Resource
                     ->suffixIcon('heroicon-m-finger-print')
                     ->suffixIconColor('danger')
                     ->unique(ignoreRecord: true)
+                    ->validationMessages([
+                        'unique' => 'Le rôle existe déjà.',
+                    ])
                     ->dehydrateStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state)))),
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                 Select::make('permissions')
                     ->required()
                     ->placeholder('Sélectionnez une/des permission(s)')
@@ -139,7 +142,7 @@ class RoleResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state)))),
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                 TextColumn::make('permissions.name')
                     ->label('Permissions')
                     ->icon('heroicon-m-key')
@@ -147,7 +150,7 @@ class RoleResource extends Resource
                     ->formatStateUsing(/**
                      * @param string $state
                      * @return string
-                     */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state)))),
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                 TextColumn::make('created_at')
                     ->label('Création')
                     ->icon('heroicon-m-clock')
