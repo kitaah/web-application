@@ -75,6 +75,7 @@ class Login extends BaseLogin
             ->password()
             ->autocomplete('current-password')
             ->required()
+            ->Regex("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{8,}$/")
             ->maxLength(255)
             ->suffixIcon('heroicon-m-key')
             ->suffixIconColor('danger')

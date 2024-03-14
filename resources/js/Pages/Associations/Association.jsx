@@ -4,7 +4,7 @@ import { usePage } from '@inertiajs/react';
 import axios from 'axios';
 
 export default function Association() {
-    const { association, auth } = usePage().props;
+    const { association, auth, user } = usePage().props;
     const [voted, setVoted] = useState(false);
 
     const handleVote = async () => {
@@ -35,7 +35,7 @@ export default function Association() {
                             <div>Description: <strong>{association.description}</strong></div>< br />
                             <div>Projet: <strong>{association.project}</strong></div>< br/>
                             <div>Addresse: <strong>{association.address}</strong></div>< br/>
-                            {auth.user && auth.user.email_verified_at ? (
+                            {auth.user && auth.user.email_verified_at && user.permissions.includes("can vote for an association") ? (
                                 <div>
                                     <button
                                         onClick={handleVote}
@@ -45,7 +45,9 @@ export default function Association() {
                                     </button>
                                 </div>
                             ) : (
-                                <div className="font-bold">Si tu souhaites voter pour cette association inscris toi dès maintenant !</div>
+                                !auth.user || !auth.user.email_verified_at ? (
+                                    <div className="font-bold">Si tu souhaites voter pour cette association inscris toi dès maintenant !</div>
+                                ) : null
                             )}
                         </div>
                     )}

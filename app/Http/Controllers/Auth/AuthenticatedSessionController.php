@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\{Http\Controllers\Controller, Http\Requests\Auth\LoginRequest, Providers\RouteServiceProvider};
-use Illuminate\{Http\RedirectResponse, Http\Request, Support\Facades\Auth, Support\Facades\Route};
+use Illuminate\{Http\RedirectResponse,
+    Http\Request,
+    Support\Facades\Auth,
+    Support\Facades\Route,
+    Support\Facades\Validator};
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -26,15 +30,32 @@ class AuthenticatedSessionController extends Controller
      * @param LoginRequest $request
      * @return RedirectResponse
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        /** @var $request */
-        $request->authenticate();
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|max:50',
+            'password' => ['required', 'string', 'max:255', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{8,}$/'],
+        ]);
 
-        /** @var $request */
-        $request->session()->regenerate();
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            if (auth()->user()->hasRole('Banni')) {
+                Auth::logout();
+                return back()->withErrors(['email' => 'Votre compte a été banni pour violation de nos conditions générales d\'utilisation.']);
+            }
+
+            $request->session()->regenerate();
+
+            return redirect()->intended(RouteServiceProvider::HOME);
+        }
+
+        return back()->withErrors([
+            'email' => 'Informations de connexion saisies incorrectes.',
+        ]);
     }
 
     /**

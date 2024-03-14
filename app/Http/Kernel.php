@@ -29,6 +29,9 @@ use Illuminate\{Auth\Middleware\AuthenticateWithBasicAuth,
     Session\Middleware\AuthenticateSession,
     Session\Middleware\StartSession,
     View\Middleware\ShareErrorsFromSession};
+use Spatie\Permission\{Middleware\PermissionMiddleware,
+    Middleware\RoleMiddleware,
+    Middleware\RoleOrPermissionMiddleware};
 
 class Kernel extends HttpKernel
 {
@@ -93,5 +96,8 @@ class Kernel extends HttpKernel
         'signed' => ValidateSignature::class,
         'throttle' => ThrottleRequests::class,
         'verified' => EnsureEmailIsVerified::class,
+        'role' => RoleMiddleware::class,
+        'permission' => PermissionMiddleware::class,
+        'role_or_permission' => RoleOrPermissionMiddleware::class,
     ];
 }

@@ -7,7 +7,7 @@ import Dropdown from "@/Components/Dropdown.jsx";
 import { Footer } from "@codegouvfr/react-dsfr/Footer";
 
 export default function Authenticated({ header, children }) {
-    const { auth } = usePage().props;
+    const { auth, user } = usePage().props;
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
@@ -128,18 +128,22 @@ export default function Authenticated({ header, children }) {
                                         </Dropdown.Trigger>
 
                                         <Dropdown.Content>
+                                            {(user.roles.includes('Citoyen') || user.roles.includes('Super-Administrateur')) && (
                                             <Dropdown.Link
                                                 href={route("profile.edit")}
                                             >
                                                 Profil
                                             </Dropdown.Link>
-                                            <Dropdown.Link
-                                                href={route(
-                                                    "resource.userIndex"
-                                                )}
-                                            >
-                                                Mes ressources
-                                            </Dropdown.Link>
+                                            )}
+                                            {(user.roles.includes('Citoyen') || user.roles.includes('Super-Administrateur')) && (
+                                                <Dropdown.Link
+                                                    href={route(
+                                                        "resource.userIndex"
+                                                    )}
+                                                >
+                                                    Mes ressources
+                                                </Dropdown.Link>
+                                            )}
                                             <Dropdown.Link
                                                 href={route("logout")}
                                                 method="post"

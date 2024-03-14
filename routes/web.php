@@ -35,10 +35,14 @@ Route::get('/dashboard', static function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/game', [GameController::class, 'index'])->name('game.index');
+});
+
+
+Route::middleware(['auth', 'verified', 'role:Citoyen|Super-Administrateur'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/game', [GameController::class, 'index'])->name('game.index');
     Route::get('/mes-ressources', [ResourceController::class, 'userIndex'])->name('resource.userIndex');
     Route::get('/mes-ressources/ajout', [ResourceController::class, 'create'])->name('resource.create');
     Route::post('/mes-ressources/ajout', [ResourceController::class, 'store'])->name('resource.store');
@@ -46,6 +50,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put( '/mes-ressources/modifier/{slug}', [ResourceController::class, 'update'])->name('resource.update');
     Route::get('/mes-ressources/modifier-image/{slug}', [ImageResourceController::class, 'edit'])->name('image.edit');
     Route::put( '/mes-ressources/modifier-image/{slug}', [ImageResourceController::class, 'update'])->name('image.update');
+});
+
+Route::middleware(['auth', 'verified', 'role:Citoyen|Super-Administrateur', 'permission:can vote for an association'])->group(function () {
     Route::post('/association/{slug}/vote', [AssociationController::class, 'vote'])->name('associations.vote');
 });
 
