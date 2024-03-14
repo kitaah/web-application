@@ -16,32 +16,32 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'alban24',
-                'email' => 'a.gers@re-relationnelles.fr',
+                'name' => 'paul78',
+                'email' => 'paul.robert@re-relationnelles.fr',
                 'password' => '45.POO.az',
                 'role' => 'Super-Administrateur',
             ],
             [
-                'name' => 'julie89',
-                'email' => 'j.combiers@re-relationnelles.fr',
+                'name' => 'marta35',
+                'email' => 'marta.hernandez@re-relationnelles.fr',
                 'password' => '45.POO.az',
                 'role' => 'Administrateur',
             ],
             [
-                'name' => 'xav46',
-                'email' => 'x.martinez@re-relationnelles.fr',
+                'name' => 'clodia11',
+                'email' => 'c.juvin@re-relationnelles.fr',
                 'password' => '45.POO.az',
                 'role' => 'Modérateur',
             ],
             [
-                'name' => 'samy33',
-                'email' => 'samy33@gmail.com',
+                'name' => 'cedric47',
+                'email' => 'cedric47@gmail.com',
                 'password' => '45.POO.az',
                 'role' => 'Citoyen',
             ],
             [
-                'name' => 'zoomask',
-                'email' => 'zoomask45@gmail.com',
+                'name' => 'doudou',
+                'email' => 'doudou24@gmail.com',
                 'password' => '45.POO.az',
                 'role' => 'Banni',
             ]
@@ -55,6 +55,10 @@ class UserSeeder extends Seeder
             ]);
 
             $created_user->assignRole($user['role']);
+
+            $this->command->info("User \"$user[name]\" created with role \"$user[role]\".");
         }
+
+        $this->command->info("User seeding completed.");
     }
 }
