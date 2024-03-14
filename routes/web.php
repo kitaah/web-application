@@ -40,9 +40,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 Route::middleware(['auth', 'verified', 'role:Citoyen|Super-Administrateur'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profil', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profil', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profil', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/mes-ressources', [ResourceController::class, 'userIndex'])->name('resource.userIndex');
     Route::get('/mes-ressources/ajout', [ResourceController::class, 'create'])->name('resource.create');
     Route::post('/mes-ressources/ajout', [ResourceController::class, 'store'])->name('resource.store');
