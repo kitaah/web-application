@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('comments', static function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('resource_id')->constrained()->onDelete('cascade');
-            $table->text('content');
+            $table->text('content')->nullable(false);
+            $table->boolean('is_published')->default(true);
+            $table->boolean('is_reported')->default(false);
+            $table->text('moderation_comment')->nullable();
+            $table->boolean('is_user_banned')->default(false);
             $table->timestamps();
         });
     }

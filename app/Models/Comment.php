@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\{Database\Eloquent\Factories\HasFactory, Database\Eloquent\Model, Database\Eloquent\Relations\BelongsTo};
 
+/**
+ * @method static create(array $array)
+ */
 class Comment extends Model
 {
     use HasFactory;
@@ -18,7 +19,24 @@ class Comment extends Model
     protected $fillable = [
         'user_id',
         'resource_id',
+        'title',
+        'slug',
         'content',
+        'is_published',
+        'is_reported',
+        'moderation_comment',
+        'is_user_banned',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'is_published' => 'boolean',
+        'is_reported' => 'boolean',
+        'is_user_banned' => 'boolean',
     ];
 
     /**
