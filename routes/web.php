@@ -35,7 +35,7 @@ Route::get('/dashboard', static function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/game', [GameController::class, 'index'])->name('game.index');
+    Route::get('/jeu', [GameController::class, 'index'])->name('game.index');
 });
 
 
