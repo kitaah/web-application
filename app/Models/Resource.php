@@ -12,6 +12,12 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static where(string $string, $slug)
  * @method static create(array $array)
  * @method static findOrFail($id)
+ * @property mixed $category_id
+ * @property mixed $description
+ * @property mixed $slug
+ * @property int|mixed|string|null $user_id
+ * @property mixed $url
+ * @property mixed $name
  */
 class Resource extends Model implements HasMedia
 {

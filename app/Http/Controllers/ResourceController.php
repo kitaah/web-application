@@ -203,14 +203,14 @@ class ResourceController extends Controller
     {
         $resource = Resource::where('slug', $slug)->firstOrFail();
 
-        Validator::make($request->only(['name', 'url', 'slug','description', 'category_id']), [
-            'name' => ['required', 'sometimes', 'string', 'max:50', Rule::unique('resources', 'name')->ignore($resource->id),
-            ],
+        Validator::make($request->only(['name', 'url', 'slug', 'description', 'category_id']), [
+            'name' => ['required', 'sometimes', 'string', 'max:50', Rule::unique('resources', 'name')->ignore($resource->id)],
             'url' => ['nullable', 'url', 'string', 'max:255'],
-            'slug' => ['required', 'sometimes', 'string', 'alpha_dash', 'max:50', Rule::unique('resources', 'slug')->ignore($resource->id),
-            ],
+            'slug' => ['required', 'sometimes', 'string', 'alpha_dash', 'max:50', Rule::unique('resources', 'slug')->ignore($resource->id)],
             'description' => ['required', 'sometimes', 'string', 'max:5000'],
             'category_id' => ['required', 'sometimes', 'integer', 'exists:categories,id'],
+        ], [
+            'description.required' => 'Le champ description est obligatoire.',
         ])->validate();
 
         $resource->update($request->only(['name', 'url', 'slug', 'description', 'category_id']));

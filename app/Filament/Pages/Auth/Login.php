@@ -3,7 +3,8 @@
 namespace App\Filament\Pages\Auth;
 
 use Filament\{Forms\Components\Component, Forms\Components\TextInput, Forms\Form, Pages\Auth\Login as BaseLogin};
-use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Contracts\{Support\Htmlable};
+use Illuminate\Validation\{Rule};
 
 /**
  * @property Form $form
@@ -50,6 +51,12 @@ class Login extends BaseLogin
             ->placeholder('Email')
             ->email()
             ->required()
+            ->rules([
+                Rule::exists('users', 'email'),
+            ])
+            ->validationMessages([
+                'exists'   => 'Informations de saisies incorrectes.',
+            ])
             ->autocomplete()
             ->autofocus()
             ->maxLength(50)
@@ -76,6 +83,9 @@ class Login extends BaseLogin
             ->autocomplete('current-password')
             ->required()
             ->Regex("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{8,}$/")
+            ->validationMessages([
+                'regex' => 'Informations de saisies incorrectes.',
+            ])
             ->maxLength(255)
             ->suffixIcon('heroicon-m-key')
             ->suffixIconColor('danger')
