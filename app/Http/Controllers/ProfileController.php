@@ -21,11 +21,13 @@ class ProfileController extends Controller
     public function edit(Request $request): Response
     {
         $user = $request->user();
+        $mood = $user->mood;
         $points = $user->points;
 
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $user instanceof MustVerifyEmail,
             'status' => session('status'),
+            'mood' => $mood,
             'points' => $points,
         ]);
     }
@@ -38,14 +40,10 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        /** @var $request */
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $user->mood = $request->mood;
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        $request->user()->save();
+        $user->save();
 
         return Redirect::route('profile.edit');
     }
