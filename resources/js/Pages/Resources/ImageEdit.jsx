@@ -46,6 +46,14 @@ export default function ImageEdit(){
                         </Link>
                     </div>
 
+                    <div className="flex justify-center items-center">
+                        <div>{resource.name}</div>
+                    </div>
+
+                    <div className="flex justify-center items-center">
+                        <img src={resource.image} width="400" alt={resource.id} />
+                    </div>
+
                     <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                         <form onSubmit={handleSubmit} method="PUT" encType="multipart/form-data">
                             <div className="mt-4">

@@ -27,7 +27,7 @@ class ImageResourceController extends Controller
         $resource = $this->findResourceBySlug($slug);
 
         return Inertia::render('Resources/ImageEdit', [
-            'resource' => $resource,
+            'resource' => $this->getResourceData($resource),
         ]);
     }
 
@@ -106,5 +106,23 @@ class ImageResourceController extends Controller
         } catch (FileDoesNotExist | FileIsTooBig $exception) {
             throw ValidationException::withMessages(['image' => $exception->getMessage()]);
         }
+    }
+
+    private function getResourceData(Resource $resource): array
+    {
+        return [
+            'id' => $resource->id,
+            'name' => $resource->name,
+            'url' => $resource->url,
+            'slug' => $resource->slug,
+            'is_validated' => $resource->is_validated,
+            'status' => $resource->status,
+            'description' => $resource->description,
+            'user_creator' => optional($resource->user)->id,
+            'category_name' => optional($resource->category)->name,
+            'created_at' => $resource->created_at->format('d/m/Y'),
+            'updated_at' => $resource->updated_at->format('d/m/Y'),
+            'image' => $resource->getFirstMediaUrl('image'),
+        ];
     }
 }

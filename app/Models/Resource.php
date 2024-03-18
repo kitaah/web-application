@@ -18,6 +18,13 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property int|mixed|string|null $user_id
  * @property mixed $url
  * @property mixed $name
+ * @property mixed $id
+ * @property mixed $is_validated
+ * @property mixed $status
+ * @property mixed $category
+ * @property mixed $user
+ * @property mixed $created_at
+ * @property mixed $updated_at
  */
 class Resource extends Model implements HasMedia
 {
