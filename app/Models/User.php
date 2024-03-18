@@ -16,6 +16,7 @@ use Spatie\{MediaLibrary\HasMedia, MediaLibrary\InteractsWithMedia, Permission\T
  * @method static find(int|string|null $userId)
  * @method static create(array $array)
  * @method static updateUserPoints(User|\Illuminate\Contracts\Auth\Authenticatable|null $user)
+ * @method static inRandomOrder()
  * @property mixed $name
  */
 class User extends Authenticatable implements FilamentUser, MustVerifyEmail, HasMedia

@@ -363,6 +363,8 @@ class AssociationResource extends Resource
                                     ->required()
                                     ->openable()
                                     ->downloadable()
+                                    ->imageResizeTargetWidth('200')
+                                    ->imageResizeTargetHeight('300')
                                     ->image()
                                     ->imageEditor()
                                     ->maxSize(1024)

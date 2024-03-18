@@ -121,9 +121,13 @@ export default function Home() {
                 </section>
             </div> */}
             <>
-                <Avatars avatarImages={avatarImages}></Avatars>
-                <Carousel />
-                <Articles articles={articlesData} />
+                <Avatars users={props.users}></Avatars>
+                {/*<Avatars avatarImages={avatarImages}></Avatars>*/}
+                <Carousel competition={props.competition}/>
+                {/*<Carousel />*/}
+                <Articles resources={props.resources} />
+                {/*<Articles articles={articlesData} />*/}
+
             </>
         </Layout>
     );

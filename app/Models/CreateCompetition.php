@@ -8,6 +8,7 @@ use Illuminate\Database\{Eloquent\Factories\HasFactory, Eloquent\Relations\Belon
  * @method static count()
  * @method static where(string $string, string $string1)
  * @method static oldest()
+ * @method static inRandomOrder()
  */
 class CreateCompetition extends Pivot
 {

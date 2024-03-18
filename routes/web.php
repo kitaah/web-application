@@ -3,6 +3,7 @@
 use App\Http\{Controllers\AssociationController,
     Controllers\CompetitionController,
     Controllers\GameController,
+    Controllers\HomeController,
     Controllers\ImageResourceController,
     Controllers\ProfileController,
     Controllers\ResourceController,
@@ -56,7 +57,8 @@ Route::middleware(['auth', 'verified', 'role:Citoyen|Super-Administrateur', 'per
     Route::post('/association/{slug}/vote', [AssociationController::class, 'vote'])->name('associations.vote');
 });
 
-Route::inertia('/', 'Home')->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+//Route::inertia('/', 'Home')->name('home');
 Route::inertia('/Home2', 'Home2')->name('home2');
 Route::inertia('/accessibilite', 'Legal/Accessibility')->name('accessibility');
 Route::inertia('/mentions-legales', 'Legal/Disclaimer')->name('disclaimer');

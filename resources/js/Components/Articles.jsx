@@ -24,6 +24,22 @@ const Article = ({ date, title, text }) => {
     );
 };
 
+const Articles = ({ resources }) => {
+    return (
+        <div className="resources flex flex-col items-center mt-5">
+            {resources.map((resource, index) => (
+                <Article
+                    key={index}
+                    date={resource.created_at}
+                    title={resource.name}
+                    text={resource.description}
+                />
+            ))}
+        </div>
+    );
+};
+
+{/*
 const Articles = ({ articles }) => {
     return (
         <div className="articles">
@@ -31,12 +47,13 @@ const Articles = ({ articles }) => {
                 <Article
                     key={index}
                     date={article.date}
-                    title={article.title}
+                    title={article.name}
                     text={article.text}
                 />
             ))}
         </div>
     );
 };
+*/}
 
 export default Articles;

@@ -2,21 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Association, Competition, CreateCompetition};
+use App\Models\{Association, Category, Competition, CreateCompetition, Resource, User};
 use DateTime;
 use Illuminate\Http\Request;
-use Inertia\{Inertia, Response};
+use Inertia\Inertia;
+use Inertia\Response;
 
-class CompetitionController extends Controller
+class HomeController extends Controller
 {
     /**
      * Competition controller.
      *
      * @return Response
      */
+
     public function index(): Response
     {
-        $competition = CreateCompetition::inRandomOrder()
+        $resources = Resource::inRandomOrder()->limit(5)->get()->map(function ($resource) {
+            return [
+                'id' => $resource->id,
+                'name' => $resource->name,
+                'slug' => $resource->slug,
+                'description' => $resource->description,
+                'category_name' => optional($resource->category)->name,
+                'created_at' => $resource->created_at->format('d/m/Y'),
+            ];
+        });
+
+        $users = User::inRandomOrder()->get()->map(function ($user) {
+            return array_filter([
+                'id' => $user->id,
+                'name' => $user->name,
+                'image' => $user->getFirstMediaUrl('image'),
+            ]);
+        });
+
+        $competition = CreateCompetition::oldest()
             ->where('is_published', true)
             ->where('status', 'En cours')
             ->get();
@@ -33,7 +54,9 @@ class CompetitionController extends Controller
             ]);
         });
 
-        return Inertia::render('Competition/Competition', [
+        return Inertia::render('Home', [
+            'resources' => $resources,
+            'users' => $users,
             'competition' => $competitionData
         ]);
     }

@@ -12,6 +12,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static where(string $string, $slug)
  * @method static create(array $array)
  * @method static findOrFail($id)
+ * @method static inRandomOrder()
  * @property mixed $category_id
  * @property mixed $description
  * @property mixed $slug

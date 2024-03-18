@@ -24,7 +24,7 @@ export default function Association() {
                     {association && (
                         <div>
                             <div className="flex justify-center items-center">
-                                <img src={association.image} width="150" alt={association.name} />
+                                <img src={association.image} alt={association.name} />
                             </div>
                             <div>Catégorie: <strong>{association.category_name}</strong></div>< br />
                             <div>
