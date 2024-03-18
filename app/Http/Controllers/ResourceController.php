@@ -50,8 +50,11 @@ class ResourceController extends Controller
             ]);
         });
 
+        $categories = Category::all();
+
         return Inertia::render('Resources/Resources', [
             'resources' => $resourceData,
+            'categories' => $categories,
         ]);
     }
 
@@ -113,8 +116,11 @@ class ResourceController extends Controller
             ]);
         });
 
+        $categories = Category::all();
+
         return Inertia::render('Resources/UserResources', [
             'userResources' => $resourceDatas,
+            'categories' => $categories,
         ]);
     }
 

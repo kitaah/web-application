@@ -194,7 +194,7 @@ class Statistic extends Model
     }
 
     /**
-     * Delete a Category model and trigger the associated update methods.
+     * Delete a Categories model and trigger the associated update methods.
      *
      * @param int $id
      * @return void
