@@ -8,6 +8,7 @@ import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import Select from 'react-select';
 import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
 import Layout from '@/Layouts/Layout';
+import FileInput from "@/Components/FileInput.jsx";
 
 export default function Register() {
     const { props: { departments } } = usePage();
@@ -18,6 +19,7 @@ export default function Register() {
         password_confirmation: '',
         department: '',
         terms_accepted: false,
+        image: null,
     });
 
     useEffect(() => {
@@ -25,6 +27,10 @@ export default function Register() {
             reset('password', 'password_confirmation');
         };
     }, []);
+
+    const handleImageChange = (e) => {
+        setData('image', e.target.files[0]);
+    };
 
     const submit = (e) => {
         e.preventDefault();
@@ -120,6 +126,20 @@ export default function Register() {
                             required
                         />
                         <InputError message={errors.password_confirmation} className="mt-2" />
+                    </div>
+
+                    <div className="mt-4">
+                        <InputLabel htmlFor="image" value="Image" />
+                        <FileInput
+                            type="file"
+                            id="image"
+                            name="image"
+                            onChange={handleImageChange}
+                            className="mt-1 block w-full"
+                            accept="image/*"
+                            required
+                        />
+                        <InputError message={errors.image} className="mt-2" />
                     </div>
 
                     <div className="mt-4">

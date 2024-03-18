@@ -9,7 +9,7 @@ use Illuminate\{Contracts\Auth\MustVerifyEmail,
     Foundation\Auth\User as Authenticatable,
     Notifications\Notifiable};
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
+use Spatie\{MediaLibrary\HasMedia, MediaLibrary\InteractsWithMedia, Permission\Traits\HasRoles};
 
 /**
  * @method static count()
@@ -18,9 +18,9 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static updateUserPoints(User|\Illuminate\Contracts\Auth\Authenticatable|null $user)
  * @property mixed $name
  */
-class User extends Authenticatable implements FilamentUser, MustVerifyEmail
+class User extends Authenticatable implements FilamentUser, MustVerifyEmail, HasMedia
 {
-    use HasApiTokens, HasFactory, HasRoles, Notifiable, DepartmentsTrait;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable, DepartmentsTrait, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.

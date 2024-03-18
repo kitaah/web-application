@@ -13,8 +13,10 @@ use Illuminate\{Auth\Events\Registered,
     Support\Facades\Auth,
     Support\Facades\Hash,
     Support\Facades\Validator,
+    Support\Str,
     Validation\Rules};
-
+use Spatie\{MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist,
+    MediaLibrary\MediaCollections\Exceptions\FileIsTooBig};
 use Inertia\{Inertia, Response};
 use App\Traits\DepartmentsTrait;
 
@@ -52,6 +54,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'string', 'max:255', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{8,}$/'],
             'department' => 'required|string|max:50',
             'terms_accepted' => 'required|accepted',
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:1024'],
         ]);
 
         if ($validator->fails()) {
@@ -66,6 +69,11 @@ class RegisteredUserController extends Controller
             'department' => $request->department,
             'terms_accepted' => $request->terms_accepted,
         ]);
+
+        if ($request->hasFile('image')) {
+            $randomFileName = strtoupper(Str::random(26)) . '.' . $request->file('image')->getClientOriginalExtension();
+            $user->addMedia($request->file('image'))->usingFileName($randomFileName)->toMediaCollection('image');
+        }
 
         /** @var $user */
         $user->assignRole('Citoyen');

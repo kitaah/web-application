@@ -8,18 +8,17 @@ import { useState, useEffect } from 'react';
 
 export default function UpdateProfileInformation({ mustVerifyEmail, status, className = '' }) {
     const user = usePage().props.auth.user;
-    const [mood, setMood] = useState('good');
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         name: user.name,
         email: user.email,
         points: user.points,
-        mood: mood,
+        mood: user.mood,
     });
 
     useEffect(() => {
-        setData('mood', mood);
-    }, [mood]);
+
+    }, []);
 
     const submit = (e) => {
         e.preventDefault();
@@ -29,7 +28,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     return (
         <section className={className}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900">Profile Information</h2>
+                <h2 className="text-lg font-medium text-gray-900">Profil de {data.name}</h2>
                 <p className="mt-1 text-sm text-gray-600">
                     Update your account's profile information and email address.
                 </p>
@@ -44,8 +43,8 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                                 type="radio"
                                 className="form-radio"
                                 value="😀"
-                                checked={mood === '😀'}
-                                onChange={() => setMood('😀')}
+                                checked={data.mood === '😀'} // Utilisation de data.mood au lieu de mood
+                                onChange={() => setData('mood', '😀')} // Modification de l'humeur via setData
                             />
                             <span className="ml-2">😀</span>
                         </label>
@@ -54,8 +53,8 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                                 type="radio"
                                 className="form-radio"
                                 value="😄"
-                                checked={mood === '😄'}
-                                onChange={() => setMood('😄')}
+                                checked={data.mood === '😄'} // Utilisation de data.mood au lieu de mood
+                                onChange={() => setData('mood', '😄')} // Modification de l'humeur via setData
                             />
                             <span className="ml-2">😄</span>
                         </label>
@@ -94,8 +93,8 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                             />
                         </svg>
                     ) : (
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
                         </svg>
                     )}
                 </div>
