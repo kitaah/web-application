@@ -17,7 +17,9 @@ use Spatie\{MediaLibrary\HasMedia, MediaLibrary\InteractsWithMedia, Permission\T
  * @method static create(array $array)
  * @method static updateUserPoints(User|\Illuminate\Contracts\Auth\Authenticatable|null $user)
  * @method static inRandomOrder()
+ * @method static where(string $string, mixed $department)
  * @property mixed $name
+ * @property mixed $department
  */
 class User extends Authenticatable implements FilamentUser, MustVerifyEmail, HasMedia
 {
@@ -69,5 +71,11 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Has
     {
         return $this->hasRole(['Super-Administrateur', 'Administrateur', 'Modérateur'])
             && str_ends_with($this->email, '@re-relationnelles.fr');
+    }
+
+    public function incrementPoints(): void
+    {
+        $this->points++;
+        $this->save();
     }
 }

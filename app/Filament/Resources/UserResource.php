@@ -10,6 +10,7 @@ use Filament\{Actions\StaticAction,
     Forms\Components\DateTimePicker,
     Forms\Components\Hidden,
     Forms\Components\Select,
+    Forms\Components\SpatieMediaLibraryFileUpload,
     Forms\Components\TextInput,
     Forms\Form,
     Resources\Resource,
@@ -22,6 +23,7 @@ use Filament\{Actions\StaticAction,
     Tables\Columns\TextColumn,
     Tables\Filters\SelectFilter,
     Tables\Table};
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
@@ -203,6 +205,19 @@ class UserResource extends Resource
                     ->preload()
                     ->suffixIcon('heroicon-m-finger-print')
                     ->suffixIconColor('danger'),
+                SpatieMediaLibraryFileUpload::make('thumbnail')
+                    ->label('Image de profil')
+                    ->helperText('Formats autorisés: JPEG et PNG - Limite de taille: 1MB')
+                    ->openable()
+                    ->required()
+                    ->downloadable()
+                    ->image()
+                    ->imageEditor()
+                    ->maxSize(1024)
+                    ->acceptedFileTypes(Collection::make(['image/jpeg', 'image/png', 'image/jpg']))
+                    ->rules('mimes:jpeg,jpg,png')
+                    ->collection('image')
+                    ->columnSpanFull(),
             ]);
     }
 

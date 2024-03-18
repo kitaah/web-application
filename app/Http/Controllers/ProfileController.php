@@ -12,6 +12,7 @@ use Inertia\{Inertia, Response};
 
 class ProfileController extends Controller
 {
+
     /**
      * Display the user's profile form.
      *
@@ -42,6 +43,8 @@ class ProfileController extends Controller
     {
         $user = $request->user();
         $user->mood = $request->mood;
+
+        $user->incrementPoints();
 
         $user->save();
 

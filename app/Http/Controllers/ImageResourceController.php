@@ -115,13 +115,6 @@ class ImageResourceController extends Controller
             'name' => $resource->name,
             'url' => $resource->url,
             'slug' => $resource->slug,
-            'is_validated' => $resource->is_validated,
-            'status' => $resource->status,
-            'description' => $resource->description,
-            'user_creator' => optional($resource->user)->id,
-            'category_name' => optional($resource->category)->name,
-            'created_at' => $resource->created_at->format('d/m/Y'),
-            'updated_at' => $resource->updated_at->format('d/m/Y'),
             'image' => $resource->getFirstMediaUrl('image'),
         ];
     }

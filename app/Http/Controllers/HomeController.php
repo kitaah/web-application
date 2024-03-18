@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\{Association, Category, Competition, CreateCompetition, Resource, User};
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -29,13 +30,22 @@ class HomeController extends Controller
             ];
         });
 
-        $users = User::inRandomOrder()->get()->map(function ($user) {
-            return array_filter([
-                'id' => $user->id,
-                'name' => $user->name,
-                'image' => $user->getFirstMediaUrl('image'),
-            ]);
-        });
+        $user = Auth::user();
+
+        if ($user) {
+            $users = User::where('department', $user->department)
+                ->inRandomOrder()
+                ->get()
+                ->map(function ($user) {
+                    return [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'image' => $user->getFirstMediaUrl('image'),
+                    ];
+                });
+        } else {
+            $users = [];
+        }
 
         $competition = CreateCompetition::oldest()
             ->where('is_published', true)
