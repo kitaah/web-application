@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Category, Resource, Statistic, User};
+use Carbon\Carbon;
+use App\Models\{Category, Comment, Resource, Statistic, User};
 use Illuminate\{Http\RedirectResponse,
     Http\Request,
     Support\Facades\Auth,
@@ -72,18 +73,36 @@ class ResourceController extends Controller
             ->with('media')
             ->firstOrFail();
 
+        $comments = Comment::where('resource_id', $resource->id)
+            ->where('is_published', true)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $formattedComments = $comments->map(function ($comment) {
+            $user = User::find($comment->user_id);
+            return [
+                'id' => $comment->id,
+                'content' => $comment->content,
+                'user_name' => $user ? $user->name : 'Utilisateur inconnu',
+                'created_at' => $comment->created_at->format('d/m/Y'),
+                'user_image' => $user ? $user->getFirstMediaUrl('image') : null
+            ];
+        });
+
         return Inertia::render('Resources/Resource', [
             'resource' => array_filter([
                 'id' => $resource->id,
                 'name' => $resource->name,
                 'url' => $resource->url,
                 'description' => $resource->description,
-                'category_name' => $resource->category->name,
+                'category_name' => optional($resource->category)->name,
                 'user_name' => optional($resource->user)->name,
                 'created_at' => $resource->created_at->format('d/m/Y'),
                 'updated_at' => $resource->updated_at->format('d/m/Y'),
+                'user_image' => optional($resource->user)->getFirstMediaUrl('image'),
                 'image' => $resource->getFirstMediaUrl('image'),
             ]),
+            'comments' => $formattedComments,
         ]);
     }
 
@@ -170,6 +189,8 @@ class ResourceController extends Controller
         $resource->description = $request->input('description');
         $resource->category_id = $request->input('category_id');
         $resource->save();
+
+        auth()->user()->incrementPoints();
 
         if ($request->hasFile('image')) {
             $randomFileName = strtoupper(Str::random(26)) . '.' . $request->file('image')->getClientOriginalExtension();

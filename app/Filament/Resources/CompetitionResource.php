@@ -271,24 +271,4 @@ class CompetitionResource extends Resource
             'index' => ManageCompetitions::route('/'),
         ];
     }
-
-    /**
-     * Get the plural label for the resource.
-     *
-     * @return string
-     */
-    public static function getPluralLabel(): string
-    {
-        return __(/** @lang text */ 'Compétitions');
-    }
-
-    /**
-     * Get the singular label for the resource.
-     *
-     * @return string
-     */
-    public static function getLabel(): string
-    {
-        return __(/** @lang text */ 'une compétition');
-    }
 }

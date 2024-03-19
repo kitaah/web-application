@@ -32,8 +32,10 @@ class HomeController extends Controller
 
         $user = Auth::user();
 
+
         if ($user) {
             $users = User::where('department', $user->department)
+                ->where('id', '!=', $user->id)
                 ->inRandomOrder()
                 ->get()
                 ->map(function ($user) {
@@ -71,6 +73,12 @@ class HomeController extends Controller
         ]);
     }
 
+    /**
+     * Timestamp conversion.
+     *
+     * @param $competitionId
+     * @return array|null
+     */
     private function getCompetitionData($competitionId): ?array
     {
         $competition = Competition::find($competitionId);

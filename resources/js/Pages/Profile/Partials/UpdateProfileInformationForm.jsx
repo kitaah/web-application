@@ -19,7 +19,6 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
 
     const submit = (e) => {
         e.preventDefault();
-        // Increment points by 1 when mood is changed
         const newData = {
             ...data,
             points: data.mood !== user.mood ? data.points + 1 : data.points,
@@ -36,6 +35,22 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     Update your account's profile information and email address.
                 </p>
             </header>
+
+
+            <div className="font-bold">
+                <div className="font-bold">Points: {data.points ?? 0}</div>
+                <div>
+                    Badge: {data.points <= 1500 ? (
+                    <Link href="/association" as="a">
+                        <img src="/assets/badges/sword.svg" alt="Your Image"width="50" />
+                    </Link>
+                ) : (
+                    <Link href="/association" as="a">
+                        <img src="/assets/badges/crown.svg" alt="Your Image" width="50" />
+                    </Link>
+                )}
+                </div>
+            </div>
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
@@ -77,21 +92,6 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     </Transition>
                 </div>
             </form>
-
-            <div className="font-bold">
-                <div className="font-bold">Points: {data.points ?? 0}</div>
-                <div>
-                    Badge: {data.points <= 1499 ? (
-                    <Link href="/association" as="a">
-                        <img src="/assets/badges/sword.svg" alt="Your Image"width="50" />
-                    </Link>
-                ) : (
-                    <Link href="/association" as="a">
-                        <img src="/assets/badges/crown.svg" alt="Your Image" width="50" />
-                    </Link>
-                )}
-                </div>
-            </div>
         </section>
     );
 }

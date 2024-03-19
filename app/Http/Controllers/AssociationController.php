@@ -48,6 +48,7 @@ class AssociationController extends Controller
     {
         $association = Association::where('slug', $slug)->firstOrFail();
         $association->increment('points');
+        auth()->user()->incrementPoints();
 
         Association::updateAssociationVotes();
 

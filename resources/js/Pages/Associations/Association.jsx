@@ -35,7 +35,7 @@ export default function Association() {
                             <div>Description: <strong>{association.description}</strong></div>< br />
                             <div>Projet: <strong>{association.project}</strong></div>< br/>
                             <div>Addresse: <strong>{association.address}</strong></div>< br/>
-                            {auth.user && auth.user.email_verified_at && user.permissions.includes("can vote for an association") ? (
+                            {auth.user && auth.user.email_verified_at && user.permissions.includes("vote for an association") ? (
                                 <div>
                                     <button
                                         onClick={handleVote}

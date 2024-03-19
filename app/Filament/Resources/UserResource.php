@@ -23,6 +23,7 @@ use Filament\{Actions\StaticAction,
     Tables\Columns\TextColumn,
     Tables\Filters\SelectFilter,
     Tables\Table};
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 
@@ -100,7 +101,10 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         $association = new User();
-        $labels = $association->fetchDepartments();
+        try {
+            $labels = $association->fetchDepartments();
+        } catch (GuzzleException|\JsonException $e) {
+        }
         $departmentsOptions = array_combine($labels->toArray(), $labels->toArray());
 
         /** @var $form */
@@ -272,6 +276,12 @@ class UserResource extends Resource
                      */ callback: fn (string $state) => ucfirst(trim(htmlspecialchars($state, ENT_COMPAT)))),
                 TextColumn::make('mood')
                     ->label('Humeur')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('points')
+                    ->label('Points')
+                    ->icon('heroicon-m-calculator')
+                    ->iconColor('danger')
+                    ->numeric()
                     ->toggleable(isToggledHiddenByDefault: true),
                 IconColumn::make('terms_accepted')
                     ->label('Acceptation des CGU')

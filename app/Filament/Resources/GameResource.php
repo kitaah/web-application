@@ -55,7 +55,7 @@ class GameResource extends Resource
      *
      * @var string|null
      */
-    protected static ?string $navigationGroup = 'Gestion des jeux';
+    protected static ?string $navigationGroup = 'Gestion des jeux et des ressources';
 
     /**
      * Navigation label for the resource.

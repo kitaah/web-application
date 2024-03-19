@@ -45,7 +45,7 @@ class ResourceResource extends Resource
      *
      * @var string|null
      */
-    protected static ?string $navigationGroup = 'Gestion des ressources';
+    protected static ?string $navigationGroup = 'Gestion des jeux et des ressources';
 
     /**
      * Get the plural label for the resource.
@@ -324,6 +324,7 @@ class ResourceResource extends Resource
                      * @return string
                      */ callback: fn (string $state) => htmlspecialchars($state)),
                 TextColumn::make('user.name')
+                    ->numeric()
                     ->label('Créateur')
                     ->icon('heroicon-m-user-circle')
                     ->iconColor('danger'),

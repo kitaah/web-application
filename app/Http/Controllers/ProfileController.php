@@ -24,12 +24,15 @@ class ProfileController extends Controller
         $user = $request->user();
         $mood = $user->mood;
         $points = $user->points;
+        $name = $user->name;
 
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $user instanceof MustVerifyEmail,
             'status' => session('status'),
+            'name' => $name,
             'mood' => $mood,
             'points' => $points,
+            'image' => $user->getFirstMediaUrl('image'),
         ]);
     }
 

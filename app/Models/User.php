@@ -20,6 +20,8 @@ use Spatie\{MediaLibrary\HasMedia, MediaLibrary\InteractsWithMedia, Permission\T
  * @method static where(string $string, mixed $department)
  * @property mixed $name
  * @property mixed $department
+ * @property mixed $points
+ * @property mixed $id
  */
 class User extends Authenticatable implements FilamentUser, MustVerifyEmail, HasMedia
 {

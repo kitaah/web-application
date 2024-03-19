@@ -121,6 +121,7 @@ export default function Home() {
                 </section>
             </div> */}
             <>
+                {/*auth.user && auth.user.email_verified_at*/}
                 <Avatars users={props.users}></Avatars>
                 {/*<Avatars avatarImages={avatarImages}></Avatars>*/}
                 <Carousel competition={props.competition}/>

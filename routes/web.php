@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\{Controllers\AssociationController,
+    Controllers\CommentController,
     Controllers\CompetitionController,
     Controllers\GameController,
     Controllers\HomeController,
@@ -53,8 +54,12 @@ Route::middleware(['auth', 'verified', 'role:Citoyen|Super-Administrateur'])->gr
     Route::put( '/mes-ressources/modifier-image/{slug}', [ImageResourceController::class, 'update'])->name('image.update');
 });
 
-Route::middleware(['auth', 'verified', 'role:Citoyen|Super-Administrateur', 'permission:can vote for an association'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:Citoyen|Super-Administrateur', 'permission:vote for an association'])->group(function () {
     Route::post('/association/{slug}/vote', [AssociationController::class, 'vote'])->name('associations.vote');
+});
+
+Route::middleware(['auth', 'verified', 'role:Citoyen|Super-Administrateur', 'permission:post a comment'])->group(function () {
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -72,6 +77,5 @@ Route::get('/ressource/{slug}', [ResourceController::class, 'show'])->name('reso
 Route::get('/competition', [CompetitionController::class, 'index'])->name('competition.index');
 
 Route::get('/association/{slug}', [AssociationController::class, 'show'])->name('associations.show');
-
 
 require __DIR__.'/auth.php';

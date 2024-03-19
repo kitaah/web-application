@@ -157,7 +157,7 @@ class PermissionResource extends Resource
                      * @param StaticAction $action
                      * @return StaticAction
                      */ fn (StaticAction $action) => $action->color('danger'))
-                    ->modalWidth(MaxWidth::Large)
+                    ->modalWidth(MaxWidth::TwoExtraLarge)
                     ->modalAlignment(Alignment::Center)
                     ->modalFooterActionsAlignment(Alignment::Center)
                     ->successNotificationTitle('Permission modifiée'),
