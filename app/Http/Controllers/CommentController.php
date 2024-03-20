@@ -25,7 +25,7 @@ class CommentController extends Controller
         $comment = new Comment();
         $comment->user_id = auth()->id();
         $comment->resource_id = $request->input('resource_id');
-        $comment->content = $request->input('content');
+        $comment->content = htmlspecialchars(trim($request->input('content')), ENT_COMPAT);
         $comment->save();
 
         auth()->user()->incrementPoints();

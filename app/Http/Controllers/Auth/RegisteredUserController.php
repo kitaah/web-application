@@ -47,10 +47,9 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        /** @var $request */
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:50|unique:'.User::class,
-            'email' => 'required|string|lowercase|email|max:50|unique:'.User::class,
+            'name' => ['required', 'string', 'max:50', 'regex:/^[A-Za-z0-9_-]*$/'],
+            'email' => 'required|string|lowercase|email|max:50|unique:' . User::class,
             'password' => ['required', 'string', 'max:255', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{8,}$/'],
             'department' => 'required|string|max:50',
             'terms_accepted' => 'required|accepted',
@@ -61,13 +60,15 @@ class RegisteredUserController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        /** @var $user */
+        $trimmedName = trim($request->input('name'));
+        $trimmedDepartment = ucfirst(trim($request->input('department')));
+
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'department' => $request->department,
-            'terms_accepted' => $request->terms_accepted,
+            'name' => htmlspecialchars($trimmedName),
+            'email' => htmlspecialchars(strtolower(trim($request->input('email'))), ENT_COMPAT),
+            'password' => Hash::make($request->input('password')),
+            'department' => htmlspecialchars($trimmedDepartment, ENT_COMPAT),
+            'terms_accepted' => $request->input('terms_accepted'),
         ]);
 
         if ($request->hasFile('image')) {
@@ -75,13 +76,10 @@ class RegisteredUserController extends Controller
             $user->addMedia($request->file('image'))->usingFileName($randomFileName)->toMediaCollection('image');
         }
 
-        /** @var $user */
         $user->assignRole('Citoyen');
 
-        /** @var $user */
         event(new Registered($user));
 
-        /** @var $user */
         Auth::login($user);
 
         Statistic::updateUser();

@@ -165,7 +165,6 @@ class ResourceController extends Controller
      * @throws FileDoesNotExist
      * @throws FileIsTooBig
      */
-
     public function store(Request $request): RedirectResponse
     {
         $validator = Validator::make($request->all(), [
@@ -182,11 +181,11 @@ class ResourceController extends Controller
         }
 
         $resource = new Resource();
-        $resource->name = $request->input('name');
+        $resource->name = htmlspecialchars(trim($request->input('name')), ENT_COMPAT);
         $resource->url = $request->input('url');
         $resource->user_id = auth()->id();
-        $resource->slug = $request->input('slug');
-        $resource->description = $request->input('description');
+        $resource->slug = htmlspecialchars(trim($request->input('slug')), ENT_COMPAT);
+        $resource->description = htmlspecialchars(trim($request->input('description')), ENT_COMPAT);
         $resource->category_id = $request->input('category_id');
         $resource->save();
 
@@ -194,7 +193,7 @@ class ResourceController extends Controller
 
         if ($request->hasFile('image')) {
             $randomFileName = strtoupper(Str::random(26)) . '.' . $request->file('image')->getClientOriginalExtension();
-            $resource->addMedia($request->file('image'))->usingFileName($randomFileName)->toMediaCollection('image');
+            $resource->addMedia($request->file('image'))->usingFileName(htmlspecialchars($randomFileName, ENT_COMPAT))->toMediaCollection('image');
         }
 
         Statistic::updateResource();
@@ -240,7 +239,15 @@ class ResourceController extends Controller
             'description.required' => 'Le champ description est obligatoire.',
         ])->validate();
 
-        $resource->update($request->only(['name', 'url', 'slug', 'description', 'category_id']));
+        $trimmedDescription = ucfirst(trim($request->input('description')));
+
+        $resource->update([
+            'name' => htmlspecialchars(trim($request->input('name')), ENT_COMPAT),
+            'url' => htmlspecialchars(trim($request->input('url')), ENT_COMPAT),
+            'slug' => htmlspecialchars(trim($request->input('slug'))),
+            'description' => htmlspecialchars($trimmedDescription, ENT_COMPAT),
+            'category_id' => $request->input('category_id'),
+        ]);
 
         return Redirect::route('resource.userIndex');
     }

@@ -82,9 +82,13 @@ class ImageResourceController extends Controller
      */
     private function updateResource(Resource $resource, Request $request): void
     {
-        $resource->update($request->only(['image']));
+        $fileName = htmlspecialchars($request->file('image')->getClientOriginalName());
+
+        $resource->update(['image' => $fileName]);
 
         if ($request->hasFile('image')) {
+            $this->validateImage($request);
+
             $this->handleImageUpload($resource, $request);
         }
     }

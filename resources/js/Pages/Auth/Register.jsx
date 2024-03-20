@@ -57,7 +57,7 @@ export default function Register() {
                     <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 <form onSubmit={submit}>
                     <div>
-                        <InputLabel htmlFor="name" value="Nom d'utilisateur" />
+                        <InputLabel htmlFor="name" value="Nom d'utilisateur"/>
                         <TextInput
                             id="name"
                             name="name"
@@ -68,10 +68,11 @@ export default function Register() {
                             onChange={(e) => setData('name', e.target.value)}
                             required
                         />
-                        <InputError message={errors.name} className="mt-2" />
+                        <span className="text-sm text-gray-500">Lettres, nombres, hyphens et underscores autorisés.</span>
+                        <InputError message={errors.name} className="mt-2"/>
                     </div>
                     <div className="mt-4">
-                        <InputLabel htmlFor="department" value="Département" />
+                        <InputLabel htmlFor="department" value="Département"/>
                         <Select
                             id="department"
                             name="department"

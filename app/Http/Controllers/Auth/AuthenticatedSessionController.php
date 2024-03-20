@@ -41,7 +41,13 @@ class AuthenticatedSessionController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $credentials = $request->only('email', 'password');
+        $email = htmlspecialchars(trim($request->input('email')), ENT_COMPAT);
+
+        $credentials = [
+            'email' => $email,
+            'password' => $request->input('password'),
+        ];
+
         if (Auth::attempt($credentials)) {
             if (auth()->user()->hasRole('Banni')) {
                 Auth::logout();

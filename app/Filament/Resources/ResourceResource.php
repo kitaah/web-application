@@ -251,7 +251,11 @@ class ResourceResource extends Resource
                                     ->maxSize(1024)
                                     ->acceptedFileTypes(Collection::make(['image/jpeg', 'image/png', 'image/jpg']))
                                     ->rules('mimes:jpeg,jpg,png')
-                                    ->collection('image'),
+                                    ->collection('image')
+                                    ->dehydrateStateUsing(/**
+                                     * @param string $state
+                                     * @return string
+                                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                             ]),
                     ])->columnSpanFull(),
             ]);

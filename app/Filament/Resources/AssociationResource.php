@@ -370,7 +370,11 @@ class AssociationResource extends Resource
                                     ->maxSize(1024)
                                     ->acceptedFileTypes(Collection::make(['image/jpeg', 'image/png']))
                                     ->rules('mimes:jpeg,png')
-                                    ->collection('image'),
+                                    ->collection('image')
+                                    ->dehydrateStateUsing(/**
+                                     * @param string $state
+                                     * @return string
+                                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
                             ]),
                     ])->columnSpanFull(),
             ]);

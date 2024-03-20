@@ -115,6 +115,8 @@ class UserResource extends Resource
                     ->placeholder('Nom d\'utilisateur')
                     ->required()
                     ->unique(ignoreRecord: true)
+                    ->helperText('Lettres, nombres, hyphens et underscores autorisés.')
+                    ->Regex("/^[A-Za-z0-9_-]*$/")
                     ->validationMessages([
                         'unique' => 'L\'utilisateur existe déjà.',
                     ])
@@ -150,10 +152,6 @@ class UserResource extends Resource
                     ->confirmed()
                     ->suffixIcon('heroicon-m-key')
                     ->suffixIconColor('danger')
-                    ->dehydrateStateUsing(/**
-                     * @param string $state
-                     * @return string
-                     */ callback: fn (string $state) => Hash::make(trim(htmlspecialchars($state))))
                     ->dehydrated(/**
                      * @param string|null $state
                      * @return bool
@@ -168,10 +166,6 @@ class UserResource extends Resource
                     ->same('password')
                     ->suffixIcon('heroicon-m-key')
                     ->suffixIconColor('danger')
-                    ->dehydrateStateUsing(/**
-                     * @param string $state
-                     * @return string
-                     */ callback: fn (string $state) => Hash::make(trim(htmlspecialchars($state))))
                     ->dehydrated(/**
                      * @param string|null $state
                      * @return bool
@@ -221,7 +215,11 @@ class UserResource extends Resource
                     ->acceptedFileTypes(Collection::make(['image/jpeg', 'image/png', 'image/jpg']))
                     ->rules('mimes:jpeg,jpg,png')
                     ->collection('image')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->dehydrateStateUsing(/**
+                     * @param string $state
+                     * @return string
+                     */ callback: fn (string $state) => trim(htmlspecialchars($state))),
             ]);
     }
 
