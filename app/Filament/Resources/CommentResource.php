@@ -174,7 +174,7 @@ class CommentResource extends Resource
                                     ->offColor('danger')
                                     ->default(false),
                             ]),
-                        Tab::make('Commentaire de la modération')
+                        Tab::make('Raison de la modération')
                             ->icon('heroicon-m-chat-bubble-left')
                             ->iconPosition(IconPosition::After)
                             ->schema(components: [

@@ -3,9 +3,10 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
-use App\Models\{Association, Category, Competition, CreateCompetition, Game, Resource, Statistic, User};
+use App\Models\{Association, Category, Comment, Competition, CreateCompetition, Game, Resource, Statistic, User};
 use App\Policies\{AssociationPolicy,
     CategoryPolicy,
+    CommentPolicy,
     CompetitionPolicy,
     CreateCompetitionPolicy,
     GamePolicy,
@@ -14,10 +15,10 @@ use App\Policies\{AssociationPolicy,
     RolePolicy,
     StatisticPolicy,
     UserPolicy};
-use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Support\Facades\Lang;
+use Illuminate\{Auth\Notifications\VerifyEmail,
+    Foundation\Support\Providers\AuthServiceProvider as ServiceProvider,
+    Notifications\Messages\MailMessage,
+    Support\Facades\Lang};
 use Spatie\{Permission\Models\Permission, Permission\Models\Role};
 
 class AuthServiceProvider extends ServiceProvider
@@ -31,6 +32,7 @@ class AuthServiceProvider extends ServiceProvider
         Association::class => AssociationPolicy::class,
         Game::class => GamePolicy::class,
         Category::class => CategoryPolicy::class,
+        Comment::class => CommentPolicy::class,
         Competition::class => CompetitionPolicy::class,
         CreateCompetition::class => CreateCompetitionPolicy::class,
         Permission::class => PermissionPolicy::class,
