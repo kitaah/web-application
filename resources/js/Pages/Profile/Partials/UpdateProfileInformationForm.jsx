@@ -41,11 +41,11 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 <div className="font-bold">Points: {data.points ?? 0}</div>
                 <div>
                     Badge: {data.points <= 1500 ? (
-                    <Link href="/association" as="a">
-                        <img src="/assets/badges/sword.svg" alt="Your Image"width="50" />
+                    <Link>
+                        <img src="/assets/badges/sword.svg" alt="Your Image" width="50" />
                     </Link>
                 ) : (
-                    <Link href="/association" as="a">
+                    <Link>
                         <img src="/assets/badges/crown.svg" alt="Your Image" width="50" />
                     </Link>
                 )}
