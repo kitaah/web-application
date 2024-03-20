@@ -52,6 +52,7 @@ Route::middleware(['auth', 'verified', 'role:Citoyen|Super-Administrateur'])->gr
     Route::put( '/mes-ressources/modifier/{slug}', [ResourceController::class, 'update'])->name('resource.update');
     Route::get('/mes-ressources/modifier-image/{slug}', [ImageResourceController::class, 'edit'])->name('image.edit');
     Route::put( '/mes-ressources/modifier-image/{slug}', [ImageResourceController::class, 'update'])->name('image.update');
+    Route::post('/increment-points', [GameController::class, 'incrementPoints'])->name('game.incrementPoints');
 });
 
 Route::middleware(['auth', 'verified', 'role:Citoyen|Super-Administrateur', 'permission:vote for an association'])->group(function () {

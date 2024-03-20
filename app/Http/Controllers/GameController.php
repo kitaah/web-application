@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
-use Illuminate\Http\Request;
+use Illuminate\{Http\JsonResponse, Http\Request, Support\Facades\Auth};
 use Inertia\{Inertia, Response};
 
 /**
@@ -40,5 +40,22 @@ class GameController extends Controller
          * @var Game
          */
         return Game::inRandomOrder()->firstOrFail();
+    }
+
+    /**
+     * Points incrementation when the user give the right answer.
+     *
+     * @return JsonResponse
+     */
+    public function incrementPoints(): JsonResponse
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            $user->incrementPoints();
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Utilisateur non authentifié'], 401);
     }
 }

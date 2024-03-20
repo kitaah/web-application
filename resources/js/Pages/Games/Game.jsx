@@ -9,7 +9,16 @@ export default function Game() {
 
     const handleAnswerClick = (isRight) => {
         setSelectedAnswer(isRight);
-        setFeedbackMessage(isRight ? 'Bonne réponse' : 'Mauvaise réponse');
+        if (isRight) {
+            setFeedbackMessage('Bonne réponse');
+            incrementPoints();
+        } else {
+            setFeedbackMessage('Mauvaise réponse');
+        }
+    };
+
+    const incrementPoints = async () => {
+        await axios.post('/increment-points');
     };
 
     return (
