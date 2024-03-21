@@ -12,6 +12,7 @@ use Filament\{Actions\StaticAction,
     Forms\Components\Select,
     Forms\Components\SpatieMediaLibraryFileUpload,
     Forms\Components\TextInput,
+    Forms\Components\Toggle,
     Forms\Form,
     Resources\Resource,
     Support\Enums\Alignment,
@@ -193,8 +194,6 @@ class UserResource extends Resource
                      * @param string $state
                      * @return string
                      */ callback: fn (string $state) => trim(htmlspecialchars($state, ENT_COMPAT))),
-                Hidden::make('terms_accepted')
-                    ->default(true),
                 Select::make('roles')
                     ->label('Rôle')
                     ->placeholder('Sélectionnez un rôle')
@@ -203,6 +202,13 @@ class UserResource extends Resource
                     ->preload()
                     ->suffixIcon('heroicon-m-finger-print')
                     ->suffixIconColor('danger'),
+                Toggle::make('terms_accepted')
+                    ->label('Acceptation des CGU')
+                    ->onIcon('heroicon-o-check')
+                    ->onColor('success')
+                    ->offIcon('heroicon-o-x-mark')
+                    ->offColor('danger')
+                    ->default(false),
                 SpatieMediaLibraryFileUpload::make('thumbnail')
                     ->label('Image de profil')
                     ->helperText('Formats autorisés: JPEG et PNG - Limite de taille: 1MB')
