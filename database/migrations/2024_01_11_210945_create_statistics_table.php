@@ -14,11 +14,11 @@ return new class extends Migration
     {
         Schema::create('statistics', static function (Blueprint $table) {
             $table->id();
-            $table->integer('total_associations')->nullable(false);
-            $table->integer('total_competitions')->nullable(false);
-            $table->integer('total_games')->nullable(false);
-            $table->integer('total_resources')->nullable(false);
-            $table->integer('total_users')->nullable(false);
+            $table->integer('total_associations')->default(0);
+            $table->integer('total_competitions')->default(0);
+            $table->integer('total_games')->default(0);
+            $table->integer('total_resources')->default(0);
+            $table->integer('total_users')->default(0);
             $table->timestamps();
         });
     }

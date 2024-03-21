@@ -15,10 +15,10 @@ return new class extends Migration
         Schema::create('users', static function (Blueprint $table) {
             $table->id();
             $table->string('name', 50)->nullable(false);
-            $table->string('city', 50)->nullable(false);
             $table->string('email', 50)->unique()->nullable(false);
-            $table->string('mood', 50)->nullable();
-            $table->integer('points')->nullable()->default(0);
+            $table->string('department', 50)->nullable(false);
+            $table->string('mood', 50)->default(0);
+            $table->integer('points')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password', 255)->nullable(false);
             $table->boolean('terms_accepted')->nullable(false)->default(false);

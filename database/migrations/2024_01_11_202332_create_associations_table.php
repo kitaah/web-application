@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('address', 50)->nullable(false)->unique();
             $table->string('url', 255)->nullable(false)->unique();
             $table->json('contact_information')->nullable(false);
-            $table->integer('points')->nullable(false)->default(0);
+            $table->integer('points')->default(0);
             $table->boolean('is_winner')->default(false);
             $table->timestamps();
         });
