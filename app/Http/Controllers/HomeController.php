@@ -32,10 +32,12 @@ class HomeController extends Controller
 
         $user = Auth::user();
 
-
         if ($user) {
             $users = User::where('department', $user->department)
                 ->where('id', '!=', $user->id)
+                ->whereHas('roles', function ($query) {
+                    $query->where('name', 'Citoyen');
+                })
                 ->inRandomOrder()
                 ->get()
                 ->map(function ($user) {

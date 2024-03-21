@@ -18,7 +18,8 @@ class PermissionsSeeder extends Seeder
         ];
 
         $permissions = [
-            'can vote for an association',
+            'vote for an association',
+            'post a comment',
         ];
 
         foreach ($permissions as $permissionName) {

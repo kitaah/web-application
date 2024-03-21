@@ -16,7 +16,6 @@ trait DepartmentsTrait
      * @throws GuzzleException
      * @throws JsonException|JsonException
      */
-
     public function fetchDepartments(): Collection
     {
         $client = new Client();
