@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name', 50)->nullable(false);
             $table->string('email', 50)->unique()->nullable(false);
             $table->string('department', 50)->nullable(false);
-            $table->string('mood', 50)->default(0);
+            $table->string('mood', 50)->default("❓");
             $table->integer('points')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password', 255)->nullable(false);
