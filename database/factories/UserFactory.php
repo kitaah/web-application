@@ -43,6 +43,8 @@ class UserFactory extends Factory
             'email' => $email,
             'email_verified_at' => $this->faker->dateTimeBetween(Carbon::createFromDate(2023), Carbon::createFromDate(2024)),
             'department' => $department,
+            'points' => $this->faker->numberBetween(500, 10000),
+            'mood' => $this->faker->randomElement(['😀', '😂', '😊', '😍', '😎', '🤩', '😴', '😢', '😡', '🤯', '🤔', '🤫']),
             'terms_accepted' => true,
             'password' => Hash::make('45.POO.az'),
             'remember_token' => Str::random(64),
