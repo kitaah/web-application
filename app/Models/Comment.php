@@ -7,6 +7,7 @@ use Illuminate\{Database\Eloquent\Factories\HasFactory, Database\Eloquent\Model,
 /**
  * @method static create(array $array)
  * @method static where(string $string, $id)
+ * @method static latest()
  * @property int|mixed|string|null $user_id
  * @property mixed $resource_id
  * @property mixed $content
