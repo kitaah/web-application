@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('resource_id')->constrained()->onDelete('cascade');
-            $table->text('content')->nullable(false);
+            $table->string('content', 2000)->nullable(false);
             $table->boolean('is_published')->default(true);
             $table->boolean('is_reported')->default(false);
-            $table->text('moderation_comment')->nullable();
+            $table->string('moderation_comment', 2000)->nullable();
             $table->boolean('is_user_banned')->default(false);
             $table->timestamps();
         });

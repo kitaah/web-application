@@ -18,7 +18,7 @@ class CommentController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'content' => 'required|string|max:500',
+            'content' => 'required|string|max:2000',
             'resource_id' => 'required|exists:resources,id'
         ]);
 
