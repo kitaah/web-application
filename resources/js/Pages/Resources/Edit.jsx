@@ -15,7 +15,6 @@ export default function Edit() {
     const { data, setData, post, processing, errors, reset } = useForm({
         _method: 'put',
         name: resource.name,
-        url: resource.url,
         slug: resource.slug,
         description: resource.description,
         category_id: resource.category_id,
@@ -23,7 +22,7 @@ export default function Edit() {
 
     useEffect(() => {
         return () => {
-            reset('name', 'url', 'slug', 'description', 'category_id');
+            reset('name', 'slug', 'description', 'category_id');
         };
     }, []);
 
@@ -51,8 +50,7 @@ export default function Edit() {
         const formData = new FormData();
         formData.append('_method', 'PUT');
         formData.append('name', data.name);
-        formData.append('url', data.url);
-        formData.append('url', data.slug);
+        formData.append('slug', data.slug);
         formData.append('description', data.description);
         formData.append('category_id', data.category_id);
 
@@ -114,20 +112,6 @@ export default function Edit() {
                                     onChange={(e) => setData('description', e.target.value)}
                                 />
                                 <InputError message={errors.description} className="mt-2" />
-                            </div>
-
-                            <div className="mt-4">
-                                <InputLabel htmlFor="url" value="Url" />
-                                <TextInput
-                                    id="url"
-                                    name="url"
-                                    placeholder="Url"
-                                    value={data.url}
-                                    className="mt-1 block w-full"
-                                    autoComplete="url"
-                                    onChange={(e) => setData('url', e.target.value)}
-                                />
-                                <InputError message={errors.url} className="mt-2" />
                             </div>
 
                             <div className="mt-4">

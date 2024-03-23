@@ -160,7 +160,7 @@ class ResourceResource extends Resource
                                              * @return string
                                              */ callback: fn (string $state) => htmlspecialchars($state)),
                                     ])->columns(),
-                                Grid::make('Slug and url')
+                                Grid::make('Slug and status')
                                     ->schema(components: [
                                         TextInput::make('slug')
                                             ->placeholder('Slug')
@@ -178,27 +178,6 @@ class ResourceResource extends Resource
                                              * @param string $state
                                              * @return string
                                              */ callback: fn (string $state) => trim(htmlspecialchars($state))),
-                                        TextInput::make('url')
-                                            ->placeholder('Http(s)://')
-                                            ->string()
-                                            ->activeUrl()
-                                            ->maxLength(255)
-                                            ->suffixIcon('heroicon-m-globe-alt')
-                                            ->suffixIconColor('danger')
-                                            ->dehydrateStateUsing(/**
-                                             * @param $state
-                                             * @return mixed|string
-                                             */ callback: fn ($state) => is_string($state) ? htmlspecialchars(trim($state), ENT_COMPAT) : $state),
-                                    ])->columns(),
-                                Grid::make('Validation and status')
-                                    ->schema(components: [
-                                        Toggle::make('is_validated')
-                                            ->label('Validation')
-                                            ->onIcon('heroicon-o-check')
-                                            ->onColor('success')
-                                            ->offIcon('heroicon-o-x-mark')
-                                            ->offColor('danger')
-                                            ->default(false),
                                         Select::make('status')
                                             ->label('Statut')
                                             ->placeholder('Sélectionnez un statut')
@@ -215,6 +194,16 @@ class ResourceResource extends Resource
                                              * @param string $state
                                              * @return string
                                              */ callback: fn (string $state) => htmlspecialchars($state)),
+                                    ])->columns(),
+                                Grid::make('Validation')
+                                    ->schema(components: [
+                                        Toggle::make('is_validated')
+                                            ->label('Validation')
+                                            ->onIcon('heroicon-o-check')
+                                            ->onColor('success')
+                                            ->offIcon('heroicon-o-x-mark')
+                                            ->offColor('danger')
+                                            ->default(false),
                                     ])->columns(),
                             ]),
                         Tab::make('Description')

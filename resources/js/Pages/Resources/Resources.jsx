@@ -28,7 +28,7 @@ export default function Resources() {
             <ul className="container mx-auto my-8 text-center">
                 {resources
                     .filter(resource => !selectedCategory || resource.category_name === selectedCategory)
-                    .map(({ category_name, id, image, name, slug, url, user_name, created_at, updated_at }) => (
+                    .map(({ category_name, id, image, name, slug, user_name, created_at, updated_at }) => (
                         <li key={id}>
                             <div>Titre: <strong>{name}</strong></div><br />
                             <div className="flex justify-center items-center">
@@ -39,7 +39,6 @@ export default function Resources() {
                                     Voir la ressource
                                 </button>
                             </Link>
-                            <div>Url: <strong>{url}</strong></div><br />
                             <div>Catégorie: <strong>{category_name}</strong></div><br />
                             <div>Posté par: <strong>{user_name}</strong></div><br />
                             <div>Posté le: <strong>{created_at}</strong></div><br />

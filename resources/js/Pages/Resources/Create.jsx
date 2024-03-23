@@ -14,7 +14,6 @@ const Create = () => {
     const { categories } = usePage().props;
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
-        url: '',
         slug: '',
         description: '',
         category_id: '',
@@ -25,7 +24,7 @@ const Create = () => {
 
     useEffect(() => {
         return () => {
-            reset('name', 'url', 'slug', 'description', 'category_id', 'image');
+            reset('name', 'slug', 'description', 'category_id', 'image');
         };
     }, []);
 
@@ -56,7 +55,6 @@ const Create = () => {
 
         const formData = new FormData();
         formData.append('name', data.name);
-        formData.append('url', data.url);
         formData.append('slug', data.slug);
         formData.append('description', data.description);
         formData.append('category_id', data.category_id);
@@ -125,20 +123,6 @@ const Create = () => {
                         required
                     />
                     <InputError message={errors.description} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="url" value="Url" />
-                    <TextInput
-                        id="url"
-                        name="url"
-                        placeholder="Url"
-                        value={data.url}
-                        className="mt-1 block w-full"
-                        autoComplete="url"
-                        onChange={(e) => setData('url', e.target.value)}
-                    />
-                    <InputError message={errors.url} className="mt-2" />
                 </div>
 
                 <div className="mt-4">

@@ -15,7 +15,6 @@ export default function Resource() {
                     <div className="flex justify-center items-center">
                         <img src={resource.image} width="400" alt={resource.name}/>
                     </div>
-                    <div>Url : <strong>{resource.url}</strong></div>
                     <br/>
                     <div>Description : <strong>{resource.description}</strong></div>
                     <br/>

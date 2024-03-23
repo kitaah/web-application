@@ -40,7 +40,6 @@ class ResourceController extends Controller
             return array_filter([
                 'id' => $resource->id,
                 'name' => $resource->name,
-                'url' => $resource->url,
                 'slug' => $resource->slug,
                 'description' => $resource->description,
                 'category_name' => optional($resource->category)->name,
@@ -93,7 +92,6 @@ class ResourceController extends Controller
             'resource' => array_filter([
                 'id' => $resource->id,
                 'name' => $resource->name,
-                'url' => $resource->url,
                 'description' => $resource->description,
                 'category_name' => optional($resource->category)->name,
                 'user_name' => optional($resource->user)->name,
@@ -122,7 +120,6 @@ class ResourceController extends Controller
             return array_filter([
                 'id' => $resource->id,
                 'name' => $resource->name,
-                'url' => $resource->url,
                 'slug' => $resource->slug,
                 'is_validated' => $resource->is_validated,
                 'status' => $resource->status,
@@ -169,7 +166,6 @@ class ResourceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:50', Rule::unique('resources', 'name')],
-            'url' => ['nullable', 'url', 'string', 'max:255'],
             'slug' => ['required', 'string', 'alpha_dash', 'max:50', Rule::unique('resources', 'slug')],
             'description' => ['required', 'string', 'max:5000'],
             'category_id' => ['required', 'integer', 'exists:categories,id'],
@@ -182,7 +178,6 @@ class ResourceController extends Controller
 
         $resource = new Resource();
         $resource->name = htmlspecialchars(trim($request->input('name')), ENT_COMPAT);
-        $resource->url = $request->input('url');
         $resource->user_id = auth()->id();
         $resource->slug = htmlspecialchars(trim($request->input('slug')), ENT_COMPAT);
         $resource->description = htmlspecialchars(trim($request->input('description')), ENT_COMPAT);
@@ -229,9 +224,8 @@ class ResourceController extends Controller
     {
         $resource = Resource::where('slug', $slug)->firstOrFail();
 
-        Validator::make($request->only(['name', 'url', 'slug', 'description', 'category_id']), [
+        Validator::make($request->only(['name', 'slug', 'description', 'category_id']), [
             'name' => ['required', 'sometimes', 'string', 'max:50', Rule::unique('resources', 'name')->ignore($resource->id)],
-            'url' => ['nullable', 'url', 'string', 'max:255'],
             'slug' => ['required', 'sometimes', 'string', 'alpha_dash', 'max:50', Rule::unique('resources', 'slug')->ignore($resource->id)],
             'description' => ['required', 'sometimes', 'string', 'max:5000'],
             'category_id' => ['required', 'sometimes', 'integer', 'exists:categories,id'],
@@ -243,7 +237,6 @@ class ResourceController extends Controller
 
         $resource->update([
             'name' => htmlspecialchars(trim($request->input('name')), ENT_COMPAT),
-            'url' => htmlspecialchars(trim($request->input('url')), ENT_COMPAT),
             'slug' => htmlspecialchars(trim($request->input('slug'))),
             'description' => htmlspecialchars($trimmedDescription, ENT_COMPAT),
             'category_id' => $request->input('category_id'),

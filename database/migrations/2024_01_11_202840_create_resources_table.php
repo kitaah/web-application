@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('name', 50)->nullable(false)->unique();
             $table->string('slug', 50)->nullable(false)->unique();
             $table->string('description', 5000)->nullable(false);
-            $table->string('url', 255)->nullable();
             $table->boolean('is_validated')->default(false);
             $table->string('status', 50)->nullable(false)->default('En attente');
             $table->timestamps();

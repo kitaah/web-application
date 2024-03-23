@@ -214,7 +214,7 @@ class AssociationResource extends Resource
                                              */ callback: fn (string $state) => htmlspecialchars($state)),
                                         TextInput::make('url')
                                             ->label('Site internet')
-                                            ->placeholder('Http(s)://')
+                                            ->placeholder('http(s)://')
                                             ->required()
                                             ->string()
                                             ->activeUrl()

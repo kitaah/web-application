@@ -123,7 +123,6 @@ class AllResourcesResource extends JsonResource
             'category_name' => optional($this->category)->name,
             'description' => $this->description,
             'slug' => $this->slug,
-            'url' => $this->url,
             'image' => $this->getFirstMediaUrl('image'),
             'created_at' => $this->created_at->format('d/m/Y'),
             'updated_at' => $this->updated_at->format('d/m/Y'),
