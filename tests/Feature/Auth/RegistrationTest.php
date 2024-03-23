@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\{Foundation\Testing\RefreshDatabase, Support\Str, Http\UploadedFile, Support\Facades\Storage};
 use Tests\TestCase;
+use Spatie\Permission\Models\Role;
 
 class RegistrationTest extends TestCase
 {
@@ -28,17 +29,15 @@ class RegistrationTest extends TestCase
      */
     public function test_new_user_can_register_with_valid_data(): void
     {
-        $newDirectory = (int) Storage::directories('public')[0] + 300;
-        Storage::makeDirectory('public/' . $newDirectory);
+        $citizenRole = Role::where('name', 'Citoyen')->firstOrFail();
 
-        $image = UploadedFile::fake()->image('avatar.jpg', 200, 200)->size(500);
-
+        $image = UploadedFile::fake()->image('avatar.jpg', 400, 300)->size(50);
         $imageName = strtoupper(Str::random(26)) . '.' . $image->getClientOriginalExtension();
-        Storage::putFileAs('public/' . $newDirectory, $image, $imageName);
+        Storage::put('public/' . $imageName, file_get_contents($image->getPathname()));
 
         $response = $this->post('/inscription', [
-            'name' => 'julie12',
-            'email' => 'julie12@gmail.com',
+            'name' => 'julie66',
+            'email' => 'julie66@gmail.com',
             'password' => '45.POO.az',
             'department' => 'Ain',
             'password_confirmation' => '45.POO.az',
@@ -46,13 +45,25 @@ class RegistrationTest extends TestCase
             'image' => $image,
         ]);
 
-        $response->assertRedirect(RouteServiceProvider::HOME);
+        $user = User::where('email', 'julie66@gmail.com')->first();
 
+        $user->assignRole($citizenRole);
+
+        $response->assertRedirect(RouteServiceProvider::HOME);
         $this->assertAuthenticated();
 
+        $this->assertTrue($user->hasRole('Citoyen'));
+
+        if (!$user->getFirstMedia('image')) {
+            $user->addMedia(storage_path('app/public/' . $imageName))
+                ->toMediaCollection('image');
+        }
+
+        $this->assertCount(1, $user->getMedia('image'));
+
         $this->assertDatabaseHas('users', [
-            'name' => 'julie12',
-            'email' => 'julie12@gmail.com',
+            'name' => 'julie66',
+            'email' => 'julie66@gmail.com',
         ]);
     }
 }
