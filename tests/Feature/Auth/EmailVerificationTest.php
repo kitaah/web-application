@@ -35,9 +35,8 @@ class EmailVerificationTest extends TestCase
      */
     public function test_email_can_be_verified(): void
     {
-        $user = User::factory()->create([
-            'email_verified_at' => null,
-        ]);
+        $user = User::where('email', 'totoro@example.com')->first();
+        $this->actingAs($user);
 
         Event::fake();
 

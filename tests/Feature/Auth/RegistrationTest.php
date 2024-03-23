@@ -59,8 +59,8 @@ class RegistrationTest extends TestCase
         Storage::put('public/' . $imageName, file_get_contents($image->getPathname()));
 
         $response = $this->post('/inscription', [
-            'name' => 'julie66',
-            'email' => 'julie66@gmail.com',
+            'name' => 'totoro',
+            'email' => 'totoro@example.com',
             'password' => '45.POO.az',
             'department' => 'Ain',
             'password_confirmation' => '45.POO.az',
@@ -85,8 +85,8 @@ class RegistrationTest extends TestCase
         $response->assertStatus(302);
 
         $this->assertDatabaseHas('users', [
-            'name' => 'julie66',
-            'email' => 'julie66@gmail.com',
+            'name' => 'totoro',
+            'email' => 'totoro@example.com',
             'department' => 'Ain',
             'terms_accepted' => true,
         ]);
