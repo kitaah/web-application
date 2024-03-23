@@ -4,12 +4,21 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Illuminate\{Foundation\Testing\RefreshDatabase, Support\Str, Http\UploadedFile, Support\Facades\Storage};
+use Illuminate\{Foundation\Testing\RefreshDatabase,
+    Http\Response,
+    Support\Str,
+    Http\UploadedFile,
+    Support\Facades\Storage};
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\TestCase;
 use Spatie\Permission\Models\Role;
+use Illuminate\Foundation\Testing\WithFaker;
+use Faker\Factory as FakerFactory;
 
 class RegistrationTest extends TestCase
 {
+    use WithFaker;
+
     /**
      * Verify if registration screen can be rendered.
      *
@@ -22,8 +31,22 @@ class RegistrationTest extends TestCase
         $response->assertStatus(200);
     }
 
+
     /**
-     * Test new user registration with JPG image.
+     * Test validation of required fields in user registration form.
+     *
+     * @return void
+     */
+    public function test_required_fields_validation(): void
+    {
+        $response = $this->post('/inscription', []);
+
+        $response->assertStatus(ResponseAlias::HTTP_FOUND)
+        ->assertSessionHasErrors(['name', 'email', 'password', 'department', 'terms_accepted', 'image']);
+    }
+
+    /**
+     * Test new user registration with valid data.
      *
      * @return void
      */
@@ -49,7 +72,6 @@ class RegistrationTest extends TestCase
 
         $user->assignRole($citizenRole);
 
-        $response->assertRedirect(RouteServiceProvider::HOME);
         $this->assertAuthenticated();
 
         $this->assertTrue($user->hasRole('Citoyen'));
@@ -60,10 +82,13 @@ class RegistrationTest extends TestCase
         }
 
         $this->assertCount(1, $user->getMedia('image'));
+        $response->assertStatus(302);
 
         $this->assertDatabaseHas('users', [
             'name' => 'julie66',
             'email' => 'julie66@gmail.com',
+            'department' => 'Ain',
+            'terms_accepted' => true,
         ]);
     }
 }
