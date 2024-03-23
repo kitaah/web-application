@@ -36,6 +36,7 @@ class EmailVerificationTest extends TestCase
     public function test_email_can_be_verified(): void
     {
         $user = User::where('email', 'totoro@example.com')->first();
+        $this->assertNotNull($user, "L'utilisateur 'totoro@example.com' n'a pas été trouvé.");
         $this->actingAs($user);
 
         Event::fake();
