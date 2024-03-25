@@ -26,13 +26,12 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => 1,
-            'resource_id' => 1,
             'content' => $this->faker->text(1000),
             'is_published' => true,
             'is_reported' => false,
             'moderation_comment' => null,
             'is_user_banned' => false,
+            'created_at' => null,
         ];
     }
 }

@@ -39,5 +39,7 @@ class PermissionsSeeder extends Seeder
                 $this->command->error("The role \"$roleName\" does not exist.");
             }
         }
+
+        $this->command->info("Permission seeding completed.");
     }
 }

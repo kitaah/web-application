@@ -7,8 +7,7 @@ use App\Http\{Controllers\AssociationController,
     Controllers\HomeController,
     Controllers\ImageResourceController,
     Controllers\ProfileController,
-    Controllers\ResourceController,
-    Controllers\UserController};
+    Controllers\ResourceController};
 use Illuminate\{Foundation\Application, Support\Facades\Route};
 use Inertia\Inertia;
 

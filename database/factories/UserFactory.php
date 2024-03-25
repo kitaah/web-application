@@ -39,10 +39,10 @@ class UserFactory extends Factory
         $email = Str::limit($email, 40);
 
         return [
-            'name' => $this->faker->unique()->regexify('/^[A-Za-z0-9_-]{5,40}$/'),
+            'name' => $this->faker->unique()->regexify('/^[A-Za-z0-9_-]{5,8}$/'),
             'email' => $email,
             'email_verified_at' => $this->faker->dateTimeBetween(Carbon::createFromDate(2023), Carbon::createFromDate(2024)),
-            'department' => $department,
+            'department' => 'Ain',
             'points' => $this->faker->numberBetween(500, 10000),
             'mood' => $this->faker->randomElement(['😀', '😂', '😊', '😍', '😎', '🤩', '😴', '😢', '😡', '🤯', '🤔', '🤫']),
             'terms_accepted' => true,
@@ -60,7 +60,7 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(function (User $user) {
             $faker = \Faker\Factory::create();
-            $image = UploadedFile::fake()->image('avatar.jpg', 400, 300)->size(50);
+            $image = UploadedFile::fake()->image('avatar.jpg', 200, 200)->size(50);
             $imageName = strtoupper(Str::random(26)) . '.' . $image->getClientOriginalExtension();
 
             Storage::put('public/' . $imageName, file_get_contents($image->getPathname()));
@@ -68,8 +68,7 @@ class UserFactory extends Factory
             $user->addMedia(storage_path('app/public/' . $imageName))
                 ->toMediaCollection('image');
 
-            $citizenRole = Role::firstOrCreate(['name' => 'Citoyen']);
-
+            $citizenRole = Role::where('name', 'Citoyen')->firstOrFail();
             $user->assignRole($citizenRole);
         });
     }
