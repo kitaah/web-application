@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * @property mixed $mood
+ */
 class ProfileUpdateRequest extends FormRequest
 {
     /**

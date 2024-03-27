@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\{Category, Comment, Resource, Statistic, User};
 use Illuminate\{Http\RedirectResponse,
     Http\Request,
@@ -11,7 +10,8 @@ use Illuminate\{Http\RedirectResponse,
     Http\UploadedFile,
     Support\Facades\Validator,
     Support\Str,
-    Validation\Rule};
+    Validation\Rule,
+    Validation\ValidationException};
 use Inertia\{Inertia, Response};
 use Spatie\{MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist,
     MediaLibrary\MediaCollections\Exceptions\FileIsTooBig};
@@ -161,6 +161,7 @@ class ResourceController extends Controller
      * @return RedirectResponse
      * @throws FileDoesNotExist
      * @throws FileIsTooBig
+     * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
@@ -170,11 +171,9 @@ class ResourceController extends Controller
             'description' => ['required', 'string', 'max:5000'],
             'category_id' => ['required', 'integer', 'exists:categories,id'],
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:1024'],
-        ]);
-
-        if ($validator->fails()) {
-            return Redirect::back()->withErrors($validator)->withInput();
-        }
+        ], [
+            'image.required' => 'Le champ image doit être complété.',
+        ])->validate();
 
         $resource = new Resource();
         $resource->name = htmlspecialchars(trim($request->input('name')), ENT_COMPAT);
@@ -219,6 +218,7 @@ class ResourceController extends Controller
      * @param Request $request
      * @param $slug
      * @return RedirectResponse
+     * @throws ValidationException
      */
     public function update(Request $request, $slug): RedirectResponse
     {

@@ -181,16 +181,15 @@ class CommentResource extends Resource
                                 Textarea::make('moderation_comment')
                                     ->label('Commentaire')
                                     ->helperText('Maximum de 2000 caractères')
-                                    ->required()
                                     ->string()
                                     ->maxlength(2000)
                                     ->rows(10)
                                     ->cols(20)
                                     ->autosize()
                                     ->dehydrateStateUsing(/**
-                                     * @param string $state
-                                     * @return string
-                                     */ callback: fn (string $state) => ucfirst(htmlspecialchars($state, ENT_COMPAT))),
+                                     * @param $state
+                                     * @return mixed|string
+                                     */ callback: fn ($state) => is_string($state) ? htmlspecialchars(trim($state), ENT_COMPAT) : $state),
                             ]),
                     ])->columnSpanFull(),
             ]);

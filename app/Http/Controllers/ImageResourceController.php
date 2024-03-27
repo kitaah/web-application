@@ -37,6 +37,7 @@ class ImageResourceController extends Controller
      * @param Request $request
      * @param string $slug
      * @return RedirectResponse
+     * @throws ValidationException
      */
     public function update(Request $request, string $slug): RedirectResponse
     {
@@ -65,11 +66,14 @@ class ImageResourceController extends Controller
      *
      * @param Request $request
      * @return void
+     * @throws ValidationException
      */
     private function validateImage(Request $request): void
     {
         Validator::make($request->all(), [
-            'image' => ['image', 'mimes:jpeg,png,jpg', 'max:1024'],
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:1024'],
+        ], [
+            'image.required' => 'Aucune image n\'a été ajoutéé.',
         ])->validate();
     }
 
@@ -79,6 +83,7 @@ class ImageResourceController extends Controller
      * @param Resource $resource
      * @param Request $request
      * @return void
+     * @throws ValidationException
      */
     private function updateResource(Resource $resource, Request $request): void
     {
@@ -99,6 +104,7 @@ class ImageResourceController extends Controller
      * @param Resource $resource
      * @param Request $request
      * @return void
+     * @throws ValidationException
      */
     private function handleImageUpload(Resource $resource, Request $request): void
     {
