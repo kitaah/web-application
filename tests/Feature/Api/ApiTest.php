@@ -23,7 +23,8 @@ class ApiTest extends TestCase
         $response = $this->get('/api/token');
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['token']);
+            ->assertJsonStructure(['token'])
+            ->assertJson(['token' => true]);
     }
 
     /**
@@ -35,9 +36,12 @@ class ApiTest extends TestCase
      */
     public function test_valid_token_access(): void
     {
-        $resource = Resource::where('id', 10)->where('is_validated', true)->where('status', 'Publiée')->first();
+        $resource = Resource::where('id', 200)
+            ->where('is_validated', true)
+            ->where('status', 'Publiée')
+            ->first();
 
-        $this->assertNotNull($resource, 'Ressource avec ID 10 non trouvée en base de données');
+        $this->assertNotNull($resource, 'Ressource avec ID 200 non trouvée en base de données');
 
         $token = $this->faker->regexify('[A-Za-z0-9]{60}');
 

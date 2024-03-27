@@ -87,6 +87,7 @@ class  UserSeeder extends Seeder
                 'email' => $user['email'],
                 'password' => Hash::make($user['password']),
                 'department' => $user['department'],
+                'email_verified_at' => now(),
             ]);
 
             $created_user->assignRole($user['role']);

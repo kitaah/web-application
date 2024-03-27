@@ -4,7 +4,7 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Illuminate\{Foundation\Testing\RefreshDatabase,
+use Illuminate\{
     Http\Response,
     Support\Str,
     Http\UploadedFile,
@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\TestCase;
 use Spatie\Permission\Models\Role;
 use Illuminate\Foundation\Testing\WithFaker;
-use Faker\Factory as FakerFactory;
 
 class RegistrationTest extends TestCase
 {
@@ -39,7 +38,7 @@ class RegistrationTest extends TestCase
      */
     public function test_required_fields_validation(): void
     {
-        $response = $this->post('/inscription', []);
+        $response = $this->post('/inscription');
 
         $response->assertStatus(ResponseAlias::HTTP_FOUND)
         ->assertSessionHasErrors(['name', 'email', 'password', 'department', 'terms_accepted', 'image']);
@@ -68,7 +67,7 @@ class RegistrationTest extends TestCase
             'image' => $image,
         ]);
 
-        $user = User::where('email', 'julie66@gmail.com')->first();
+        $user = User::where('email', 'totoro@example.com')->first();
 
         $user->assignRole($citizenRole);
 

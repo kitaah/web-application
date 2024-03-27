@@ -15,6 +15,7 @@ use Spatie\MediaLibrary\{HasMedia, InteractsWithMedia};
  * @method static findOrFail($associationId)
  * @method static firstOrFail()
  * @method static where(string $string, string $slug)
+ * @method static updateCounter(string $string)
  */
 class Association extends Model implements HasMedia
 {

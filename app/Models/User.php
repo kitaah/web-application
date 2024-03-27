@@ -75,6 +75,11 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail, Has
             && str_ends_with($this->email, '@re-relationnelles.fr');
     }
 
+    /**
+     * Increment the points of the user by one and save the changes.
+     *
+     * @return void
+     */
     public function incrementPoints(): void
     {
         $this->points++;
