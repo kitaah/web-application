@@ -37,7 +37,7 @@ class ResourceTest extends TestCase
 
         $response = $this->get('/ressource/' . $resource->slug);
 
-        $response->assertStatus(200);
+        $response->assertOk();
     }
 
     /**
@@ -113,7 +113,7 @@ class ResourceTest extends TestCase
         $resourceToEdit = Resource::findOrFail(200);
 
         $response = $this->get(route('resource.edit', ['slug' => $resourceToEdit->slug]));
-        $response->assertStatus(200);
+        $response->assertOk();
 
         $faker = Faker::create();
         $updatedName = $faker->text(40);
@@ -155,7 +155,7 @@ class ResourceTest extends TestCase
 
         $response = $this->get(route('image.edit', ['slug' => $resourceToEdit->slug]));
 
-        $response->assertStatus(200);
+        $response->assertOk();
 
         $imageFile = UploadedFile::fake()->image('image.jpg', 200, 200)->size(50);
 

@@ -27,7 +27,7 @@ class RegistrationTest extends TestCase
     {
         $response = $this->get('/inscription');
 
-        $response->assertStatus(200);
+        $response->assertOk();
     }
 
 
