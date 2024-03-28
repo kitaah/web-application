@@ -165,22 +165,26 @@ class ResourceController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $validator = Validator::make($request->all(), [
+        $requestData = $request->only('name', 'slug', 'description', 'category_id', 'image');
+
+        Validator::make($requestData, [
             'name' => ['required', 'string', 'max:50', Rule::unique('resources', 'name')],
             'slug' => ['required', 'string', 'alpha_dash', 'max:50', Rule::unique('resources', 'slug')],
             'description' => ['required', 'string', 'max:5000'],
             'category_id' => ['required', 'integer', 'exists:categories,id'],
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:1024'],
         ], [
+            'name.required' => 'Le champ nom doit être complété.',
             'image.required' => 'Le champ image doit être complété.',
+            'image.mimes' => 'L\'image doit être au format JPEG, PNG ou JPG.',
         ])->validate();
 
         $resource = new Resource();
-        $resource->name = htmlspecialchars(trim($request->input('name')), ENT_COMPAT);
+        $resource->name = htmlspecialchars(trim($requestData['name']), ENT_COMPAT);
         $resource->user_id = auth()->id();
-        $resource->slug = htmlspecialchars(trim($request->input('slug')), ENT_COMPAT);
-        $resource->description = htmlspecialchars(trim($request->input('description')), ENT_COMPAT);
-        $resource->category_id = $request->input('category_id');
+        $resource->slug = htmlspecialchars(trim($requestData['slug']), ENT_COMPAT);
+        $resource->description = htmlspecialchars(trim($requestData['description']), ENT_COMPAT);
+        $resource->category_id = $requestData['category_id'];
         $resource->save();
 
         auth()->user()->incrementPoints();
@@ -192,7 +196,7 @@ class ResourceController extends Controller
 
         Statistic::updateResource();
 
-        return Redirect::route('resource.userIndex');
+        return redirect()->route('resource.userIndex');
     }
 
     /**

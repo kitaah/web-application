@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use Inertia\{Inertia, Response};
 use Illuminate\{Contracts\Auth\MustVerifyEmail,
     Http\RedirectResponse,
     Http\Request,
     Support\Facades\Auth,
-    Support\Facades\Redirect};
-use Inertia\{Inertia, Response};
+    Support\Facades\Redirect,
+    Support\Facades\Validator};
 
 class ProfileController extends Controller
 {
@@ -22,9 +23,9 @@ class ProfileController extends Controller
     public function edit(Request $request): Response
     {
         $user = $request->user();
-        $mood = $user->mood;
-        $points = $user->points;
-        $name = $user->name;
+        $mood = htmlspecialchars(trim($user->mood));
+        $points = htmlspecialchars(trim($user->points));
+        $name = htmlspecialchars(trim($user->name));
 
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $user instanceof MustVerifyEmail,
@@ -44,12 +45,18 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        $validator = Validator::make($request->only('mood'), [
+            'mood' => 'string|max:50',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $user = $request->user();
-        $user->mood = $request->mood;
+        $user->mood = htmlspecialchars(trim($request->mood));
 
         $user->incrementPoints();
-
-        $user->save();
 
         return Redirect::route('profile.edit');
     }

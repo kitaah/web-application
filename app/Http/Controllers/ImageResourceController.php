@@ -70,10 +70,13 @@ class ImageResourceController extends Controller
      */
     private function validateImage(Request $request): void
     {
-        Validator::make($request->all(), [
+        $requestData = $request->only('image');
+
+        Validator::make($requestData, [
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:1024'],
         ], [
-            'image.required' => 'Aucune image n\'a été ajoutéé.',
+            'image.required' => 'Aucune image n\'a été ajoutée.',
+            'image.mimes' => 'L\'image doit être au format JPEG, PNG ou JPG.',
         ])->validate();
     }
 
@@ -87,12 +90,14 @@ class ImageResourceController extends Controller
      */
     private function updateResource(Resource $resource, Request $request): void
     {
-        $fileName = htmlspecialchars($request->file('image')->getClientOriginalName());
-
-        $resource->update(['image' => $fileName]);
+        $requestData = $request->only('image');
 
         if ($request->hasFile('image')) {
             $this->validateImage($request);
+
+            $fileName = htmlspecialchars($request->file('image')->getClientOriginalName());
+
+            $resource->update(['image' => $fileName]);
 
             $this->handleImageUpload($resource, $request);
         }

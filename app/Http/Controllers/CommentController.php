@@ -5,7 +5,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
-use Illuminate\{Http\RedirectResponse, Http\Request};
+use Illuminate\{Http\RedirectResponse, Http\Request, Support\Facades\Validator};
 
 class CommentController extends Controller
 {
@@ -17,10 +17,14 @@ class CommentController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $validator = Validator::make($request->only('content', 'resource_id'), [
             'content' => 'required|string|max:2000',
             'resource_id' => 'required|exists:resources,id'
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         $comment = new Comment();
         $comment->user_id = auth()->id();

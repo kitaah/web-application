@@ -18,7 +18,7 @@ class ApiTest extends TestCase
      *
      * @return void
      */
-    public function test_api_token_generation(): void
+    public function test_generation_of_api_token(): void
     {
         $response = $this->get('/api/token');
 
@@ -30,11 +30,11 @@ class ApiTest extends TestCase
     /**
      * Test valid token access.
      *
-     * Verify that the request to '/api/resources' with a valid token returns a single resource with ID 10.
+     * Verify that the request to '/api/resources' with a valid token returns a successful response.
      *
      * @return void
      */
-    public function test_valid_token_access(): void
+    public function test_successful_access_with_valid_token(): void
     {
         $resources = Resource::where('is_validated', true)
             ->where('status', 'Publiée')
@@ -56,7 +56,7 @@ class ApiTest extends TestCase
      *
      * @return void
      */
-    public function test_invalid_token_access(): void
+    public function test_access_to_resources_api_with_invalid_token(): void
     {
         $response = $this->get('/api/resources');
 

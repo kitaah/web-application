@@ -31,7 +31,7 @@ class ResourceFactory extends Factory
 
         $slug = Str::slug($truncatedSentence);
 
-        $description = $this->faker->text(800);
+        $description = $this->faker->text(2500);
         $truncatedDescription = Str::limit($description, 4000);
 
         $user = User::inRandomOrder()->first();
