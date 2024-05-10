@@ -1,30 +1,30 @@
-import { useEffect } from 'react';
-import Checkbox from '@/Components/Checkbox';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import { Head, Link, useForm } from '@inertiajs/react';
-import Layout from '@/Layouts/Layout';
+import { useEffect } from "react";
+import Checkbox from "@/Components/Checkbox";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import TextInput from "@/Components/TextInput";
+import { Head, Link, useForm } from "@inertiajs/react";
+import Layout from "@/Layouts/Layout";
 import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: '',
-        password: '',
+        email: "",
+        password: "",
         remember: false,
     });
 
     useEffect(() => {
         return () => {
-            reset('password');
+            reset("password");
         };
     }, []);
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('login'));
+        post(route("login"));
     };
 
     return (
@@ -41,9 +41,9 @@ export default function Login({ status, canResetPassword }) {
                 </h2>
 
                 <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-                    <div className="h-10">
+                    <div className="h-10 w-40" style={{ marginTop: "-25vh" }}>
                         <Link href="/">
-                            <ApplicationLogo className="w-50 fill-current text-gray-500" />
+                            <ApplicationLogo className=" fill-current text-gray-500" />
                         </Link>
                     </div>
 

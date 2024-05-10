@@ -31,7 +31,7 @@ export default function Authenticated({ header, children }) {
                                     Accueil
                                 </NavLink>
                             </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            {/* <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink
                                     href={route("accessibility")}
                                     active={route().current("accessibility")}
@@ -54,7 +54,7 @@ export default function Authenticated({ header, children }) {
                                 >
                                     Politique de confidentialité
                                 </NavLink>
-                            </div>
+                            </div> */}
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink
                                     href={route("resources.index")}
