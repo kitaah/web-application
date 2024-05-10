@@ -212,6 +212,28 @@ export default function Carousel({ competition }) {
                             }}
                         >
                             <Assoc
+                                header={2}
+                                name={association_second.name}
+                                project={
+                                    <Link
+                                        href={`/association/${association_second.slug}`}
+                                    >
+                                        <button className="px-6 py-2 mx-5 text-white bg-green-500 rounded-md focus:outline-none">
+                                            Détails
+                                        </button>
+                                    </Link>
+                                }
+                                img={association_second.image}
+                                points={association_second.points}
+                            />
+                        </SwiperSlide>
+                        <SwiperSlide
+                            style={{
+                                textAlign: "center",
+                                padding: "20px",
+                            }}
+                        >
+                            <Assoc
                                 header={1}
                                 name={association_first.name}
                                 project={
@@ -234,6 +256,28 @@ export default function Carousel({ competition }) {
                             }}
                         >
                             <Assoc
+                                header={3}
+                                name={association_third.name}
+                                project={
+                                    <Link
+                                        href={`/association/${association_third.slug}`}
+                                    >
+                                        <button className="px-6 py-2 mx-5 text-white bg-green-500 rounded-md focus:outline-none">
+                                            Détails
+                                        </button>
+                                    </Link>
+                                }
+                                img={association_third.image}
+                                points={association_third.points}
+                            />
+                        </SwiperSlide>
+                        <SwiperSlide
+                            style={{
+                                textAlign: "center",
+                                padding: "20px",
+                            }}
+                        >
+                            <Assoc
                                 header={2}
                                 name={association_second.name}
                                 project={
@@ -247,6 +291,28 @@ export default function Carousel({ competition }) {
                                 }
                                 img={association_second.image}
                                 points={association_second.points}
+                            />
+                        </SwiperSlide>
+                        <SwiperSlide
+                            style={{
+                                textAlign: "center",
+                                padding: "20px",
+                            }}
+                        >
+                            <Assoc
+                                header={1}
+                                name={association_first.name}
+                                project={
+                                    <Link
+                                        href={`/association/${association_first.slug}`}
+                                    >
+                                        <button className="px-6 py-2 mx-5 text-white bg-green-500 rounded-md focus:outline-none">
+                                            Détails
+                                        </button>
+                                    </Link>
+                                }
+                                img={association_first.image}
+                                points={association_first.points}
                             />
                         </SwiperSlide>
                         <SwiperSlide
