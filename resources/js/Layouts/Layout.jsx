@@ -33,14 +33,6 @@ export default function Authenticated({ header, children }) {
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink
-                                    href={route("home2")}
-                                    active={route().current("home2")}
-                                >
-                                    DSFR
-                                </NavLink>
-                            </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
                                     href={route("accessibility")}
                                     active={route().current("accessibility")}
                                 >
@@ -248,7 +240,7 @@ export default function Authenticated({ header, children }) {
             <main>{children}</main>
 
             <Footer
-                accessibility="partially compliant"
+                accessibility="fully compliant"
                 brandTop={
                     <>
                         Ministère
@@ -260,10 +252,40 @@ export default function Authenticated({ header, children }) {
                         ET DES SOLIDARITéS
                     </>
                 }
+                termsLinkProps={{ href: "mentions-legales" }}
+                accessibilityLinkProps={{
+                    // href: "politique-de-confidentialite",
+                    href: "accessibilite",
+                }}
                 homeLinkProps={{
                     href: "/",
                     title: "Accueil - Ministère",
                 }}
+                linkList={[
+                    {
+                        categoryName: "Liens supplémentaires ",
+                        links: [
+                            {
+                                linkProps: {
+                                    href: "politique-de-confidentialite",
+                                },
+                                text: "Politique de confidentialité",
+                            },
+                            {
+                                linkProps: {
+                                    href: "politique-de-cookies",
+                                },
+                                text: "Cookies",
+                            },
+                            {
+                                linkProps: {
+                                    href: "conditions-generales-utilisation",
+                                },
+                                text: "Conditions générales d'utilisation",
+                            },
+                        ],
+                    },
+                ]}
             ></Footer>
         </div>
     );
