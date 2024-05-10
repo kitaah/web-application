@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Link } from '@inertiajs/react';
+import { Link } from "@inertiajs/react";
 import "swiper/swiper-bundle.css";
 import "../../css/Carousel.css";
 import { register } from "swiper/element";
@@ -35,7 +35,8 @@ export default function Carousel({ competition }) {
 
         for (let i = 0; i < slides.length; i++) {
             if (i !== activeIndex + 1) {
-                slides[i].style.filter = "blur(3px)";
+                // slides[i].style.filter = "blur(3px)";
+                slides[i].style.filter = "none";
             } else {
                 slides[i].style.filter = "none";
             }
@@ -71,7 +72,8 @@ export default function Carousel({ competition }) {
         );
     }
 
-    {/*
+    {
+        /*
     return (
         <div
         className={"SwiperWrapper"}
@@ -175,7 +177,8 @@ export default function Carousel({ competition }) {
             </Swiper>
         </div>
     );
-*/}
+*/
+    }
     return (
         <div
             className={"SwiperWrapper"}
@@ -184,72 +187,93 @@ export default function Carousel({ competition }) {
                 boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
             }}
         >
-            {competition.map(({ id, name, competition, association_first, association_second, association_third }) => (
-                <Swiper
-                    key={id}
-                    ref={swiperRef}
-                    className="mySwiper"
-                    spaceBetween={30}
-                    slidesPerView={1}
-                    loop={true}
-                    onSlideChange={handleSlideChange}
-                >
-                    <SwiperSlide
-                        style={{
-                            textAlign: "center",
-                            padding: "20px",
-                        }}
+            {competition.map(
+                ({
+                    id,
+                    name,
+                    competition,
+                    association_first,
+                    association_second,
+                    association_third,
+                }) => (
+                    <Swiper
+                        key={id}
+                        ref={swiperRef}
+                        className="mySwiper"
+                        spaceBetween={30}
+                        slidesPerView={1}
+                        loop={true}
+                        onSlideChange={handleSlideChange}
                     >
-                        <Assoc
-                            header={1}
-                            name={association_first.name}
-                            project={
-                                <Link href={`/association/${association_first.slug}`}>
-                                    <button className="px-6 py-2 mx-5 text-white bg-green-500 rounded-md focus:outline-none">Détails</button>
-                                </Link>
-                            }
-                            img={association_first.image}
-                            points={association_first.points}
-                        />
-                    </SwiperSlide>
-                    <SwiperSlide
-                        style={{
-                            textAlign: "center",
-                            padding: "20px",
-                        }}
-                    >
-                        <Assoc
-                            header={2}
-                            name={association_second.name}
-                            project={
-                                <Link href={`/association/${association_second.slug}`}>
-                                    <button className="px-6 py-2 mx-5 text-white bg-green-500 rounded-md focus:outline-none">Détails</button>
-                                </Link>
-                            }
-                            img={association_second.image}
-                            points={association_second.points}
-                        />
-                    </SwiperSlide>
-                    <SwiperSlide
-                        style={{
-                            textAlign: "center",
-                            padding: "20px",
-                        }}
-                    >
-                        <Assoc
-                            header={3}
-                            name={association_third.name}
-                            project={
-                                <Link href={`/association/${association_third.slug}`}>
-                                    <button className="px-6 py-2 mx-5 text-white bg-green-500 rounded-md focus:outline-none">Détails</button>
-                                </Link>
-                            }
-                            img={association_third.image}
-                            points={association_third.points}
-                        />
-                    </SwiperSlide>
-                </Swiper>
-            ))}
+                        <SwiperSlide
+                            style={{
+                                textAlign: "center",
+                                padding: "20px",
+                            }}
+                        >
+                            <Assoc
+                                header={1}
+                                name={association_first.name}
+                                project={
+                                    <Link
+                                        href={`/association/${association_first.slug}`}
+                                    >
+                                        <button className="px-6 py-2 mx-5 text-white bg-green-500 rounded-md focus:outline-none">
+                                            Détails
+                                        </button>
+                                    </Link>
+                                }
+                                img={association_first.image}
+                                points={association_first.points}
+                            />
+                        </SwiperSlide>
+                        <SwiperSlide
+                            style={{
+                                textAlign: "center",
+                                padding: "20px",
+                            }}
+                        >
+                            <Assoc
+                                header={2}
+                                name={association_second.name}
+                                project={
+                                    <Link
+                                        href={`/association/${association_second.slug}`}
+                                    >
+                                        <button className="px-6 py-2 mx-5 text-white bg-green-500 rounded-md focus:outline-none">
+                                            Détails
+                                        </button>
+                                    </Link>
+                                }
+                                img={association_second.image}
+                                points={association_second.points}
+                            />
+                        </SwiperSlide>
+                        <SwiperSlide
+                            style={{
+                                textAlign: "center",
+                                padding: "20px",
+                            }}
+                        >
+                            <Assoc
+                                header={3}
+                                name={association_third.name}
+                                project={
+                                    <Link
+                                        href={`/association/${association_third.slug}`}
+                                    >
+                                        <button className="px-6 py-2 mx-5 text-white bg-green-500 rounded-md focus:outline-none">
+                                            Détails
+                                        </button>
+                                    </Link>
+                                }
+                                img={association_third.image}
+                                points={association_third.points}
+                            />
+                        </SwiperSlide>
+                    </Swiper>
+                )
+            )}
         </div>
     );
 }
