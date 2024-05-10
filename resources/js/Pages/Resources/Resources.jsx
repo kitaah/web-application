@@ -5,9 +5,14 @@ import { Link, usePage } from "@inertiajs/react";
 export default function Resources() {
     const { resources, categories } = usePage().props;
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [visibleResources, setVisibleResources] = useState(5);
 
     const handleCategoryChange = (e) => {
         setSelectedCategory(e.target.value);
+    };
+
+    const handleLoadMore = () => {
+        setVisibleResources((prev) => prev + 5); // Increase visible resources by 5
     };
 
     return (
@@ -49,6 +54,7 @@ export default function Resources() {
                                 !selectedCategory ||
                                 resource.category_name === selectedCategory
                         )
+                        .slice(0, visibleResources) // Display only visible resources
                         .map(
                             ({
                                 category_name,
@@ -103,6 +109,17 @@ export default function Resources() {
                             )
                         )}
                 </ul>
+
+                {visibleResources < resources.length && (
+                    <div className="text-center">
+                        <button
+                            onClick={handleLoadMore}
+                            className="px-6 py-2 bg-blue-500 text-white rounded-md focus:outline-none"
+                        >
+                            Load More
+                        </button>
+                    </div>
+                )}
             </div>
         </Layout>
     );
