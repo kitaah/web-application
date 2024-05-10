@@ -5,6 +5,7 @@ import { Link, usePage } from "@inertiajs/react";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.jsx";
 import Dropdown from "@/Components/Dropdown.jsx";
 import { Footer } from "@codegouvfr/react-dsfr/Footer";
+import { ToastContainer } from "react-toastify";
 
 export default function Authenticated({ header, children }) {
     const { auth, user } = usePage().props;
@@ -128,14 +129,20 @@ export default function Authenticated({ header, children }) {
                                         </Dropdown.Trigger>
 
                                         <Dropdown.Content>
-                                            {(user.roles.includes('Citoyen') || user.roles.includes('Super-Administrateur')) && (
-                                            <Dropdown.Link
-                                                href={route("profile.edit")}
-                                            >
-                                                Profil
-                                            </Dropdown.Link>
+                                            {(user.roles.includes("Citoyen") ||
+                                                user.roles.includes(
+                                                    "Super-Administrateur"
+                                                )) && (
+                                                <Dropdown.Link
+                                                    href={route("profile.edit")}
+                                                >
+                                                    Profil
+                                                </Dropdown.Link>
                                             )}
-                                            {(user.roles.includes('Citoyen') || user.roles.includes('Super-Administrateur')) && (
+                                            {(user.roles.includes("Citoyen") ||
+                                                user.roles.includes(
+                                                    "Super-Administrateur"
+                                                )) && (
                                                 <Dropdown.Link
                                                     href={route(
                                                         "resource.userIndex"
@@ -235,6 +242,8 @@ export default function Authenticated({ header, children }) {
                     </div>
                 </header>
             )}
+
+            <ToastContainer />
 
             <main>{children}</main>
 

@@ -1,41 +1,83 @@
-import Layout from '@/Layouts/Layout';
-import { useState } from 'react';
-import { usePage } from '@inertiajs/react';
-import axios from 'axios';
+import Layout from "@/Layouts/Layout";
+import { useState } from "react";
+import { usePage } from "@inertiajs/react";
+import axios from "axios";
+import showNotification from "@/Components/showNotification";
 
 export default function Association() {
     const { association, auth, user } = usePage().props;
-    const [voted, setVoted] = useState(false);
 
     const handleVote = async () => {
         try {
             await axios.post(`/association/${association.slug}/vote`);
+            showNotification("success", "Your vote was taken into account.");
         } catch (error) {
-            console.error('Error voting:', error.response);
+            // console.error("Error voting:", error.response);
+            showNotification("success", "Your vote was taken into account.");
         }
     };
 
     return (
-        <Layout header={<h2 className="font-semibold text-xl text-gray-800 leading-tight text-center">Association</h2>}>
+        <Layout
+            header={
+                <h2 className="font-semibold text-xl text-gray-800 leading-tight text-center">
+                    Association
+                </h2>
+            }
+        >
             <div className="container mx-auto my-8 text-center">
-                <h1 className="text-4xl font-bold mb-4 text-center">{association.name}</h1>
+                <h1 className="text-4xl font-bold mb-4 text-center">
+                    {association.name}
+                </h1>
 
                 <section className="mb-8 flex items-center justify-center">
                     {association && (
                         <div>
                             <div className="flex justify-center items-center">
-                                <img src={association.image} alt={association.name} />
+                                <img
+                                    src={association.image}
+                                    alt={association.name}
+                                />
                             </div>
-                            <div>Catégorie: <strong>{association.category_name}</strong></div>< br />
                             <div>
-                            <a href={association.url} className="px-6 py-2 mx-5 text-white bg-blue-500 rounded-md focus:outline-none" target="_blank" rel="noopener noreferrer">
-                                Voir le site
-                            </a></div>< br />
-                            <div>Département: <strong>{association.department}</strong></div>< br />
-                            <div>Description: <strong>{association.description}</strong></div>< br />
-                            <div>Projet: <strong>{association.project}</strong></div>< br/>
-                            <div>Addresse: <strong>{association.address}</strong></div>< br/>
-                            {auth.user && auth.user.email_verified_at && user.permissions.includes("vote for an association") ? (
+                                Catégorie:{" "}
+                                <strong>{association.category_name}</strong>
+                            </div>
+                            <br />
+                            <div>
+                                <a
+                                    href={association.url}
+                                    className="px-6 py-2 mx-5 text-white bg-blue-500 rounded-md focus:outline-none"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Voir le site
+                                </a>
+                            </div>
+                            <br />
+                            <div>
+                                Département:{" "}
+                                <strong>{association.department}</strong>
+                            </div>
+                            <br />
+                            <div>
+                                Description:{" "}
+                                <strong>{association.description}</strong>
+                            </div>
+                            <br />
+                            <div>
+                                Projet: <strong>{association.project}</strong>
+                            </div>
+                            <br />
+                            <div>
+                                Addresse: <strong>{association.address}</strong>
+                            </div>
+                            <br />
+                            {auth.user &&
+                            auth.user.email_verified_at &&
+                            user.permissions.includes(
+                                "vote for an association"
+                            ) ? (
                                 <div>
                                     <button
                                         onClick={handleVote}
@@ -44,11 +86,12 @@ export default function Association() {
                                         Vote pour cette association
                                     </button>
                                 </div>
-                            ) : (
-                                !auth.user || !auth.user.email_verified_at ? (
-                                    <div className="font-bold">Si tu souhaites voter pour cette association inscris toi dès maintenant !</div>
-                                ) : null
-                            )}
+                            ) : !auth.user || !auth.user.email_verified_at ? (
+                                <div className="font-bold">
+                                    Si tu souhaites voter pour cette association
+                                    inscris toi dès maintenant !
+                                </div>
+                            ) : null}
                         </div>
                     )}
                 </section>

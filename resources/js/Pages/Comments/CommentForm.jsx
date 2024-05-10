@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
-import { useForm } from '@inertiajs/react';
-import InputError from '@/Components/InputError';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextArea from '@/Components/TextArea';
+import React, { useState } from "react";
+import { useForm } from "@inertiajs/react";
+import InputError from "@/Components/InputError";
+import PrimaryButton from "@/Components/PrimaryButton";
+import TextArea from "@/Components/TextArea";
+import showNotification from "@/Components/showNotification";
 
 const CommentForm = ({ resourceId }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
-        content: '',
-        resource_id: resourceId
+        content: "",
+        resource_id: resourceId,
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        post(route('comments.store'), data);
+        showNotification("success", "Commentaire posté avec succès!");
+        setTimeout(() => {
+            post(route("comments.store"), data);
+            data.content = "";
+            setData({ ...data });
+        }, 1000);
     };
 
     return (
@@ -22,7 +27,11 @@ const CommentForm = ({ resourceId }) => {
             <div className="flex justify-center">
                 <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                     <form onSubmit={handleSubmit}>
-                        <input type="hidden" name="resource_id" value={data.resource_id}/>
+                        <input
+                            type="hidden"
+                            name="resource_id"
+                            value={data.resource_id}
+                        />
 
                         <div className="mt-4">
                             <TextArea
@@ -32,10 +41,15 @@ const CommentForm = ({ resourceId }) => {
                                 value={data.content}
                                 className="mt-1 block w-full"
                                 autoComplete="content"
-                                onChange={(e) => setData('content', e.target.value)}
+                                onChange={(e) =>
+                                    setData("content", e.target.value)
+                                }
                                 requireda
                             />
-                            <InputError message={errors.content} className="mt-2"/>
+                            <InputError
+                                message={errors.content}
+                                className="mt-2"
+                            />
                         </div>
                         <div className="flex items-center justify-end mt-4">
                             <PrimaryButton type="submit" disabled={processing}>
@@ -45,7 +59,9 @@ const CommentForm = ({ resourceId }) => {
                     </form>
                 </div>
             </div>
-            <div className="mt-3">Chaque commentaire posté te rapport un point !</div>
+            <div className="mt-3">
+                Chaque commentaire posté te rapport un point !
+            </div>
         </div>
     );
 };
