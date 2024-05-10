@@ -6,6 +6,7 @@ export default function Resources() {
     const { resources, categories } = usePage().props;
     const [selectedCategory, setSelectedCategory] = useState("");
     const [visibleResources, setVisibleResources] = useState(5);
+    const [searchTerm, setSearchTerm] = useState(""); // State for search term
 
     const handleCategoryChange = (e) => {
         setSelectedCategory(e.target.value);
@@ -14,6 +15,11 @@ export default function Resources() {
     const handleLoadMore = () => {
         setVisibleResources((prev) => prev + 5); // Increase visible resources by 5
     };
+
+    // Filter resources based on search term
+    const filteredResources = resources.filter((resource) =>
+        resource.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <Layout
@@ -47,8 +53,17 @@ export default function Resources() {
                     </select>
                 </section>
 
+                {/* Search bar */}
+                <input
+                    type="text"
+                    placeholder="Search resources..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="block w-2/5 mx-auto px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200 mb-4"
+                />
+
                 <ul className="container mx-auto my-8 text-center">
-                    {resources
+                    {filteredResources
                         .filter(
                             (resource) =>
                                 !selectedCategory ||
