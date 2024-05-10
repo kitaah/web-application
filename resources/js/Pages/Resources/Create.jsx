@@ -29,22 +29,15 @@ const Create = () => {
         };
     }, []);
 
-    let slugTimeout;
-
     const generateSlug = (value) => {
-        clearTimeout(slugTimeout);
-        slugTimeout = setTimeout(() => {
-            if (value.trim() !== "") {
-                const generatedSlug = slugify(value);
-                console.log("Generated Slug:", generatedSlug);
-                setData("slug", generatedSlug);
-            }
-        }, 1000);
+        if (value.trim() !== "") {
+            const generatedSlug = slugify(value);
+            setData("slug", generatedSlug);
+        }
     };
 
     const handleNameChange = (e) => {
         setData("name", e.target.value);
-        generateSlug(e.target.value);
     };
 
     const handleImageChange = (e) => {
@@ -85,7 +78,7 @@ const Create = () => {
                 <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
                     <div>
                         <Link href="/">
-                            <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+                            <ApplicationLogo className="w-50 h-20 fill-current text-gray-500" />
                         </Link>
                     </div>
 
@@ -116,29 +109,13 @@ const Create = () => {
                                     autoComplete="name"
                                     isFocused={true}
                                     onChange={handleNameChange}
+                                    onBlur={(e) => {
+                                        generateSlug(e.target.value);
+                                    }}
                                     required
                                 />
                                 <InputError
                                     message={errors.name}
-                                    className="mt-2"
-                                />
-                            </div>
-
-                            <div className="mt-4">
-                                <InputLabel htmlFor="slug" value="Slug" />
-                                <TextInput
-                                    id="slug"
-                                    name="slug"
-                                    value={data.slug}
-                                    className="mt-1 block w-full"
-                                    autoComplete="slug"
-                                    onChange={(e) =>
-                                        setData("slug", e.target.value)
-                                    }
-                                    required
-                                />
-                                <InputError
-                                    message={errors.slug}
                                     className="mt-2"
                                 />
                             </div>
