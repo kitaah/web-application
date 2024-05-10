@@ -28,7 +28,7 @@ class ResourcesChartOverview extends ApexChartWidget
      *
      * @var string|null
      */
-    protected static ?string $footer = 'Informations sur le nombre de ressources.';
+    protected static ?string $footer = 'Informations sur le nombre de ressources créées.';
 
     /**
      * Polling interval when the data is refresh.

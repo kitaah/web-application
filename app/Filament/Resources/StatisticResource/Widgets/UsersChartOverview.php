@@ -27,7 +27,7 @@ class UsersChartOverview extends ApexChartWidget
      *
      * @var string|null
      */
-    protected static ?string $footer = 'Informations sur le nombre d\'utilisateurs.';
+    protected static ?string $footer = 'Informations sur le nombre d\'utilisateurs inscrits.';
 
     /**
      * Polling interval when the data is refresh.

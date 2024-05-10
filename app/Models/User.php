@@ -22,6 +22,7 @@ use Spatie\{MediaLibrary\HasMedia, MediaLibrary\InteractsWithMedia, Permission\T
  * @property mixed $department
  * @property mixed $points
  * @property mixed $id
+ * @property mixed $email
  */
 class User extends Authenticatable implements FilamentUser, MustVerifyEmail, HasMedia
 {

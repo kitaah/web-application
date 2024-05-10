@@ -53,7 +53,7 @@ class RegistrationTest extends TestCase
     {
         $citizenRole = Role::where('name', 'Citoyen')->firstOrFail();
 
-        $image = UploadedFile::fake()->image('avatar.jpg', 400, 300)->size(50);
+        $image = UploadedFile::fake()->image('avatar.jpg', 200, 200)->size(50);
         $imageName = strtoupper(Str::random(26)) . '.' . $image->getClientOriginalExtension();
         Storage::put('public/' . $imageName, file_get_contents($image->getPathname()));
 

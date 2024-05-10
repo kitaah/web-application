@@ -6,7 +6,7 @@
         <span class="mx-5">-</span>
         <a href="#" class="hover:underline">Politique de confidentialité</a>
         <span class="mx-5">-</span>
-        <a href="#" class="hover:underline">Accessibilité : partiellement conforme</a>
+        <a href="#" class="hover:underline">Accessibilité</a>
         <span class="mx-5">-</span>
         <a href="#" class="hover:underline">Conditions générales d'utilisation</a>
     </span>

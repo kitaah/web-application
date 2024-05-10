@@ -2,13 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
-use App\Models\Resource;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use App\Models\{Category, Resource, User};
+use Illuminate\{Database\Eloquent\Factories\Factory, Http\UploadedFile, Support\Facades\Storage, Support\Str};
 
 class ResourceFactory extends Factory
 {

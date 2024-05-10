@@ -58,7 +58,7 @@ class ProfileTest extends TestCase
      *
      * @throws JsonException
      */
-    public function test_profile_information_can_be_updated(): void
+    public function test_mood_can_be_updated(): void
     {
         $user = User::factory()->create();
 

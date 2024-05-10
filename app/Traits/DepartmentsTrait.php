@@ -10,7 +10,7 @@ use JsonException;
 trait DepartmentsTrait
 {
     /**
-     * Json file about French regions and departments
+     * Json file about French departments
      *
      * @return Collection
      * @throws GuzzleException

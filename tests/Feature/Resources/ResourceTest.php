@@ -119,7 +119,7 @@ class ResourceTest extends TestCase
         $updatedName = $faker->text(40);
         $updatedDescription = $faker->text(1000);
         $updatedSlug = Str::slug($updatedName);
-        $updatedCategoryId = $faker->numberBetween(1, 2);
+        $updatedCategoryId = $faker->numberBetween(16, 18);
 
         $updatedData = [
             'category_id' => $updatedCategoryId,
