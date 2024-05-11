@@ -38,10 +38,6 @@ export default function UpdateProfileInformation({
                 <h2 className="text-lg font-medium text-gray-900">
                     Profil de {data.name}
                 </h2>
-                <p className="mt-1 text-sm text-gray-600">
-                    Mettez à jour les informations de votre profil et votre
-                    adresse e-mail.
-                </p>
             </header>
 
             <div className="font-bold">

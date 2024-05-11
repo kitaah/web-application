@@ -78,7 +78,7 @@ const Create = () => {
                 <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
                     <div>
                         <Link href="/">
-                            <ApplicationLogo className="w-50 h-20 fill-current text-gray-500" />
+                            <ApplicationLogo className="w-21 h-20 fill-current text-gray-500 pb-1"/>
                         </Link>
                     </div>
 
@@ -90,7 +90,7 @@ const Create = () => {
                         >
                             <div>
                                 <div className="flex items-center">
-                                    <InputLabel htmlFor="name" value="Nom" />
+                                    <InputLabel htmlFor="name" value="Nom"/>
                                     <span
                                         style={{
                                             color: "red",
@@ -155,7 +155,7 @@ const Create = () => {
 
                             <div className="mt-4">
                                 <div className="flex items-center">
-                                    <InputLabel htmlFor="image" value="Image" />
+                                    <InputLabel htmlFor="image" value="Image"/>
                                     <span
                                         style={{
                                             color: "red",

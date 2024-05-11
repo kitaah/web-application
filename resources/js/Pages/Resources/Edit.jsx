@@ -77,9 +77,9 @@ export default function Edit() {
                 </h2>
 
                 <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-                    <div className="h-10">
+                    <div>
                         <Link href="/">
-                            <ApplicationLogo className="w-50 h-10 fill-current text-gray-500" />
+                            <ApplicationLogo className="w-21 h-20 fill-current text-gray-500 pb-1"/>
                         </Link>
                     </div>
 
@@ -91,7 +91,7 @@ export default function Edit() {
                         >
                             <div>
                                 <div className="flex items-center">
-                                    <InputLabel htmlFor="name" value="Nom" />
+                                    <InputLabel htmlFor="name" value="Nom"/>
                                     <span
                                         style={{
                                             color: "red",

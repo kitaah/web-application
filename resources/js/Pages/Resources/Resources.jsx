@@ -131,7 +131,7 @@ export default function Resources() {
                             onClick={handleLoadMore}
                             className="px-6 py-2 bg-blue-500 text-white rounded-md focus:outline-none"
                         >
-                            Load More
+                            Voir +
                         </button>
                     </div>
                 )}
