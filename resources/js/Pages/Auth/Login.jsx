@@ -90,7 +90,7 @@ export default function Login({ status, canResetPassword }) {
                                 <div className="flex items-center">
                                     <InputLabel
                                         htmlFor="password"
-                                        value="Password"
+                                        value="Mot de passe"
                                     />
                                     <span
                                         style={{
@@ -151,7 +151,7 @@ export default function Login({ status, canResetPassword }) {
                                     className="ms-4"
                                     disabled={processing}
                                 >
-                                    Log in
+                                    Connexion
                                 </PrimaryButton>
                             </div>
                         </form>
