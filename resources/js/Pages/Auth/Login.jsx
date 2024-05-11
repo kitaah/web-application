@@ -56,8 +56,17 @@ export default function Login({ status, canResetPassword }) {
 
                         <form onSubmit={submit}>
                             <div>
-                                <InputLabel htmlFor="email" value="Email" />
-
+                                <div className="flex items-center">
+                                    <InputLabel htmlFor="email" value="Email" />
+                                    <span
+                                        style={{
+                                            color: "red",
+                                            marginLeft: "5px",
+                                        }}
+                                    >
+                                        *
+                                    </span>
+                                </div>
                                 <TextInput
                                     id="email"
                                     type="email"
@@ -78,11 +87,20 @@ export default function Login({ status, canResetPassword }) {
                             </div>
 
                             <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="password"
-                                    value="Password"
-                                />
-
+                                <div className="flex items-center">
+                                    <InputLabel
+                                        htmlFor="password"
+                                        value="Password"
+                                    />
+                                    <span
+                                        style={{
+                                            color: "red",
+                                            marginLeft: "5px",
+                                        }}
+                                    >
+                                        *
+                                    </span>
+                                </div>
                                 <TextInput
                                     id="password"
                                     type="password"
@@ -114,7 +132,7 @@ export default function Login({ status, canResetPassword }) {
                                         }
                                     />
                                     <span className="ms-2 text-sm text-gray-600">
-                                        Remember me
+                                        Se souvenir de moi
                                     </span>
                                 </label>
                             </div>

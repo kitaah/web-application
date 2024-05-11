@@ -56,7 +56,7 @@ export default function Resources() {
                 {/* Search bar */}
                 <input
                     type="text"
-                    placeholder="Search resources..."
+                    placeholder="Rechercher des ressources..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="block w-2/5 mx-auto px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200 mb-4"

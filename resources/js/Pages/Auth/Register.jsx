@@ -60,17 +60,27 @@ export default function Register() {
                 <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
                     <div className="h-10">
                         <Link href="/">
-                            <ApplicationLogo className="w-50 fill-current text-gray-500" />
+                            <ApplicationLogo className="w-50 h-10 fill-current text-gray-500" />
                         </Link>
                     </div>
 
                     <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                         <form onSubmit={submit}>
                             <div>
-                                <InputLabel
-                                    htmlFor="name"
-                                    value="Nom d'utilisateur"
-                                />
+                                <div className="flex items-center">
+                                    <InputLabel
+                                        htmlFor="name"
+                                        value="Nom d'utilisateur"
+                                    />
+                                    <span
+                                        style={{
+                                            color: "red",
+                                            marginLeft: "5px",
+                                        }}
+                                    >
+                                        *
+                                    </span>
+                                </div>
                                 <TextInput
                                     id="name"
                                     name="name"
@@ -93,10 +103,20 @@ export default function Register() {
                                 />
                             </div>
                             <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="department"
-                                    value="Département"
-                                />
+                                <div className="flex items-center">
+                                    <InputLabel
+                                        htmlFor="department"
+                                        value="Département"
+                                    />
+                                    <span
+                                        style={{
+                                            color: "red",
+                                            marginLeft: "5px",
+                                        }}
+                                    >
+                                        *
+                                    </span>
+                                </div>
                                 <Select
                                     id="department"
                                     name="department"
@@ -123,7 +143,17 @@ export default function Register() {
                                 />
                             </div>
                             <div className="mt-4">
-                                <InputLabel htmlFor="email" value="Email" />
+                                <div className="flex items-center">
+                                    <InputLabel htmlFor="email" value="Email" />
+                                    <span
+                                        style={{
+                                            color: "red",
+                                            marginLeft: "5px",
+                                        }}
+                                    >
+                                        *
+                                    </span>
+                                </div>
                                 <TextInput
                                     id="email"
                                     type="email"
@@ -142,10 +172,20 @@ export default function Register() {
                                 />
                             </div>
                             <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="password"
-                                    value="Mot de passe"
-                                />
+                                <div className="flex items-center">
+                                    <InputLabel
+                                        htmlFor="password"
+                                        value="Mot de passe"
+                                    />
+                                    <span
+                                        style={{
+                                            color: "red",
+                                            marginLeft: "5px",
+                                        }}
+                                    >
+                                        *
+                                    </span>
+                                </div>
                                 <TextInput
                                     id="password"
                                     type="password"
@@ -169,10 +209,20 @@ export default function Register() {
                                 />
                             </div>
                             <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="password_confirmation"
-                                    value="Confirmation du mot de passe"
-                                />
+                                <div className="flex items-center">
+                                    <InputLabel
+                                        htmlFor="password_confirmation"
+                                        value="Confirmation du mot de passe"
+                                    />
+                                    <span
+                                        style={{
+                                            color: "red",
+                                            marginLeft: "5px",
+                                        }}
+                                    >
+                                        *
+                                    </span>
+                                </div>
                                 <TextInput
                                     id="password_confirmation"
                                     type="password"
@@ -195,7 +245,17 @@ export default function Register() {
                             </div>
 
                             <div className="mt-4">
-                                <InputLabel htmlFor="image" value="Image" />
+                                <div className="flex items-center">
+                                    <InputLabel htmlFor="image" value="Image" />
+                                    <span
+                                        style={{
+                                            color: "red",
+                                            marginLeft: "5px",
+                                        }}
+                                    >
+                                        *
+                                    </span>
+                                </div>
                                 <FileInput
                                     type="file"
                                     id="image"

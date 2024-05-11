@@ -79,7 +79,7 @@ export default function Edit() {
                 <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
                     <div className="h-10">
                         <Link href="/">
-                            <ApplicationLogo className="w-50 fill-current text-gray-500" />
+                            <ApplicationLogo className="w-50 h-10 fill-current text-gray-500" />
                         </Link>
                     </div>
 
@@ -90,7 +90,17 @@ export default function Edit() {
                             encType="multipart/form-data"
                         >
                             <div>
-                                <InputLabel htmlFor="name" value="Nom" />
+                                <div className="flex items-center">
+                                    <InputLabel htmlFor="name" value="Nom" />
+                                    <span
+                                        style={{
+                                            color: "red",
+                                            marginLeft: "5px",
+                                        }}
+                                    >
+                                        *
+                                    </span>
+                                </div>
                                 <TextInput
                                     id="name"
                                     name="name"
@@ -107,7 +117,7 @@ export default function Edit() {
                                 />
                             </div>
 
-                            <div className="mt-4">
+                            {/* <div className="mt-4">
                                 <InputLabel htmlFor="slug" value="Slug" />
                                 <TextInput
                                     id="slug"
@@ -124,13 +134,23 @@ export default function Edit() {
                                     message={errors.slug}
                                     className="mt-2"
                                 />
-                            </div>
+                            </div> */}
 
                             <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="description"
-                                    value="Description"
-                                />
+                                <div className="flex items-center">
+                                    <InputLabel
+                                        htmlFor="description"
+                                        value="Description"
+                                    />
+                                    <span
+                                        style={{
+                                            color: "red",
+                                            marginLeft: "5px",
+                                        }}
+                                    >
+                                        *
+                                    </span>
+                                </div>
                                 <TextArea
                                     id="description"
                                     name="description"
@@ -149,10 +169,20 @@ export default function Edit() {
                             </div>
 
                             <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="category_id"
-                                    value="Catégorie"
-                                />
+                                <div className="flex items-center">
+                                    <InputLabel
+                                        htmlFor="category_id"
+                                        value="Catégorie"
+                                    />
+                                    <span
+                                        style={{
+                                            color: "red",
+                                            marginLeft: "5px",
+                                        }}
+                                    >
+                                        *
+                                    </span>
+                                </div>
                                 <select
                                     id="category_id"
                                     name="category_id"

@@ -23,9 +23,6 @@
     <link rel="shortcut icon" href="/dsfr/favicon/favicon.ico" type="image/x-icon" />
     <link rel="manifest" href="/dsfr/favicon/manifest.webmanifest" crossorigin="use-credentials" />
 
-    <link rel="stylesheet" href="/dsfr/utility/icons/icons.min.css" />
-    <link rel="stylesheet" href="/dsfr/dsfr.min.css" />
-
     <!--<link rel="preload" href="/dsfr/fonts/Marianne-Light.woff2" as="font" crossorigin="anonymous" />-->
     <!--<link rel="preload" href="/dsfr/fonts/Marianne-Light_Italic.woff2" as="font" crossorigin="anonymous" />-->
     <link rel="preload" href="/dsfr/fonts/Marianne-Regular.woff2" as="font" crossorigin="anonymous" />
@@ -36,6 +33,8 @@
     <!--<link rel="preload" href="/dsfr/fonts/Marianne-Bold_Italic.woff2" as="font" crossorigin="anonymous" />-->
     <!--<link rel="preload" href="/dsfr/fonts/Spectral-Regular.woff2" as="font" crossorigin="anonymous" />-->
     <!--<link rel="preload" href="/dsfr/fonts/Spectral-ExtraBold.woff2" as="font" crossorigin="anonymous" />-->
+    <link rel="stylesheet" href="/dsfr/utility/icons/icons.min.css" />
+    <link rel="stylesheet" href="/dsfr/dsfr.min.css" />
 </head>
 
 <body class="font-sans antialiased">

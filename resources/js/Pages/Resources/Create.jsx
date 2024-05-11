@@ -121,10 +121,20 @@ const Create = () => {
                             </div>
 
                             <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="description"
-                                    value="Description"
-                                />
+                                <div className="flex items-center">
+                                    <InputLabel
+                                        htmlFor="description"
+                                        value="Description"
+                                    />
+                                    <span
+                                        style={{
+                                            color: "red",
+                                            marginLeft: "5px",
+                                        }}
+                                    >
+                                        *
+                                    </span>
+                                </div>
                                 <TextArea
                                     id="description"
                                     name="description"
@@ -144,7 +154,17 @@ const Create = () => {
                             </div>
 
                             <div className="mt-4">
-                                <InputLabel htmlFor="image" value="Image" />
+                                <div className="flex items-center">
+                                    <InputLabel htmlFor="image" value="Image" />
+                                    <span
+                                        style={{
+                                            color: "red",
+                                            marginLeft: "5px",
+                                        }}
+                                    >
+                                        *
+                                    </span>
+                                </div>
                                 <FileInput
                                     type="file"
                                     id="image"
@@ -161,10 +181,20 @@ const Create = () => {
                             </div>
 
                             <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="category_id"
-                                    value="Catégorie"
-                                />
+                                <div className="flex items-center">
+                                    <InputLabel
+                                        htmlFor="category_id"
+                                        value="Catégorie"
+                                    />
+                                    <span
+                                        style={{
+                                            color: "red",
+                                            marginLeft: "5px",
+                                        }}
+                                    >
+                                        *
+                                    </span>
+                                </div>
                                 <select
                                     id="category_id"
                                     name="category_id"

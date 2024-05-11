@@ -63,14 +63,14 @@ export default function Authenticated({ header, children }) {
                                     Ressources
                                 </NavLink>
                             </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            {/* <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink
                                     href={route("competition.index")}
                                     active={route().current("competition.*")}
                                 >
                                     Compétition
                                 </NavLink>
-                            </div>
+                            </div> */}
                             {auth.user && auth.user.email_verified_at ? (
                                 <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                     <NavLink
