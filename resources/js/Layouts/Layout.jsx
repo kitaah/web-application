@@ -20,7 +20,7 @@ export default function Authenticated({ header, children }) {
                         <div className="flex">
                             <div className="shrink-0 flex items-center">
                                 <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
+                                    <ApplicationLogo className="block h-16 w-auto fill-current text-gray-800" />
                                 </Link>
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -100,7 +100,7 @@ export default function Authenticated({ header, children }) {
                                             <span className="inline-flex rounded-md">
                                                 <button
                                                     type="button"
-                                                    className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                                    className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-white focus:outline-none transition ease-in-out duration-150"
                                                 >
                                                     {auth.user.name}
 
