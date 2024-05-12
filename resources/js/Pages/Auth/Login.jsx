@@ -40,7 +40,7 @@ export default function Login({ status, canResetPassword }) {
                     Connexion
                 </h2>
 
-                <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+                <div className="min-h-80 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
                     <div className="h-10 w-40" style={{ marginTop: "-25vh" }}>
                         <Link href="/">
                             <ApplicationLogo className=" fill-current text-gray-500" />

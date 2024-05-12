@@ -39,7 +39,7 @@ export default function ImageEdit(){
             <div className="container mx-auto my-8">
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight text-center">Modifier l'image de la ressource</h2>
 
-                <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+                <div className="min-h-80 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
                     <div>
                         <Link href="/">
                             <ApplicationLogo className="w-21 h-20 fill-current text-gray-500 pb-1" />
