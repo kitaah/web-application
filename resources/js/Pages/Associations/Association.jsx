@@ -10,10 +10,10 @@ export default function Association() {
     const handleVote = async () => {
         try {
             await axios.post(`/association/${association.slug}/vote`);
-            showNotification("success", "Your vote was taken into account.");
+            showNotification("success", "Votre votre vote a été pris en compte.");
         } catch (error) {
             // console.error("Error voting:", error.response);
-            showNotification("success", "Your vote was taken into account.");
+            showNotification("success", "Votre votre vote a été pris en compte.");
         }
     };
 

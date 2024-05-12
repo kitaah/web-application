@@ -36,12 +36,12 @@ export default function Login({ status, canResetPassword }) {
             }
         >
             <div className="container mx-auto my-8">
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight text-center">
+                <h2 className="font-semibold text-xl text-gray-800 leading-tight text-center pb-5">
                     Connexion
                 </h2>
 
                 <div className="min-h-80 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-                    <div className="h-10 w-40" style={{ marginTop: "-25vh" }}>
+                    <div className="h-10 w-40">
                         <Link href="/">
                             <ApplicationLogo className=" fill-current text-gray-500" />
                         </Link>
