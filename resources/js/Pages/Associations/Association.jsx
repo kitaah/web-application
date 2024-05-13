@@ -70,7 +70,7 @@ export default function Association() {
                             </div>
                             <br />
                             <div>
-                                Addresse: <strong>{association.address}</strong>
+                                Adresse: <strong>{association.address}</strong>
                             </div>
                             <br />
                             {auth.user &&
