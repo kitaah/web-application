@@ -147,7 +147,7 @@ class ResourceController extends Controller
      */
     public function create(): Response
     {
-        $categories = Category::all();
+        $categories = Category::orderBy('name', 'asc')->get();
 
         return Inertia::render('Resources/Create', [
             'categories' => $categories,
@@ -208,7 +208,7 @@ class ResourceController extends Controller
     public function edit($slug): Response
     {
         $resource = Resource::where('slug', $slug)->firstOrFail();
-        $categories = Category::all();
+        $categories = Category::orderBy('name', 'asc')->get();
 
         return Inertia::render('Resources/Edit', [
             'resource' => $resource,
