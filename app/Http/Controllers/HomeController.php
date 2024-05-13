@@ -39,6 +39,7 @@ class HomeController extends Controller
                     $query->where('name', 'Citoyen');
                 })
                 ->inRandomOrder()
+                ->take(25)
                 ->get()
                 ->map(function ($user) {
                     return [
