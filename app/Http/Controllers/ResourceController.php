@@ -50,7 +50,7 @@ class ResourceController extends Controller
             ]);
         });
 
-        $categories = Category::all();
+        $categories = Category::orderBy('name', 'asc')->get();
 
         return Inertia::render('Resources/Resources', [
             'resources' => $resourceData,
@@ -132,7 +132,7 @@ class ResourceController extends Controller
             ]);
         });
 
-        $categories = Category::all();
+        $categories = Category::orderBy('name', 'asc')->get();
 
         return Inertia::render('Resources/UserResources', [
             'userResources' => $resourceDatas,
