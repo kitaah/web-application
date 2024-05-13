@@ -240,7 +240,7 @@ export default function Authenticated({ header, children }) {
             <main>{children}</main>
 
             <Footer
-                accessibility="fully compliant"
+                accessibility="partially compliant"
                 brandTop={
                     <>
                         Ministère
